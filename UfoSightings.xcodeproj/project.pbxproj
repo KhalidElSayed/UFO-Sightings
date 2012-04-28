@@ -1,0 +1,287 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		FAA0FF6A154CB826009897E9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0FF69154CB826009897E9 /* UIKit.framework */; };
+		FAA0FF6C154CB826009897E9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0FF6B154CB826009897E9 /* Foundation.framework */; };
+		FAA0FF6E154CB826009897E9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0FF6D154CB826009897E9 /* CoreGraphics.framework */; };
+		FAA0FF70154CB826009897E9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0FF6F154CB826009897E9 /* CoreData.framework */; };
+		FAA0FF76154CB826009897E9 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = FAA0FF74154CB826009897E9 /* InfoPlist.strings */; };
+		FAA0FF78154CB826009897E9 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA0FF77154CB826009897E9 /* main.m */; };
+		FAA0FF7C154CB826009897E9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA0FF7B154CB826009897E9 /* AppDelegate.m */; };
+		FAA0FF7F154CB826009897E9 /* UfoSightings.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FAA0FF7D154CB826009897E9 /* UfoSightings.xcdatamodeld */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		FAA0FF65154CB826009897E9 /* UfoSightings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UfoSightings.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FAA0FF69154CB826009897E9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
+		FAA0FF6B154CB826009897E9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		FAA0FF6D154CB826009897E9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
+		FAA0FF6F154CB826009897E9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		FAA0FF73154CB826009897E9 /* UfoSightings-Info.plist */ = {isa = PBXFileReference; path = "UfoSightings-Info.plist"; sourceTree = "<group>"; };
+		FAA0FF75154CB826009897E9 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		FAA0FF77154CB826009897E9 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FAA0FF79154CB826009897E9 /* UfoSightings-Prefix.pch */ = {isa = PBXFileReference; path = "UfoSightings-Prefix.pch"; sourceTree = "<group>"; };
+		FAA0FF7A154CB826009897E9 /* AppDelegate.h */ = {isa = PBXFileReference; path = AppDelegate.h; sourceTree = "<group>"; };
+		FAA0FF7B154CB826009897E9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		FAA0FF7E154CB826009897E9 /* UfoSightings.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UfoSightings.xcdatamodel; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		FAA0FF62154CB826009897E9 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAA0FF6A154CB826009897E9 /* UIKit.framework in Frameworks */,
+				FAA0FF6C154CB826009897E9 /* Foundation.framework in Frameworks */,
+				FAA0FF6E154CB826009897E9 /* CoreGraphics.framework in Frameworks */,
+				FAA0FF70154CB826009897E9 /* CoreData.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		FAA0FF5A154CB825009897E9 = {
+			isa = PBXGroup;
+			children = (
+				FAA0FF71154CB826009897E9 /* UfoSightings */,
+				FAA0FF68154CB826009897E9 /* Frameworks */,
+				FAA0FF66154CB826009897E9 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		FAA0FF66154CB826009897E9 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FAA0FF65154CB826009897E9 /* UfoSightings.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FAA0FF68154CB826009897E9 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				FAA0FF69154CB826009897E9 /* UIKit.framework */,
+				FAA0FF6B154CB826009897E9 /* Foundation.framework */,
+				FAA0FF6D154CB826009897E9 /* CoreGraphics.framework */,
+				FAA0FF6F154CB826009897E9 /* CoreData.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		FAA0FF71154CB826009897E9 /* UfoSightings */ = {
+			isa = PBXGroup;
+			children = (
+				FAA0FF7A154CB826009897E9 /* AppDelegate.h */,
+				FAA0FF7B154CB826009897E9 /* AppDelegate.m */,
+				FAA0FF7D154CB826009897E9 /* UfoSightings.xcdatamodeld */,
+				FAA0FF72154CB826009897E9 /* Supporting Files */,
+			);
+			path = UfoSightings;
+			sourceTree = "<group>";
+		};
+		FAA0FF72154CB826009897E9 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				FAA0FF73154CB826009897E9 /* UfoSightings-Info.plist */,
+				FAA0FF74154CB826009897E9 /* InfoPlist.strings */,
+				FAA0FF77154CB826009897E9 /* main.m */,
+				FAA0FF79154CB826009897E9 /* UfoSightings-Prefix.pch */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		FAA0FF64154CB826009897E9 /* UfoSightings */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = FAA0FF82154CB826009897E9 /* Build configuration list for PBXNativeTarget "UfoSightings" */;
+			buildPhases = (
+				FAA0FF61154CB826009897E9 /* Sources */,
+				FAA0FF62154CB826009897E9 /* Frameworks */,
+				FAA0FF63154CB826009897E9 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = UfoSightings;
+			productName = UfoSightings;
+			productReference = FAA0FF65154CB826009897E9 /* UfoSightings.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		FAA0FF5C154CB825009897E9 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				LastUpgradeCheck = 0430;
+				ORGANIZATIONNAME = Home;
+			};
+			buildConfigurationList = FAA0FF5F154CB825009897E9 /* Build configuration list for PBXProject "UfoSightings" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FAA0FF5A154CB825009897E9;
+			productRefGroup = FAA0FF66154CB826009897E9 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				FAA0FF64154CB826009897E9 /* UfoSightings */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		FAA0FF63154CB826009897E9 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAA0FF76154CB826009897E9 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		FAA0FF61154CB826009897E9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FAA0FF78154CB826009897E9 /* main.m in Sources */,
+				FAA0FF7C154CB826009897E9 /* AppDelegate.m in Sources */,
+				FAA0FF7F154CB826009897E9 /* UfoSightings.xcdatamodeld in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		FAA0FF74154CB826009897E9 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				FAA0FF75154CB826009897E9 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		FAA0FF80154CB826009897E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		FAA0FF81154CB826009897E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ARCHS = "$(ARCHS_STANDARD_32_BIT)";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				COPY_PHASE_STRIP = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_VERSION = com.apple.compilers.llvm.clang.1_0;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 5.1;
+				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
+				SDKROOT = iphoneos;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		FAA0FF83154CB826009897E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "UfoSightings/UfoSightings-Prefix.pch";
+				INFOPLIST_FILE = "UfoSightings/UfoSightings-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		FAA0FF84154CB826009897E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "UfoSightings/UfoSightings-Prefix.pch";
+				INFOPLIST_FILE = "UfoSightings/UfoSightings-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		FAA0FF5F154CB825009897E9 /* Build configuration list for PBXProject "UfoSightings" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAA0FF80154CB826009897E9 /* Debug */,
+				FAA0FF81154CB826009897E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		FAA0FF82154CB826009897E9 /* Build configuration list for PBXNativeTarget "UfoSightings" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				FAA0FF83154CB826009897E9 /* Debug */,
+				FAA0FF84154CB826009897E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		FAA0FF7D154CB826009897E9 /* UfoSightings.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				FAA0FF7E154CB826009897E9 /* UfoSightings.xcdatamodel */,
+			);
+			currentVersion = FAA0FF7E154CB826009897E9 /* UfoSightings.xcdatamodel */;
+			path = UfoSightings.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
+	};
+	rootObject = FAA0FF5C154CB825009897E9 /* Project object */;
+}
