@@ -1,0 +1,54 @@
+{
+    "reports": [
+        {
+            "description": "Man repts. witnessing &quot;flash, followed by a classic UFO, w/ a tailfin at back.&quot; Red color on top half of tailfin. Became triangular.",
+            "shape": "",
+            "reported_at": "19951009",
+            "formatted_address": "Iowa City, IA, USA",
+            "lat": 41.6611277,
+            "lng": -91.5301683,
+            "duration": "",
+            "sighted_at": "19951009"
+        },
+        {
+            "description": "Man  on Hwy 43 SW of Milwaukee sees large, bright blue light streak by his car, descend, turn, cross road ahead, strobe. Bizarre!",
+            "shape": "",
+            "reported_at": "19951011",
+            "formatted_address": "Milwaukee, WI, USA",
+            "lat": 43.0389025,
+            "lng": -87.9064736,
+            "duration": "2 min.",
+            "sighted_at": "19951010"
+        },
+        {
+            "description": "Telephoned Report:CA woman visiting daughter witness discs and triangular ships over Squaxin Island in Puget Sound. Dramatic.  Written report, with illustrations, submitted to NUFORC.",
+            "shape": "",
+            "reported_at": "19950103",
+            "formatted_address": "Shelton, WA 98584, USA",
+            "lat": 47.2150945,
+            "lng": -123.1007066,
+            "duration": "",
+            "sighted_at": "19950101"
+        },
+        {
+            "description": "Man repts. son&apos;s bizarre sighting of small humanoid creature in back yard.  Reptd. in Acteon Journal, St. Louis UFO newsletter.",
+            "shape": "",
+            "reported_at": "19950510",
+            "formatted_address": "Columbia, MO, USA",
+            "lat": 38.9517053,
+            "lng": -92.3340724,
+            "duration": "2 min.",
+            "sighted_at": "19950510"
+        },
+        {
+            "description": "Anonymous caller repts. sighting 4 ufo&apos;s in NNE sky, 45 deg. above horizon.  (No other facts reptd.  No return tel. #.)",
+            "shape": "",
+            "reported_at": "19950614",
+            "formatted_address": "Seattle, WA, USA",
+            "lat": 47.6062095,
+            "lng": -122.3320708,
+            "duration": "",
+            "sighted_at": "19950611"
+        }
+    ]
+}

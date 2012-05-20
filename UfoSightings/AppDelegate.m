@@ -6,23 +6,76 @@
 //  Copyright (c) 2012 Home. All rights reserved.
 //
 
+#define GENERATE_SEED_DB YES
+#define kBgQueue dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
+
 #import "AppDelegate.h"
+#import <dispatch/dispatch.h>
+#import "SightingsParser.h"
+
 
 @implementation AppDelegate
 
 @synthesize window = _window;
+@synthesize rootViewController = _rootViewController;
 @synthesize managedObjectContext = __managedObjectContext;
 @synthesize managedObjectModel = __managedObjectModel;
 @synthesize persistentStoreCoordinator = __persistentStoreCoordinator;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
+/*
+    SightingsParser* parser = [[SightingsParser alloc] init];
+    parser.managedObjectContext = __managedObjectContext;
+    [parser createDatabase];
+    
+ */
+    
+
+    dispatch_async(kBgQueue, ^{
+        
+        NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"UfoSightings.sqlite"];
+        NSFileManager* fm = [NSFileManager defaultManager];
+        NSString* dbInBundlePath = [[NSBundle mainBundle] pathForResource:@"UfoSightings" ofType:@"sqlite"];
+        NSString* newDbPath = [storeURL path];
+        
+        if( ![fm fileExistsAtPath:[storeURL path]] && [fm fileExistsAtPath:dbInBundlePath] )
+        {
+            NSError* error = nil;
+            [fm copyItemAtPath:dbInBundlePath toPath:newDbPath error:&error];
+            NSLog(@"Copying Database intoDocuments Dir");
+            if (error) {
+                NSLog(@"ERROR - COPYING SQLITE DB TO DOCUMENTS DIRECTORY");
+            }
+        }
+
+    
+    });
+    
+    if(![[NSUserDefaults standardUserDefaults] objectForKey:@"firstRun"])
+    {
+        [self setupDefaults];
+    }
+    
+    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    // Override point for customization after application launch.
+    
+    self.rootViewController = [[DatabaseExplorerViewController alloc]init];
+    self.rootViewController.managedObjectContext = self.managedObjectContext;
+   
+    //self.rootViewController = [[RootViewController alloc] init];
+    //self.rootViewController.managedObjectContext = self.managedObjectContext;
+    self.window.rootViewController = self.rootViewController;
+    
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     return YES;
 }
+
+
+
+
+
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
@@ -52,14 +105,17 @@
     [self saveContext];
 }
 
+
+
+
 - (void)saveContext
 {
     NSError *error = nil;
     NSManagedObjectContext *managedObjectContext = self.managedObjectContext;
     if (managedObjectContext != nil) {
         if ([managedObjectContext hasChanges] && ![managedObjectContext save:&error]) {
-             // Replace this implementation with code to handle the error appropriately.
-             // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
+            // Replace this implementation with code to handle the error appropriately.
+            // abort() causes the application to generate a crash log and terminate. You should not use this function in a shipping application, although it may be useful during development. 
             NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
             abort();
         } 
@@ -146,5 +202,18 @@
 {
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
+
+-(void)setupDefaults
+{
+    
+    [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"firstRun"];
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"mapType"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"heatMapOverlayOn"];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"annotationsOn"];
+    
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
+}
+
 
 @end
