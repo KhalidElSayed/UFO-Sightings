@@ -8,13 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "RangeSlider.h"
-#import "FilterViewController.h"
+#import "DatabaseExplorerViewController.h"
 
 @interface DatePickerTableViewController : UITableViewController <PredicateCreation>
 
 @property (strong, nonatomic) RangeSlider* slider;
-@property (strong, nonatomic) NSString* attribute;
 @property (strong, nonatomic) NSString* predicateKey;
+@property(weak, atomic)NSMutableDictionary* filterDict;
+
+
 -(NSPredicate*)createPredicate;
 
 @end

@@ -7,11 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FilterViewController.h"
+#import "DatabaseExplorerViewController.h"
 
 @interface ReportLengthSelectorController : UIViewController <PredicateCreation>
 @property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *tileBackgroundImageViews;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *checkmarkButtons;
+@property (weak, atomic) NSMutableDictionary* filterOptions;
 @property (strong, nonatomic) NSString* predicateKey;
 
 

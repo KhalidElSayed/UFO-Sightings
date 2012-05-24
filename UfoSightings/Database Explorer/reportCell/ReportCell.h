@@ -13,6 +13,7 @@
 @property (strong, nonatomic) IBOutlet UILabel *reportedLabel;
 @property (strong, nonatomic) IBOutlet UITextView *reportTextView;
 @property (strong, nonatomic) IBOutlet UIImageView *shapeImageView;
+@property (strong, nonatomic) IBOutlet UILabel *locationLabel;
 
 -(CGFloat)mySize;
 @end

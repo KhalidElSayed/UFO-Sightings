@@ -7,13 +7,15 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FilterViewController.h"
+#import "DatabaseExplorerViewController.h"
 
 @interface ShapeSelectorViewController : UIViewController <UIScrollViewDelegate, PredicateCreation> 
 
 @property (strong, nonatomic) NSArray* shapes;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
+@property (weak, atomic)NSMutableDictionary* filterDict;
 @property (strong, nonatomic) NSString* predicateKey;
 -(NSPredicate*)createPredicate;
+
 
 @end

@@ -19,13 +19,14 @@
 @synthesize scrollView = _scrollView;
 @synthesize shapes = _shapes;
 @synthesize predicateKey;
+@synthesize filterDict;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
+
+-(id)init
 {
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-        
+    if ((self = [super self]))
+    {
+        self.predicateKey = @"shape";
     }
     return self;
 }
@@ -33,26 +34,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-  [self.navigationController setNavigationBarHidden:NO];
-    self.shapes =  [NSArray arrayWithObjects:@"changing", @"chevron", @"cigar", @"circle", @"cone", @"cross", @"cylinder", @"diamond", @"disk", @"egg", @"fireball", @"flash", @"formation", @"oval", @"other", @"rectangle", @"teardrop", @"triangle", nil];
+
+    self.shapes =  [self.filterDict objectForKey:@"shapes"];
 
 
 }
 
 
-
--(void)viewWillDisappear:(BOOL)animated
-{    
-    NSPredicate* predicate = [self createPredicate];
-    if (predicate) {
-       
-        FilterViewController *fvc = [self.navigationController.viewControllers objectAtIndex:0];
-        [fvc storePredicate:predicate forKey:self.predicateKey];
-        
-    }
-    
-}
 
 - (void)viewDidUnload
 {
@@ -60,6 +48,65 @@
     [super viewDidUnload];
     // Release any retained subviews of the main view.
     // e.g. self.myOutlet = nil;
+}
+
+-(void)viewDidAppear:(BOOL)animated
+{
+    
+    if(self.navigationController)
+    {
+        
+        CGRect frame = self.navigationController.view.frame;
+        frame.size.height = _scrollView.contentSize.height;
+        //self.navigationController.view.frame = frame;
+        
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            self.navigationController.view.frame = frame;
+        }];
+    }
+}
+
+
+-(void)viewWillDisappear:(BOOL)animated
+{
+    NSMutableArray* shapesToFilter = [[NSMutableArray alloc]init];
+    
+    
+    for (UIButton* button in self.scrollView.subviews) {
+        if(!button.isSelected)
+            [shapesToFilter addObject:[_shapes objectAtIndex:button.tag]];
+    }
+    
+    NSMutableArray* filterCells = [self.filterDict objectForKey:@"filterCells"];
+    NSMutableDictionary* cell;
+    for (NSMutableDictionary* cellDict in filterCells) 
+    {
+        if([(NSString*)[cellDict objectForKey:@"predicateKey"] compare:self.predicateKey] == 0)
+        {
+            cell = cellDict;
+            break;
+        }
+    }
+
+    
+    bool filters = shapesToFilter.count > 0;
+    [cell setObject:[NSNumber numberWithBool:filters] forKey:@"hasFilters"];
+    
+    if (filters) {
+        NSMutableString* subtitle = [[NSMutableString alloc]init];
+        
+        for (NSString* string in shapesToFilter) {
+            [subtitle appendFormat:@"%@, ",string];
+        }
+        
+        [subtitle deleteCharactersInRange:NSMakeRange(subtitle.length -2, 2)];
+        [cell setObject:subtitle forKey:@"subtitle"];
+    }
+    
+    [self.filterDict setObject:shapesToFilter forKey:@"shapesToFilter"];
+
+     
 }
 
 
@@ -72,9 +119,8 @@
 -(void)shapeButtonTapped:(UIButton*)button
 {
   
-    
     [button setSelected:!button.isSelected];
-    
+    [[NSNotificationCenter defaultCenter] postNotificationName:@"FilterChoiceChanged" object:self];
 }
 
 -(void)setShapes:(NSArray *)shapes
@@ -86,17 +132,22 @@
 -(void)loadShapeButtons
 {
     
-    
+    NSArray* selectedShapes = [self.filterDict objectForKey:@"shapesToFilter"];
   //  CGRect buttonFrame = CGRectMake(0, 0, 80, 80);
     
     NSArray* subviews = [self.scrollView subviews];
-    if (subviews) {
+    if (subviews.count > 0) {
         for (UIView* view in subviews) {
             [view removeFromSuperview];
         }
     }
     
-    _scrollView.contentSize = CGSizeMake(280, (([_shapes count] / 3) * 100) + 100 );
+    int rows = [_shapes count] / 3;
+    if([_shapes count] % 3 != 0)
+        rows++;
+    
+    
+    _scrollView.contentSize = CGSizeMake(280, rows * 85);
     
     __block CGFloat padding = 0;
     __block int row = -1;
@@ -114,13 +165,14 @@
         CGRect buttonFrame = CGRectMake(padding + column * 80, row * 80.0f + 20.0f, 80, 80);        
         ShapeButton *shapeButton = [[ShapeButton alloc]initWithFrame:buttonFrame];
         //*************************************************************************
-        [shapeButton setSelected:YES];
+       NSString* shapeString = (NSString* )obj;
+        [shapeButton setSelected:![selectedShapes containsObject:shapeString]];
         //*************************************************************************
         
         [shapeButton addTarget:self action:@selector(shapeButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [shapeButton setTag:idx];
         
-        NSString* shapeString = (NSString* )obj;
+        
         
         [shapeButton setShape:shapeString];
         
@@ -142,6 +194,28 @@
 }
 
 
+-(BOOL)canReset
+{
+    BOOL hasChosenShapes = NO;
+    for (UIButton* shapeButton in _scrollView.subviews) {
+        if (!shapeButton.isSelected)
+        {
+            hasChosenShapes = YES;
+            break;
+        }
+    }
+    return hasChosenShapes;
+}
+
+
+-(void)reset
+{
+    for (UIButton* shapeButton in _scrollView.subviews) {
+        [shapeButton setSelected:YES];
+    }
+}
+
+
 
 -(NSPredicate*)createPredicate
 {
@@ -154,17 +228,17 @@
             NSPredicate* predicate = nil;
             if(view.tag == 3)
             {
-                predicate = [NSPredicate predicateWithFormat:@"shape != \" circle\" AND shape != \" sphere\" AND shape != \"round\""];
+                predicate = [NSPredicate predicateWithFormat:@"shape != \"circle\" AND shape != \"sphere\" AND shape != \"round\""];
             }
             else if(view.tag == 11)
             {
-                predicate = [NSPredicate predicateWithFormat:@"shape != \" flash\" AND shape != \" light\""];
+                predicate = [NSPredicate predicateWithFormat:@"shape != \"flash\" AND shape != \"light\""];
             }
             else if (view.tag == 14) {
-                predicate = [NSPredicate predicateWithFormat:@"shape != \" unspecified\" AND shape != \" other\" AND shape != \"unknown \""];
+                predicate = [NSPredicate predicateWithFormat:@"shape != \"unspecified\" AND shape != \"other\" AND shape != \"unknown\""];
             }
             else {
-                predicate = [NSPredicate predicateWithFormat:@"shape != %@", [NSString stringWithFormat:@" %@",[_shapes objectAtIndex:view.tag]]];
+                predicate = [NSPredicate predicateWithFormat:@"shape != %@", [NSString stringWithFormat:@"%@",[_shapes objectAtIndex:view.tag]]];
             }
             [selectedButtonPredicates addObject:predicate];
             

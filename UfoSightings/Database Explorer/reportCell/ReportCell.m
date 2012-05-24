@@ -13,6 +13,7 @@
 @synthesize reportedLabel;
 @synthesize reportTextView;
 @synthesize shapeImageView;
+@synthesize locationLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

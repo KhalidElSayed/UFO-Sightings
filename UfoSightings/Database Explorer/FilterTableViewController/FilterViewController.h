@@ -11,9 +11,11 @@
 @interface FilterViewController : UITableViewController <UINavigationControllerDelegate>
 
 @property(assign, nonatomic)id delegate;
-
+@property(weak, atomic)NSMutableDictionary* filterDict;
 -(NSCompoundPredicate*)predicate;
 -(void)storePredicate:(NSPredicate*)predicate forKey:(NSString*)key;
+@property (strong, nonatomic)NSString* predicateKey;
+
 @end
 
 
@@ -22,10 +24,3 @@
 
 @end
 
-@protocol PredicateCreation <NSObject>
-
-@required
-@property (strong, nonatomic)NSString* predicateKey;
--(NSPredicate*)createPredicate;
-
-@end

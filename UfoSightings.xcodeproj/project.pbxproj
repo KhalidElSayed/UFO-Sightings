@@ -16,6 +16,8 @@
 		FA1A96AD15570FCC00BD447F /* HeatMapTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA1A96AC15570FCC00BD447F /* HeatMapTests.m */; };
 		FA3FB1FD15585FC5002DF730 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0FF6F154CB826009897E9 /* CoreData.framework */; };
 		FA3FB1FE15585FD7002DF730 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC38942154DC57200923139 /* CoreLocation.framework */; };
+		FA4531BA1569DFC5005CA658 /* UIColor+RKColor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4531B91569DFC5005CA658 /* UIColor+RKColor.m */; };
+		FA4531BB1569DFC5005CA658 /* UIColor+RKColor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4531B91569DFC5005CA658 /* UIColor+RKColor.m */; };
 		FA7338B5156875C700BCA82F /* DatabaseExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338B3156875C700BCA82F /* DatabaseExplorerViewController.m */; };
 		FA7338B6156875C700BCA82F /* DatabaseExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338B3156875C700BCA82F /* DatabaseExplorerViewController.m */; };
 		FA7338B7156875C700BCA82F /* DatabaseExplorerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338B4156875C700BCA82F /* DatabaseExplorerViewController.xib */; };
@@ -82,8 +84,6 @@
 		FA733A0615687C7A00BCA82F /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73393415687C7A00BCA82F /* NSString+HTML.m */; };
 		FA733A0715687C7A00BCA82F /* sample.txt in Resources */ = {isa = PBXBuildFile; fileRef = FA73393615687C7A00BCA82F /* sample.txt */; };
 		FA733A0815687C7A00BCA82F /* sample.txt in Resources */ = {isa = PBXBuildFile; fileRef = FA73393615687C7A00BCA82F /* sample.txt */; };
-		FA733A0915687C7A00BCA82F /* ufo.json in Resources */ = {isa = PBXBuildFile; fileRef = FA73393715687C7A00BCA82F /* ufo.json */; };
-		FA733A0A15687C7A00BCA82F /* ufo.json in Resources */ = {isa = PBXBuildFile; fileRef = FA73393715687C7A00BCA82F /* ufo.json */; };
 		FA733A0B15687C7A00BCA82F /* UfoSightings.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = FA73393815687C7A00BCA82F /* UfoSightings.sqlite */; };
 		FA733A0C15687C7A00BCA82F /* UfoSightings.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = FA73393815687C7A00BCA82F /* UfoSightings.sqlite */; };
 		FA733A0D15687C7A00BCA82F /* blueStrechyBox.png in Resources */ = {isa = PBXBuildFile; fileRef = FA73393A15687C7A00BCA82F /* blueStrechyBox.png */; };
@@ -479,6 +479,8 @@
 		FA733BB6156880A500BCA82F /* UfoSightings-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA733BB4156880A400BCA82F /* UfoSightings-Info.plist */; };
 		FA733BBE15688D9F00BCA82F /* UfoSightings.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FA733BBC15688D9F00BCA82F /* UfoSightings.xcdatamodeld */; };
 		FA733BBF15688D9F00BCA82F /* UfoSightings.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FA733BBC15688D9F00BCA82F /* UfoSightings.xcdatamodeld */; };
+		FA7B702B156AB70D00FD934B /* filters.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA7B702A156AB70D00FD934B /* filters.plist */; };
+		FA7B702C156AB70D00FD934B /* filters.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA7B702A156AB70D00FD934B /* filters.plist */; };
 		FA86C0AB1558524800A2655D /* SightingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA86C0AA1558524800A2655D /* SightingTests.m */; };
 		FAA0FF6A154CB826009897E9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0FF69154CB826009897E9 /* UIKit.framework */; };
 		FAA0FF6C154CB826009897E9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0FF6B154CB826009897E9 /* Foundation.framework */; };
@@ -489,6 +491,25 @@
 		FAC38919154DBC5600923139 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC38918154DBC5600923139 /* MobileCoreServices.framework */; };
 		FAC3891D154DBC6D00923139 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC3891C154DBC6D00923139 /* QuartzCore.framework */; };
 		FAC38943154DC57200923139 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC38942154DC57200923139 /* CoreLocation.framework */; };
+		FAD05E8F156986EE0009CFAC /* backButton.png in Resources */ = {isa = PBXBuildFile; fileRef = FAD05E89156986EE0009CFAC /* backButton.png */; };
+		FAD05E90156986EE0009CFAC /* backButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAD05E8A156986EE0009CFAC /* backButton@2x.png */; };
+		FAD05E91156986EE0009CFAC /* resetButton.png in Resources */ = {isa = PBXBuildFile; fileRef = FAD05E8B156986EE0009CFAC /* resetButton.png */; };
+		FAD05E92156986EE0009CFAC /* resetButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAD05E8C156986EE0009CFAC /* resetButton@2x.png */; };
+		FAD05E93156986EE0009CFAC /* resetButtonDisabled.png in Resources */ = {isa = PBXBuildFile; fileRef = FAD05E8D156986EE0009CFAC /* resetButtonDisabled.png */; };
+		FAD05E94156986EE0009CFAC /* resetButtonDisabled@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAD05E8E156986EE0009CFAC /* resetButtonDisabled@2x.png */; };
+		FAD05E971569870A0009CFAC /* tabBarStrechy.png in Resources */ = {isa = PBXBuildFile; fileRef = FAD05E961569870A0009CFAC /* tabBarStrechy.png */; };
+		FAEEC080156D73AB00D138FD /* greyCellBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEEC07E156D73AB00D138FD /* greyCellBackground.png */; };
+		FAEEC081156D73AB00D138FD /* greyCellBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEEC07F156D73AB00D138FD /* greyCellBackground@2x.png */; };
+		FAEEC087156DA59600D138FD /* viewMapButton.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEEC083156DA59600D138FD /* viewMapButton.png */; };
+		FAEEC088156DA59600D138FD /* viewMapButton.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEEC083156DA59600D138FD /* viewMapButton.png */; };
+		FAEEC089156DA59600D138FD /* viewMapButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEEC084156DA59600D138FD /* viewMapButton@2x.png */; };
+		FAEEC08A156DA59600D138FD /* viewMapButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEEC084156DA59600D138FD /* viewMapButton@2x.png */; };
+		FAEEC08B156DA59600D138FD /* viewMapButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEEC085156DA59600D138FD /* viewMapButtonSelected.png */; };
+		FAEEC08C156DA59600D138FD /* viewMapButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEEC085156DA59600D138FD /* viewMapButtonSelected.png */; };
+		FAEEC08D156DA59600D138FD /* viewMapButtonSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEEC086156DA59600D138FD /* viewMapButtonSelected@2x.png */; };
+		FAEEC08E156DA59600D138FD /* viewMapButtonSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEEC086156DA59600D138FD /* viewMapButtonSelected@2x.png */; };
+		FAEEC091156DA7D900D138FD /* RootController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAEEC090156DA7D800D138FD /* RootController.m */; };
+		FAEEC092156DA7D900D138FD /* RootController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAEEC090156DA7D800D138FD /* RootController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -512,6 +533,8 @@
 		FA1A96A21557075700BD447F /* UfoSightingsTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UfoSightingsTests-Prefix.pch"; sourceTree = "<group>"; };
 		FA1A96AB15570FCC00BD447F /* HeatMapTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeatMapTests.h; sourceTree = "<group>"; };
 		FA1A96AC15570FCC00BD447F /* HeatMapTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeatMapTests.m; sourceTree = "<group>"; };
+		FA4531B81569DFC5005CA658 /* UIColor+RKColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+RKColor.h"; sourceTree = "<group>"; };
+		FA4531B91569DFC5005CA658 /* UIColor+RKColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+RKColor.m"; sourceTree = "<group>"; };
 		FA7338B2156875C600BCA82F /* DatabaseExplorerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DatabaseExplorerViewController.h; path = "Database Explorer/DatabaseExplorerViewController.h"; sourceTree = "<group>"; };
 		FA7338B3156875C700BCA82F /* DatabaseExplorerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DatabaseExplorerViewController.m; path = "Database Explorer/DatabaseExplorerViewController.m"; sourceTree = "<group>"; };
 		FA7338B4156875C700BCA82F /* DatabaseExplorerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DatabaseExplorerViewController.xib; path = "Database Explorer/DatabaseExplorerViewController.xib"; sourceTree = "<group>"; };
@@ -564,9 +587,8 @@
 		FA73393315687C7A00BCA82F /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
 		FA73393415687C7A00BCA82F /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
 		FA73393615687C7A00BCA82F /* sample.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sample.txt; sourceTree = "<group>"; };
-		FA73393715687C7A00BCA82F /* ufo.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = ufo.json; sourceTree = "<group>"; };
 		FA73393815687C7A00BCA82F /* UfoSightings.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = UfoSightings.sqlite; sourceTree = "<group>"; };
-		FA73393A15687C7A00BCA82F /* blueStrechyBox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = blueStrechyBox.png; sourceTree = "<group>"; };
+		FA73393A15687C7A00BCA82F /* blueStrechyBox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blueStrechyBox.png; path = ../blueStrechyBox.png; sourceTree = "<group>"; };
 		FA73393C15687C7A00BCA82F /* bottom0.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom0.png; sourceTree = "<group>"; };
 		FA73393D15687C7A00BCA82F /* bottom1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom1.png; sourceTree = "<group>"; };
 		FA73393E15687C7A00BCA82F /* bottom2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = bottom2.png; sourceTree = "<group>"; };
@@ -767,6 +789,7 @@
 		FA733BB4156880A400BCA82F /* UfoSightings-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "UfoSightings-Info.plist"; sourceTree = "<group>"; };
 		FA733BB71568822100BCA82F /* UfoSightings-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UfoSightings-Prefix.pch"; sourceTree = "<group>"; };
 		FA733BBD15688D9F00BCA82F /* UfoSightings.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UfoSightings.xcdatamodel; sourceTree = "<group>"; };
+		FA7B702A156AB70D00FD934B /* filters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = filters.plist; path = ../../filters.plist; sourceTree = "<group>"; };
 		FA86C0A91558524800A2655D /* SightingTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SightingTests.h; sourceTree = "<group>"; };
 		FA86C0AA1558524800A2655D /* SightingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SightingTests.m; sourceTree = "<group>"; };
 		FAA0FF65154CB826009897E9 /* UfoSightings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UfoSightings.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -780,6 +803,21 @@
 		FAC38918154DBC5600923139 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		FAC3891C154DBC6D00923139 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		FAC38942154DC57200923139 /* CoreLocation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreLocation.framework; path = System/Library/Frameworks/CoreLocation.framework; sourceTree = SDKROOT; };
+		FAD05E89156986EE0009CFAC /* backButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = backButton.png; sourceTree = "<group>"; };
+		FAD05E8A156986EE0009CFAC /* backButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "backButton@2x.png"; sourceTree = "<group>"; };
+		FAD05E8B156986EE0009CFAC /* resetButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resetButton.png; sourceTree = "<group>"; };
+		FAD05E8C156986EE0009CFAC /* resetButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "resetButton@2x.png"; sourceTree = "<group>"; };
+		FAD05E8D156986EE0009CFAC /* resetButtonDisabled.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = resetButtonDisabled.png; sourceTree = "<group>"; };
+		FAD05E8E156986EE0009CFAC /* resetButtonDisabled@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "resetButtonDisabled@2x.png"; sourceTree = "<group>"; };
+		FAD05E961569870A0009CFAC /* tabBarStrechy.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = tabBarStrechy.png; sourceTree = "<group>"; };
+		FAEEC07E156D73AB00D138FD /* greyCellBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = greyCellBackground.png; sourceTree = "<group>"; };
+		FAEEC07F156D73AB00D138FD /* greyCellBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "greyCellBackground@2x.png"; sourceTree = "<group>"; };
+		FAEEC083156DA59600D138FD /* viewMapButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = viewMapButton.png; sourceTree = "<group>"; };
+		FAEEC084156DA59600D138FD /* viewMapButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewMapButton@2x.png"; sourceTree = "<group>"; };
+		FAEEC085156DA59600D138FD /* viewMapButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = viewMapButtonSelected.png; sourceTree = "<group>"; };
+		FAEEC086156DA59600D138FD /* viewMapButtonSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewMapButtonSelected@2x.png"; sourceTree = "<group>"; };
+		FAEEC08F156DA7D800D138FD /* RootController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = RootController.h; sourceTree = "<group>"; };
+		FAEEC090156DA7D800D138FD /* RootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -865,9 +903,9 @@
 			isa = PBXGroup;
 			children = (
 				FA7338C21568789700BCA82F /* DateRangeSelector */,
-				FA7338D21568789700BCA82F /* masterCell */,
 				FA7338D61568789700BCA82F /* ReportLengthSelector */,
 				FA7338DA1568789700BCA82F /* ShapeSelector */,
+				FA7338D21568789700BCA82F /* masterCell */,
 				FA7338D01568789700BCA82F /* FilterViewController.h */,
 				FA7338D11568789700BCA82F /* FilterViewController.m */,
 			);
@@ -901,8 +939,8 @@
 			isa = PBXGroup;
 			children = (
 				FA7338CB1568789700BCA82F /* RangeCell.h */,
-				FA7338CC1568789700BCA82F /* RangeCell.m */,
 				FA7338CD1568789700BCA82F /* RangeCell.xib */,
+				FA7338CC1568789700BCA82F /* RangeCell.m */,
 				FA7338CE1568789700BCA82F /* RangeSlider.h */,
 				FA7338CF1568789700BCA82F /* RangeSlider.m */,
 			);
@@ -1007,6 +1045,7 @@
 				FA73393515687C7A00BCA82F /* Data */,
 				FA73393915687C7A00BCA82F /* images */,
 				FA733BA715687F9E00BCA82F /* main.m */,
+				FA7B702A156AB70D00FD934B /* filters.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1014,6 +1053,8 @@
 		FA73393215687C7A00BCA82F /* Catagories */ = {
 			isa = PBXGroup;
 			children = (
+				FA4531B81569DFC5005CA658 /* UIColor+RKColor.h */,
+				FA4531B91569DFC5005CA658 /* UIColor+RKColor.m */,
 				FA73393315687C7A00BCA82F /* NSString+HTML.h */,
 				FA73393415687C7A00BCA82F /* NSString+HTML.m */,
 			);
@@ -1024,7 +1065,6 @@
 			isa = PBXGroup;
 			children = (
 				FA73393615687C7A00BCA82F /* sample.txt */,
-				FA73393715687C7A00BCA82F /* ufo.json */,
 				FA73393815687C7A00BCA82F /* UfoSightings.sqlite */,
 			);
 			path = Data;
@@ -1037,7 +1077,7 @@
 				FA733B9115687CB300BCA82F /* TableViewCells */,
 				FA73393B15687C7A00BCA82F /* DocumentPieces */,
 				FA73394815687C7A00BCA82F /* EmptyTiles */,
-				FA73398B15687C7A00BCA82F /* icons */,
+				FA73398B15687C7A00BCA82F /* icons/buttons */,
 				FA7339A715687C7A00BCA82F /* SliderPageControl */,
 				FA7339B215687C7A00BCA82F /* UFOShapes */,
 				FA73399915687C7A00BCA82F /* line.png */,
@@ -1046,10 +1086,10 @@
 				FA73399B15687C7A00BCA82F /* modalBackground.png */,
 				FA73398915687C7A00BCA82F /* greenBox.png */,
 				FA73399C15687C7A00BCA82F /* modalBackgroundPortrait.png */,
+				FAD05E961569870A0009CFAC /* tabBarStrechy.png */,
 				FA7339A615687C7A00BCA82F /* reportTableInset.png */,
 				FA7339AC15687C7A00BCA82F /* tableViewInset.png */,
 				FA7339AD15687C7A00BCA82F /* tbLine.png */,
-				FA73393A15687C7A00BCA82F /* blueStrechyBox.png */,
 				FA7339AE15687C7A00BCA82F /* TVOverlay.png */,
 				FA7339AF15687C7A00BCA82F /* tvOverlayPortrait.png */,
 				FA7339B015687C7A00BCA82F /* ufoPin.png */,
@@ -1148,9 +1188,19 @@
 			path = EmptyTiles;
 			sourceTree = "<group>";
 		};
-		FA73398B15687C7A00BCA82F /* icons */ = {
+		FA73398B15687C7A00BCA82F /* icons/buttons */ = {
 			isa = PBXGroup;
 			children = (
+				FAEEC083156DA59600D138FD /* viewMapButton.png */,
+				FAEEC084156DA59600D138FD /* viewMapButton@2x.png */,
+				FAEEC085156DA59600D138FD /* viewMapButtonSelected.png */,
+				FAEEC086156DA59600D138FD /* viewMapButtonSelected@2x.png */,
+				FAD05E89156986EE0009CFAC /* backButton.png */,
+				FAD05E8A156986EE0009CFAC /* backButton@2x.png */,
+				FAD05E8B156986EE0009CFAC /* resetButton.png */,
+				FAD05E8C156986EE0009CFAC /* resetButton@2x.png */,
+				FAD05E8D156986EE0009CFAC /* resetButtonDisabled.png */,
+				FAD05E8E156986EE0009CFAC /* resetButtonDisabled@2x.png */,
 				FA73398C15687C7A00BCA82F /* arrow.png */,
 				FA73398D15687C7A00BCA82F /* binoculars.png */,
 				FA73398E15687C7A00BCA82F /* binoculars@2x.png */,
@@ -1165,6 +1215,7 @@
 				FA73399715687C7A00BCA82F /* heatMapIcon.png */,
 				FA73399815687C7A00BCA82F /* heatMapIconOff.png */,
 			);
+			name = icons/buttons;
 			path = icons;
 			sourceTree = "<group>";
 		};
@@ -1278,6 +1329,9 @@
 		FA733B9115687CB300BCA82F /* TableViewCells */ = {
 			isa = PBXGroup;
 			children = (
+				FAEEC07E156D73AB00D138FD /* greyCellBackground.png */,
+				FAEEC07F156D73AB00D138FD /* greyCellBackground@2x.png */,
+				FA73393A15687C7A00BCA82F /* blueStrechyBox.png */,
 				FA733B9215687CB400BCA82F /* masterCell.png */,
 				FA733B9315687CB400BCA82F /* masterCellSelected.png */,
 			);
@@ -1347,6 +1401,8 @@
 				FA733B9815687D0200BCA82F /* Models */,
 				FA7338FE15687A1B00BCA82F /* MapViewController */,
 				FA1CFAEC15609C05001CD96F /* DBExplorer */,
+				FAEEC08F156DA7D800D138FD /* RootController.h */,
+				FAEEC090156DA7D800D138FD /* RootController.m */,
 				FAA0FF7A154CB826009897E9 /* AppDelegate.h */,
 				FAA0FF7B154CB826009897E9 /* AppDelegate.m */,
 				FA73393115687C7A00BCA82F /* Resources */,
@@ -1443,7 +1499,6 @@
 				FA73392B15687A1C00BCA82F /* MapViewController~ipad.xib in Resources */,
 				FA73392D15687A1C00BCA82F /* MapViewController~iphone.xib in Resources */,
 				FA733A0815687C7A00BCA82F /* sample.txt in Resources */,
-				FA733A0A15687C7A00BCA82F /* ufo.json in Resources */,
 				FA733A0C15687C7A00BCA82F /* UfoSightings.sqlite in Resources */,
 				FA733A0E15687C7A00BCA82F /* blueStrechyBox.png in Resources */,
 				FA733A1015687C7A00BCA82F /* bottom0.png in Resources */,
@@ -1637,6 +1692,11 @@
 				FA733B9515687CB400BCA82F /* masterCell.png in Resources */,
 				FA733B9715687CB400BCA82F /* masterCellSelected.png in Resources */,
 				FA733BB6156880A500BCA82F /* UfoSightings-Info.plist in Resources */,
+				FA7B702C156AB70D00FD934B /* filters.plist in Resources */,
+				FAEEC088156DA59600D138FD /* viewMapButton.png in Resources */,
+				FAEEC08A156DA59600D138FD /* viewMapButton@2x.png in Resources */,
+				FAEEC08C156DA59600D138FD /* viewMapButtonSelected.png in Resources */,
+				FAEEC08E156DA59600D138FD /* viewMapButtonSelected@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1658,7 +1718,6 @@
 				FA73392A15687A1C00BCA82F /* MapViewController~ipad.xib in Resources */,
 				FA73392C15687A1C00BCA82F /* MapViewController~iphone.xib in Resources */,
 				FA733A0715687C7A00BCA82F /* sample.txt in Resources */,
-				FA733A0915687C7A00BCA82F /* ufo.json in Resources */,
 				FA733A0B15687C7A00BCA82F /* UfoSightings.sqlite in Resources */,
 				FA733A0D15687C7A00BCA82F /* blueStrechyBox.png in Resources */,
 				FA733A0F15687C7A00BCA82F /* bottom0.png in Resources */,
@@ -1851,6 +1910,20 @@
 				FA733B8515687C7A00BCA82F /* triangleSelected@2x.png in Resources */,
 				FA733B9415687CB400BCA82F /* masterCell.png in Resources */,
 				FA733B9615687CB400BCA82F /* masterCellSelected.png in Resources */,
+				FAD05E8F156986EE0009CFAC /* backButton.png in Resources */,
+				FAD05E90156986EE0009CFAC /* backButton@2x.png in Resources */,
+				FAD05E91156986EE0009CFAC /* resetButton.png in Resources */,
+				FAD05E92156986EE0009CFAC /* resetButton@2x.png in Resources */,
+				FAD05E93156986EE0009CFAC /* resetButtonDisabled.png in Resources */,
+				FAD05E94156986EE0009CFAC /* resetButtonDisabled@2x.png in Resources */,
+				FAD05E971569870A0009CFAC /* tabBarStrechy.png in Resources */,
+				FA7B702B156AB70D00FD934B /* filters.plist in Resources */,
+				FAEEC080156D73AB00D138FD /* greyCellBackground.png in Resources */,
+				FAEEC081156D73AB00D138FD /* greyCellBackground@2x.png in Resources */,
+				FAEEC087156DA59600D138FD /* viewMapButton.png in Resources */,
+				FAEEC089156DA59600D138FD /* viewMapButton@2x.png in Resources */,
+				FAEEC08B156DA59600D138FD /* viewMapButtonSelected.png in Resources */,
+				FAEEC08D156DA59600D138FD /* viewMapButtonSelected@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1904,6 +1977,8 @@
 				FA733BA515687EEA00BCA82F /* SightingsParser.m in Sources */,
 				FA733BAC15687F9E00BCA82F /* main.m in Sources */,
 				FA733BBF15688D9F00BCA82F /* UfoSightings.xcdatamodeld in Sources */,
+				FA4531BB1569DFC5005CA658 /* UIColor+RKColor.m in Sources */,
+				FAEEC092156DA7D900D138FD /* RootController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1936,6 +2011,8 @@
 				FA733BA415687EEA00BCA82F /* SightingsParser.m in Sources */,
 				FA733BAB15687F9E00BCA82F /* main.m in Sources */,
 				FA733BBE15688D9F00BCA82F /* UfoSightings.xcdatamodeld in Sources */,
+				FA4531BA1569DFC5005CA658 /* UIColor+RKColor.m in Sources */,
+				FAEEC091156DA7D900D138FD /* RootController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

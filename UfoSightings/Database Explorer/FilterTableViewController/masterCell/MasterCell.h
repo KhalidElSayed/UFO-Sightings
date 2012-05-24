@@ -10,5 +10,6 @@
 
 @interface MasterCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *mainLabel;
+@property (strong, nonatomic) IBOutlet UILabel *subtitleLabel;
 
 @end

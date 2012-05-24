@@ -10,6 +10,7 @@
 
 @implementation MasterCell
 @synthesize mainLabel;
+@synthesize subtitleLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {

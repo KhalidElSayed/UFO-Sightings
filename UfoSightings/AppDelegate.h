@@ -7,13 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MapViewController.h"
-#import "DatabaseExplorerViewController.h"
+#import "RootController.h"
 
 @interface AppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) DatabaseExplorerViewController* rootViewController;
+@property (strong, nonatomic) RootController* rootViewController;
 
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;

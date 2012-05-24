@@ -31,26 +31,6 @@
     
  */
     
-
-    dispatch_async(kBgQueue, ^{
-        
-        NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"UfoSightings.sqlite"];
-        NSFileManager* fm = [NSFileManager defaultManager];
-        NSString* dbInBundlePath = [[NSBundle mainBundle] pathForResource:@"UfoSightings" ofType:@"sqlite"];
-        NSString* newDbPath = [storeURL path];
-        
-        if( ![fm fileExistsAtPath:[storeURL path]] && [fm fileExistsAtPath:dbInBundlePath] )
-        {
-            NSError* error = nil;
-            [fm copyItemAtPath:dbInBundlePath toPath:newDbPath error:&error];
-            NSLog(@"Copying Database intoDocuments Dir");
-            if (error) {
-                NSLog(@"ERROR - COPYING SQLITE DB TO DOCUMENTS DIRECTORY");
-            }
-        }
-
-    
-    });
     
     if(![[NSUserDefaults standardUserDefaults] objectForKey:@"firstRun"])
     {
@@ -60,8 +40,8 @@
     
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    self.rootViewController = [[DatabaseExplorerViewController alloc]init];
-    self.rootViewController.managedObjectContext = self.managedObjectContext;
+    self.rootViewController = [[RootController alloc]initWithManagedObjectContext:self.managedObjectContext];
+
    
     //self.rootViewController = [[RootViewController alloc] init];
     //self.rootViewController.managedObjectContext = self.managedObjectContext;
@@ -212,7 +192,45 @@
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"annotationsOn"];
     
     [[NSUserDefaults standardUserDefaults] synchronize];
+
     
+    dispatch_async(kBgQueue, ^{
+        NSFileManager* fm = [NSFileManager defaultManager];
+        
+        NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"UfoSightings.sqlite"];
+        NSString* dbInBundlePath = [[NSBundle mainBundle] pathForResource:@"UfoSightings" ofType:@"sqlite"];
+        NSString* newDbPath = [storeURL path];
+   
+        NSURL *filterPlistURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"UfoSightings.sqlite"];
+        NSString* filterPlistInBundlePath = [[NSBundle mainBundle] pathForResource:@"UfoSightings" ofType:@"sqlite"];
+        NSString* newFilterPlistPath = [filterPlistURL path];
+        
+        
+        if( ![fm fileExistsAtPath:[storeURL path]] && [fm fileExistsAtPath:dbInBundlePath] )
+        {
+            NSError* error = nil;
+            [fm copyItemAtPath:dbInBundlePath toPath:newDbPath error:&error];
+            NSLog(@"Copying Database intoDocuments Dir");
+            if (error) {
+                NSLog(@"ERROR - COPYING SQLITE DB TO DOCUMENTS DIRECTORY");
+            }
+        }
+        
+        
+        if( ![fm fileExistsAtPath:[filterPlistURL path]] && [fm fileExistsAtPath:filterPlistInBundlePath] )
+        {
+            NSError* error = nil;
+            [fm copyItemAtPath:filterPlistInBundlePath toPath:newFilterPlistPath error:&error];
+            NSLog(@"Copying FilterPlist intoDocuments Dir");
+            if (error) {
+                NSLog(@"ERROR - COPYING PLIST TO DOCUMENTS DIRECTORY");
+            }
+        }
+
+        
+    });
+
+        
 }
 
 
