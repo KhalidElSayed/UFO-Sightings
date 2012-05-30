@@ -7,12 +7,22 @@
 //
 
 #import "MapViewController.h"
+#import "RootController.h"
 #import "Sighting.h"
 #import "HeatMap.h"
 #import "MapModalView.h"
 
 
 #define DEGREES_TO_RADIANS(angle) (angle / 180.0 * M_PI)
+static dispatch_queue_t annons_background_queue;
+dispatch_queue_t annotations_background_queue()
+{
+    if (annons_background_queue == NULL)
+    {
+        annons_background_queue = dispatch_queue_create("com.richardKirk.annotations.backgroundfetches", DISPATCH_QUEUE_SERIAL);
+    }
+    return annons_background_queue;
+}
 
 
 @interface MapViewController()
@@ -20,38 +30,39 @@
     MKMapView *_backMap;
     NSArray* _allSightings;
     MapModalView*   _modalView;
-    dispatch_queue_t annotationsQ;
     bool            _mapSelectionOpen;
     bool            _annotationsShowing;
     bool            _heatMapShowing;
+    MKAnnotationView*   _selectedAnnotationView;
+
 }
 - (void)updateVisibleAnnotations;
 - (id<MKAnnotation>)annotationInGrid:(MKMapRect)gridMapRect usingAnnotations:(NSSet*)annotations;
+-(void)reloadSightingLocationsWithPredicate:(NSPredicate*)pred;
+-(void)showAlert;
+-(void)hideAlert;
 @end
 
 @implementation MapViewController
 @synthesize managedObjectContext;
-@synthesize myMap;
+@synthesize rootController;
+@synthesize predicate = _predicate;
+@synthesize myMap = _myMap;
 @synthesize tvOverlay;
-@synthesize debugLabel;
-@synthesize modalPlaceholderView;
-@synthesize compassButton;
-@synthesize sightingAnnotationsButton;
-@synthesize mapLayerButton;
-@synthesize mapTypeSegmentController;
+@synthesize modalPlaceholderView = _modalPlaceholderView;
+@synthesize compassButton, sightingAnnotationsButton, mapLayerButton, filterButton, mapTypeSegmentController;;
+@synthesize loadingIndicator = _loadingIndicator;
 @synthesize levelLabel;
+@synthesize alertView;
 
 
-
-
-
+//***************************************************************************************************
 #pragma mark - View lifecycle
-
+//***************************************************************************************************
 -(id)init
 {
     if((self = [super init]))
     {
-        annotationsQ = dispatch_queue_create("annotationsQueue", DISPATCH_QUEUE_SERIAL);
         _heatMapOverlay = [[HeatMap alloc]init];
         _backMap = [[MKMapView alloc]initWithFrame:CGRectZero];
         _mapSelectionOpen = NO;
@@ -59,87 +70,41 @@
     return self;
 }
 
+
+-(void)viewWillAppear:(BOOL)animated
+{
+    if(_predicate)
+    {
+        [self showAlert];
+    } 
+    [self reloadSightingLocationsWithPredicate:_predicate];
+}
+
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-    if([CLLocationManager locationServicesEnabled])
-    {
-        locationManager = [[CLLocationManager alloc]init];
-        locationManager.delegate = self;
-        
-        [locationManager setDistanceFilter:1000];
-        [locationManager setDesiredAccuracy:kCLLocationAccuracyKilometer];
-        
-        [locationManager startUpdatingLocation];
-    }
-    else
-    {
-        NSLog(@"User does not allow location services");
-    }
-    
     MKCoordinateRegion region = {{ 36.102376, -119.091797}, {32.451446, 28.125000}};
-   // region.center = CLLocationCoordinate2DMake(38.8402805, -97.6114237);
-   // region.span = MKCoordinateSpanMake(50,50);
-  //  MKCoordinateRegion region;
-   // region.center = CLLocationCoordinate2DMake(38.214446, -97.514648);
-   // region.span = MKCoordinateSpanMake(0.807087,1.406250);
-    
-    [myMap setRegion:region];   
-    //[myMap setUserTrackingMode:MKUserTrackingModeFollow];
-    
-    [myMap setShowsUserLocation:YES];
-        _heatMapOverlay.managedObjectContext = self.managedObjectContext;    
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-        
-        _allSightings = [SightingLocation allSightings];
-        for (SightingLocation* location in _allSightings) {
-            location.coordinate = [location actualCoordinate];
-        }
-        [_backMap addAnnotations:_allSightings];        
-    });
-
-    
+    [_myMap setRegion:region];       
 
     NSInteger mapType = [[NSUserDefaults standardUserDefaults] integerForKey:@"mapType"];
-    [myMap setMapType:mapType];
+    [_myMap setMapType:mapType];
     [self.mapTypeSegmentController setSelectedSegmentIndex:mapType];
     
     _annotationsShowing = [[NSUserDefaults standardUserDefaults] boolForKey:@"annotationsOn"];
     [self.sightingAnnotationsButton setSelected:_annotationsShowing];
-    if(_annotationsShowing)
-    {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-            [self updateVisibleAnnotations];   
-        });    
-    }
-    
-    _heatMapShowing = [[NSUserDefaults standardUserDefaults] boolForKey:@"heatMapOverlayOn"]; 
+ 
+    _heatMapOverlay.managedObjectContext = self.managedObjectContext;    
 
+    _heatMapShowing = [[NSUserDefaults standardUserDefaults] boolForKey:@"heatMapOverlayOn"]; 
     [self.mapLayerButton setSelected:_heatMapShowing];
     if(_heatMapShowing)
     {
-        [myMap addOverlay:_heatMapOverlay];
+        [_myMap addOverlay:_heatMapOverlay];
     }
-    
-    
-
-
-    //[myMap addOverlay:_heatMapOverlay];
-    
-//********************************************************    
-    
-    
        
-/*
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-        
-            [self updateVisibleAnnotations];   
-    });    
-*/
-//********************************************************        
-    
 }
+
 
 -(void)viewWillUnload
 {
@@ -151,33 +116,31 @@
 }
 
 
-
 - (void)viewDidUnload
 {
-    dispatch_release(annotationsQ);
+    dispatch_release(annotations_background_queue());
     [self setMyMap:nil];
     [self setLevelLabel:nil];
     _heatMapOverlay = nil;
     _backMap = nil;
-    [self setDebugLabel:nil];
     [self setTvOverlay:nil];
     [self setModalPlaceholderView:nil];
     [self setCompassButton:nil];
     [self setMapLayerButton:nil];
     [self setSightingAnnotationsButton:nil];
     [self setMapTypeSegmentController:nil];
+    [self setFilterButton:nil];
+    [self setAlertView:nil];
+    [self setLoadingIndicator:nil];
     [super viewDidUnload];
-    
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
+
 
 -(void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    
     if (_modalView) {
-        _modalView.view.frame = modalPlaceholderView.frame;
+        _modalView.view.frame = _modalPlaceholderView.frame;
     }
     
     UIDeviceOrientation deviceOrientation = [[UIApplication sharedApplication]statusBarOrientation];
@@ -187,113 +150,289 @@
     else {
         self.tvOverlay.image = [UIImage imageNamed:@"TVOverlay.png"];
     }
-    
-    
+}
+
+-(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{    
+    return YES;
 }
 
 
-#pragma mark - Core Location Delegate Functions
-
-
-- (void)locationManager:(CLLocationManager *)manager
-	didUpdateToLocation:(CLLocation *)newLocation
-           fromLocation:(CLLocation *)oldLocation
+-(void)modalWantsToDismiss
 {
-    NSLog(@"%@",newLocation);
+    [_modalView.view removeFromSuperview];
+    _modalView = nil;
+    [_myMap setUserInteractionEnabled:YES];
     
 }
+//***************************************************************************************************
 
 
-- (void)locationManager:(CLLocationManager *)manager
-         didEnterRegion:(CLRegion *)region
-{
+
+
+
+//***************************************************************************************************
+#pragma mark - IBActions
+//***************************************************************************************************
+- (IBAction)compassButtonSelected:(UIButton *)sender 
+{    
+    CGAffineTransform rotate;
+    CGFloat newAlpha;
+    if (_mapSelectionOpen) 
+    {
+        rotate = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(-45));
+        newAlpha = 0.0f;
+    }
+    else
+    {
+        rotate = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(45));
+        newAlpha = 1.0f;
+    }
     
+    [UIView animateWithDuration:0.3 delay:0.0f options:UIViewAnimationCurveEaseInOut animations:^{
+        self.mapTypeSegmentController.alpha = newAlpha;
+        self.compassButton.transform = rotate;
+    } completion:^(BOOL finished){
+        _mapSelectionOpen = !_mapSelectionOpen;
+    }];
 }
 
-- (void)locationManager:(CLLocationManager *)manager
-          didExitRegion:(CLRegion *)region 
+
+- (IBAction)sightingsAnnotationsButtonSelected:(UIButton *)sender 
 {
+    if(_annotationsShowing)
+        [_myMap removeAnnotations:[_myMap annotations]];
+    else 
+        [self updateVisibleAnnotations];   
+
+    _annotationsShowing = !_annotationsShowing;
+    [sender setSelected:_annotationsShowing];    
+}
+
+
+- (IBAction)mapLayerButtonSelected:(UIButton *)sender {
     
+    if(_heatMapShowing)
+    {
+        if([[_myMap overlays] containsObject:_heatMapOverlay])
+            [_myMap removeOverlay:_heatMapOverlay];
+    }
+    else 
+    {
+        if(![[_myMap overlays] containsObject:_heatMapOverlay])
+            [_myMap addOverlay:_heatMapOverlay];
+    }
+    _heatMapShowing = !_heatMapShowing;
+    [sender setSelected:_heatMapShowing];    
 }
 
-- (void)locationManager:(CLLocationManager *)manager
-       didFailWithError:(NSError *)error;
+
+- (IBAction)filterButtonSelected:(UIButton *)sender 
 {
-    NSLog(@"%@", error);
+    [self.rootController switchViewController];
 }
 
+
+- (IBAction)xButtonSelected:(UIButton *)sender 
+{
+    [self hideAlert];
+}
+
+
+-(IBAction)userLocationButtonSelected:(UIButton*)sender
+{
+    // Do any additional setup after loading the view, typically from a nib.
+    if([CLLocationManager locationServicesEnabled])
+    {
+        locationManager = [[CLLocationManager alloc]init];
+        locationManager.delegate = self;
+        [locationManager setDistanceFilter:1000];
+        [locationManager setDesiredAccuracy:kCLLocationAccuracyKilometer];
+        [locationManager startUpdatingLocation];
+    }
+    else
+    {
+        NSLog(@"User does not allow location services");
+    }
+    [_myMap setShowsUserLocation:YES];
+}
+
+
+- (IBAction)stopFilteringSelected:(UIButton *)sender 
+{
+    _predicate = nil;
+    [self reloadSightingLocationsWithPredicate:_predicate];
+}
+
+
+- (IBAction)mapTypeSegmentChanged:(UISegmentedControl *)sender 
+{
+    [_myMap setMapType:[sender selectedSegmentIndex]];
+}
+
+
+-(void)reloadSightingLocationsWithPredicate:(NSPredicate*)pred
+{
+    if(pred)
+        [self showAlert];
+    else
+        [self hideAlert];
+
+    
+    [_myMap removeAnnotations:[_myMap annotations]];
+    [_backMap removeAnnotations:[_backMap annotations]];
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+
+        if(pred)
+        {
+            NSArray* array = [Sighting allSightingsWithPredicate:pred];
+            NSMutableSet* set = [[NSMutableSet alloc]init];
+            for (Sighting* sighting in array) {
+                [set addObject:sighting.location];
+            }
+        
+        _allSightings = [set allObjects];
+        }
+        else 
+        _allSightings = [SightingLocation allSightings];
+        
+        NSLog(@"%i",_allSightings.count);
+        [_backMap addAnnotations:_allSightings];   
+
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            if(_annotationsShowing)
+                [self updateVisibleAnnotations];   
+            
+        });
+        
+    });
+
+}
+//***************************************************************************************************
+
+
+
+
+//***************************************************************************************************
 #pragma mark - MapKit Delegate Functions
-
-
+//***************************************************************************************************
 -(MKOverlayView*) mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay
 {
    return [[HeatMapOverlayView alloc] initWithOverlay:overlay];
 }
 
 
-
-
-- (void)mapView:(MKMapView *)mapView regionWillChangeAnimated:(BOOL)animated
-{
-    //NSLog(@"regionWillChangeAnimated:%@", animated ? @"YES" : @"NO");
-   // MKZoomScale currentZoomScale = mapView.bounds.size.width / mapView.visibleMapRect.size.width;
-    //NSLog(@"%f",currentZoomScale);
-
-}
-
-
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
-    
-    NSUInteger zoomLevel = [HeatMap zoomLevelForRegion:mapView.region];
-    [self.levelLabel setText:[NSString stringWithFormat:@"%d",zoomLevel]];
-
     if(_annotationsShowing)
-    {
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-        
+    {   
+        _selectedAnnotationView.selected = NO;
         [self updateVisibleAnnotations];   
-    });    
+        
     }
 }   
 
+
 -(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
-    
+    [_myMap setUserInteractionEnabled:YES];
     SightingLocation* location = view.annotation;
-    _modalView = [[MapModalView alloc]initWithSightingLocation:location];
-    
+    _modalView = [[MapModalView alloc]initWithSightingLocation:location andPredicate:_predicate];
     [_modalView.view setFrame:CGRectMake(79, 124, 855, 560)];    
-    [self.view insertSubview:_modalView.view aboveSubview:self.myMap];
+    [self.view insertSubview:_modalView.view belowSubview:[[self.view subviews] lastObject]];
     [self addChildViewController:_modalView];
-    
-    
-    
+    view.selected = NO;
 }
-
+    
 
 -(void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
 {
-    
-    
     for (MKAnnotationView* annotationView in views) {
         if(![annotationView.annotation isKindOfClass:[SightingLocation class]])
             continue;
         
-        SightingLocation* annotation = (SightingLocation*)annotationView.annotation;
-        
-        if(annotation.clusterAnnotation != nil){
-            CLLocationCoordinate2D containerCoordinate = annotation.clusterAnnotation.coordinate;
-            annotation.clusterAnnotation = nil;
-            annotation.coordinate = containerCoordinate;
-            
-            [UIView animateWithDuration:0.3f animations:^{
-                annotation.coordinate = [annotation actualCoordinate];
-            }];
-            
-        }
-        
+        annotationView.alpha = 0.0f;
+        [UIView animateWithDuration:0.5 animations:^{
+            annotationView.alpha = 1.0f;
+        }];
     }
+}
+
+
+-(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
+{   
+    _selectedAnnotationView = view;
+    UILabel* label;
+    UIActivityIndicatorView* loadingView;
+    for (UIView* subview in [view.leftCalloutAccessoryView subviews]) {
+        if ([subview isKindOfClass:[UILabel class]]) {
+            label = (UILabel*)subview;
+        }
+        else if ([subview isKindOfClass:[UIActivityIndicatorView class]]) {
+            loadingView = (UIActivityIndicatorView*)subview;
+        }
+    }
+    [loadingView startAnimating];
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        
+        SightingLocation* annotation =  view.annotation;
+        NSString* newTitle = @"";
+        
+        NSUInteger sightingsCount = 1; 
+        NSUInteger citiesCount = 1;
+        if(annotation.sighting)
+            sightingsCount = annotation.sighting.count;
+        
+        if (annotation.containedAnnotations != nil && annotation.containedAnnotations.count > 0) 
+        {
+            if(_predicate)
+            {
+                NSMutableSet* sightingsSet = [[NSMutableSet alloc]init];
+                NSMutableSet* citiesSet = [[NSMutableSet alloc]init];
+                [sightingsSet unionSet:annotation.sighting];
+                
+                for (SightingLocation* location in annotation.containedAnnotations) {
+                    [sightingsSet unionSet:location.sighting];
+                }
+                [sightingsSet filterUsingPredicate:_predicate];
+                
+                for (Sighting* sighting in sightingsSet) {
+                    [citiesSet addObject:sighting.location];
+                }
+                
+                citiesCount = citiesSet.count;
+                sightingsCount = sightingsSet.count;                
+                
+            }
+            else {
+             
+                citiesCount += annotation.containedAnnotations.count;
+                                
+                for (SightingLocation* location in annotation.containedAnnotations) {
+                    if(location.sighting != nil)
+                        sightingsCount += location.sighting.count;
+                    else
+                        sightingsCount += 1;
+                }
+            }   
+
+       
+        }
+        newTitle = [NSString stringWithFormat:@"%i sightings in %i cities", sightingsCount, citiesCount];
+        dispatch_sync(dispatch_get_main_queue(), ^{
+        [loadingView stopAnimating];
+        [label setText:newTitle];
+            
+        });
+        
+    });
+}
+
+
+-(void)mapView:(MKMapView *)mapView didDeselectAnnotationView:(MKAnnotationView *)view
+{
+    
 }
 
 
@@ -317,7 +456,23 @@
         annotationView.opaque = NO;
         annotationView.rightCalloutAccessoryView = [UIButton buttonWithType:UIButtonTypeDetailDisclosure];
         
+        UIView* leftCalloutView = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
         
+        UIActivityIndicatorView* loadingIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        [loadingIndicator setHidesWhenStopped:YES];
+        
+        [leftCalloutView addSubview:loadingIndicator];
+        loadingIndicator.center = leftCalloutView.center;
+        
+        UILabel* label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 200, 30)];
+        [label setTextColor:[UIColor whiteColor]];
+        [label setBackgroundColor:[UIColor clearColor]];
+        [label setFont:[UIFont fontWithName:@"Helvetica-Bold" size:16.0f]];
+        [label setTextAlignment:UITextAlignmentCenter];
+        [label setAdjustsFontSizeToFitWidth:YES];
+        [label setMinimumFontSize:6.0f];
+        [leftCalloutView addSubview:label];
+        annotationView.leftCalloutAccessoryView = leftCalloutView;
         return annotationView;
     }
     else
@@ -328,19 +483,30 @@
     
     
 }
+//***************************************************************************************************
 
 
+
+
+
+//***************************************************************************************************
+#pragma mark - MapPin Clustering 
+//***************************************************************************************************
 -(void)updateVisibleAnnotations
 {
-    static float marginFactor = 1.2f;
+
+    [self.loadingIndicator startAnimating];
+    dispatch_async(annotations_background_queue(), ^{        
+        
+    static float marginFactor = 0;
     static float bucketSize = 80.0f;
     
-    MKMapRect visibleMaprect = [self.myMap visibleMapRect];
+    MKMapRect visibleMaprect = [_myMap visibleMapRect];
     MKMapRect adjustedVisibleMapRect = MKMapRectInset(visibleMaprect, -marginFactor * visibleMaprect.size.width, -marginFactor * visibleMaprect.size.height);
-
-    CLLocationCoordinate2D leftCoordinate =  [self.myMap convertPoint:CGPointZero toCoordinateFromView:self.view];
-    CLLocationCoordinate2D rightCoordinate = [self.myMap convertPoint:CGPointMake(bucketSize, 0) toCoordinateFromView:self.view];
-
+    
+    CLLocationCoordinate2D leftCoordinate =  [_myMap convertPoint:CGPointZero toCoordinateFromView:self.view];
+    CLLocationCoordinate2D rightCoordinate = [_myMap convertPoint:CGPointMake(bucketSize, 0) toCoordinateFromView:self.view];
+    
     double gridSize = MKMapPointForCoordinate(rightCoordinate).x - MKMapPointForCoordinate(leftCoordinate).x ;
     MKMapRect gridMapRect = MKMapRectMake(0, 0, gridSize, gridSize);
     
@@ -348,51 +514,56 @@
     double startY = floor(MKMapRectGetMinY(adjustedVisibleMapRect) / gridSize) * gridSize;    
     double endX = floor(MKMapRectGetMaxX(adjustedVisibleMapRect) / gridSize) * gridSize;    
     double endY = floor(MKMapRectGetMaxY(adjustedVisibleMapRect)  / gridSize) * gridSize;
-
+    NSMutableSet* setToAdd = [[NSMutableSet alloc]init ];
+        NSMutableSet* setToRemove = [[NSMutableSet alloc]init];
     gridMapRect.origin.y = startY;
     while (MKMapRectGetMinY(gridMapRect) <= endY) {
         gridMapRect.origin.x = startX;
-
+        
         while (MKMapRectGetMinX(gridMapRect) <= endX) {
-                  
+          
 
+            
             //********************************************************
-           // NSSet* allAnnotationsInBucket = [NSSet setWithArray:[SightingLocation SightingLocationsInMapRect:gridMapRect]];
+            // NSSet* allAnnotationsInBucket = [NSSet setWithArray:[SightingLocation SightingLocationsInMapRect:gridMapRect]];
             NSSet* allAnnotationsInBucket = [_backMap annotationsInMapRect:gridMapRect];
-           
+            
             //********************************************************
-            NSSet* visibleAnnotationsInBucket = [self.myMap annotationsInMapRect:gridMapRect];
-           
-            NSMutableSet * filteredAnnotationsInBucket = [[allAnnotationsInBucket objectsPassingTest:^BOOL(id obj, BOOL* stop) {
-                return ([obj isKindOfClass:[SightingLocation class]]); 
-            }] mutableCopy];
+            NSSet* visibleAnnotationsInBucket = [_myMap annotationsInMapRect:gridMapRect];
+            
+          //  NSMutableSet * filteredAnnotationsInBucket = [[allAnnotationsInBucket objectsPassingTest:^BOOL(id obj, BOOL* stop) {
+            //    return ([obj isKindOfClass:[SightingLocation class]]); 
+           // }] mutableCopy];
+          
+            NSMutableSet* filteredAnnotationsInBucket = [allAnnotationsInBucket mutableCopy];
             
             if(filteredAnnotationsInBucket.count > 0) {
-                SightingLocation* annotationForGrid = (SightingLocation*)[self annotationInGrid:gridMapRect usingAnnotations:filteredAnnotationsInBucket];
+                
+               SightingLocation* annotationForGrid  = (SightingLocation*)[self annotationInGrid:gridMapRect usingAnnotations:filteredAnnotationsInBucket];
+                
                 
                 [filteredAnnotationsInBucket removeObject: annotationForGrid];
                 
                 annotationForGrid.containedAnnotations = [filteredAnnotationsInBucket allObjects];
                 
-                [self.myMap addAnnotation:annotationForGrid];
-            
-                for (SightingLocation *annotation in filteredAnnotationsInBucket) {
-                    annotation.clusterAnnotation = annotationForGrid;
-                    annotation.containedAnnotations = nil;
-
-                    if([visibleAnnotationsInBucket containsObject:annotation]) {
-
-                        [UIView animateWithDuration:0.3f animations:^{
-                            annotation.coordinate = annotation.clusterAnnotation.coordinate;
+                //[_myMap addAnnotation:annotationForGrid];
+                [setToAdd addObject:annotationForGrid];
+    
+                    for (SightingLocation *annotation in filteredAnnotationsInBucket) {
+                        
+    
+                        annotation.clusterAnnotation = annotationForGrid;
+                        annotation.containedAnnotations = nil;
+                        
+                        if([visibleAnnotationsInBucket containsObject:annotation]) {
                             
-                        } completion:^(BOOL finished){
-                            annotation.coordinate = [annotation actualCoordinate];
-                            [self.myMap removeAnnotation:annotation];
-                        }];
+                            [setToRemove addObject:annotation];
+
+                            
+                        }
                         
                     }
-                }
-            
+                
             }
             
             gridMapRect.origin.x += gridSize;
@@ -400,14 +571,23 @@
         
         gridMapRect.origin.y += gridSize;
     }
-    
-    NSLog(@"DONE");
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
+          
+            [_myMap removeAnnotations:[setToRemove allObjects]];
+            [_myMap addAnnotations:[setToAdd allObjects]];
+          
+            [self.loadingIndicator stopAnimating];
+            
+        });
+        
+    }); 
 }
 
 
 - (id<MKAnnotation>)annotationInGrid:(MKMapRect)gridMapRect usingAnnotations:(NSSet*)annotations
 {
-    NSSet* visibleAnnotationsInBucket = [self.myMap annotationsInMapRect:gridMapRect];
+    NSSet* visibleAnnotationsInBucket = [_myMap annotationsInMapRect:gridMapRect];
     NSSet* annotationsForGridSet = [annotations objectsPassingTest:^BOOL(id obj, BOOL* stop){
         BOOL returnValue = ([visibleAnnotationsInBucket containsObject:obj]);
         if(returnValue)
@@ -419,131 +599,75 @@
         return  [annotationsForGridSet anyObject];
     }
     
-    MKMapPoint centerMapPoint = MKMapPointMake(MKMapRectGetMidX(gridMapRect), MKMapRectGetMidY(gridMapRect));
-    NSArray* sortedAnnotations = [[annotations allObjects] sortedArrayUsingComparator:^(id obj1, id obj2){
-        MKMapPoint mapPoint1 = MKMapPointForCoordinate(((id<MKAnnotation>)obj1).coordinate);
-        MKMapPoint mapPoint2 = MKMapPointForCoordinate(((id<MKAnnotation>)obj2).coordinate);        
-        
-        CLLocationDistance distance1 = MKMetersBetweenMapPoints(mapPoint1, centerMapPoint);
-        CLLocationDistance distance2 = MKMetersBetweenMapPoints(mapPoint2, centerMapPoint);
-        
-        if (distance1 < distance2) {
-            return NSOrderedAscending;
-        }
-        else if (distance1 > distance2) {
-            return NSOrderedDescending;
-        }
-        
-        return NSOrderedSame;
-    }];
+    if(annotations.count < 10)
+        return [annotations anyObject];
+    
+    NSMutableArray* annotationsToOrder = [[annotations allObjects] mutableCopy];
+    if (annotationsToOrder.count > 30) {
 
-   // int num = rand() % [sortedAnnotations count];
+        [annotationsToOrder removeObjectsInRange:NSMakeRange(29, annotationsToOrder.count - 30)]; 
+
+    }
+   
+    NSArray* sortedAnnotations;
+    MKMapPoint centerMapPoint = MKMapPointMake(MKMapRectGetMidX(gridMapRect), MKMapRectGetMidY(gridMapRect));
+        
+            sortedAnnotations = [annotationsToOrder sortedArrayUsingComparator:^(id obj1, id obj2){
+            MKMapPoint mapPoint1 = MKMapPointForCoordinate(((id<MKAnnotation>)obj1).coordinate);
+            MKMapPoint mapPoint2 = MKMapPointForCoordinate(((id<MKAnnotation>)obj2).coordinate);        
+            
+            CLLocationDistance distance1 = MKMetersBetweenMapPoints(mapPoint1, centerMapPoint);
+            CLLocationDistance distance2 = MKMetersBetweenMapPoints(mapPoint2, centerMapPoint);
+            
+            if (distance1 < distance2) {
+                return NSOrderedAscending;
+            }
+            else if (distance1 > distance2) {
+                return NSOrderedDescending;
+            }
+            
+            return NSOrderedSame;
+        }];
+    
+
+    
+    
     return [sortedAnnotations objectAtIndex:0];
     
 }
+//***************************************************************************************************
 
 
 
--(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+
+
+//***************************************************************************************************
+#pragma mark - Alert View
+//***************************************************************************************************
+-(void)showAlert
 {
-
-    return YES;
-}
-
-
-
-
-
-
-#pragma mark - IBActions
-
-
-- (IBAction)compassButtonSelected:(UIButton *)sender {
-    
-    CGAffineTransform rotate;
-    CGFloat newAlpha;
-    if (_mapSelectionOpen) {
-        rotate = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(-45));
-        newAlpha = 0.0f;
-    }
-    else {
-        rotate = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(45));
-        newAlpha = 1.0f;
-    }
-    
-    [UIView animateWithDuration:0.3 delay:0.0f options:UIViewAnimationCurveEaseInOut animations:^{
-        self.mapTypeSegmentController.alpha = newAlpha;
-        self.compassButton.transform = rotate;
-    } completion:^(BOOL finished){
-        _mapSelectionOpen = !_mapSelectionOpen;}
-     
-     ];
-    
-    
-    
-    
-}
-
-- (IBAction)sightingsAnnotationsButtonSelected:(UIButton *)sender {
-    
-    if(_annotationsShowing)
+    if(alertView && alertView.frame.size.height == 0)
     {
-        [myMap removeAnnotations:[myMap annotations]];
+        CGRect frame = alertView.frame;
+        frame.size.height = 90;
+        [UIView animateWithDuration:1.0f animations:^{
+            alertView.frame = frame;
+        }];
     }
-    else {
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
-            
-            [self updateVisibleAnnotations];   
-        });       
-    }
-    
-    _annotationsShowing = !_annotationsShowing;
-    [sender setSelected:_annotationsShowing];
-    
 }
 
-- (IBAction)mapLayerButtonSelected:(UIButton *)sender {
-    
-    if(_heatMapShowing)
-    {
-        if([[myMap overlays] containsObject:_heatMapOverlay])
-            [myMap removeOverlay:_heatMapOverlay];
-    }
-    else {
-        if(![[myMap overlays] containsObject:_heatMapOverlay])
-            [myMap addOverlay:_heatMapOverlay];
-    }
-    
-    
-    _heatMapShowing = !_heatMapShowing;
-    [sender setSelected:_heatMapShowing];    
-}
 
-- (IBAction)mapTypeSegmentChanged:(UISegmentedControl *)sender 
+-(void)hideAlert
 {
-
-    [myMap setMapType:[sender selectedSegmentIndex]];
-/*
-    switch ([sender selectedSegmentIndex]) {
-        case 0:
-            [myMap setMapType:MKMapTypeStandard];
-            break;
-        case 1:
-            [myMap setMapType:MKMapTypeSatellite];
-            break;
-        case 2:
-            [myMap setMapType:MKMapTypeHybrid];
-            break;
-        case 3:
-            
-            break;
-            
-        default:
-            break;
+    
+    if(alertView &&  alertView.frame.size.height == 90)
+    {
+        CGRect frame = alertView.frame;
+        frame.size.height = 0;
+        [UIView animateWithDuration:1.0f animations:^{
+            alertView.frame = frame;
+        }];
     }
-    
-  */  
-    
-    
 }
+
 @end

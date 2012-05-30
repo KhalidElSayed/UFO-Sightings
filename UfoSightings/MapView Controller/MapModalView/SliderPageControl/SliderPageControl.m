@@ -43,7 +43,7 @@
 @end
 
 @implementation SliderPageControl
-@synthesize delegate, showsHint, backgroundView, slider;
+@synthesize delegate, showsHint, backgroundView, slider, maskRect;
 
 - (id)initWithFrame:(CGRect)frame {
     if (self = [super initWithFrame:frame]) {
@@ -63,6 +63,13 @@
 		[slider setImage:[[UIImage imageNamed:@"sliderPageControl.png"] stretchableImageWithLeftCapWidth:10 topCapHeight:10]];
     }
     return self;
+}
+
+
+-(void)setFrame:(CGRect)frame
+{
+    backgroundView.frame = CGRectMake(0,0,frame.size.width,frame.size.height);
+    
 }
 
 - (void)setNumberOfPages:(int)page
@@ -132,8 +139,9 @@
 	{
 		if (maskView==nil)
 		{
-			maskView = [[UIView alloc] initWithFrame:CGRectMake(0,0,[self window].frame.size.width,[self window].frame.size.height)];
-			[maskView setBackgroundColor:[UIColor blackColor]];
+			//maskView = [[UIView alloc] initWithFrame:CGRectMake(0,0,[self window].frame.size.width,[self window].frame.size.height)];
+			maskView = [[UIView alloc] initWithFrame:maskRect];
+            [maskView setBackgroundColor:[UIColor blackColor]];
 			[[self superview] insertSubview:maskView belowSubview:self];
 
 			

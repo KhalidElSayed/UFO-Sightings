@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		FA154A6B1572DE1100497B5F /* ConsoleDocumentView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA154A6A1572DE1100497B5F /* ConsoleDocumentView.m */; };
+		FA154A6D1572DE2B00497B5F /* ConsoleDocumentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA154A6C1572DE2B00497B5F /* ConsoleDocumentView.xib */; };
+		FA154A6F1572DF7E00497B5F /* AndaleMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA154A6E1572DF7E00497B5F /* AndaleMono.ttf */; };
+		FA154A701572DF7E00497B5F /* AndaleMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA154A6E1572DF7E00497B5F /* AndaleMono.ttf */; };
 		FA15B5491550BB7000896E95 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA15B5481550BB7000896E95 /* MapKit.framework */; };
 		FA1A96961557075700BD447F /* SenTestingKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA1A96951557075700BD447F /* SenTestingKit.framework */; };
 		FA1A96971557075700BD447F /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0FF69154CB826009897E9 /* UIKit.framework */; };
@@ -18,6 +22,10 @@
 		FA3FB1FE15585FD7002DF730 /* CoreLocation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC38942154DC57200923139 /* CoreLocation.framework */; };
 		FA4531BA1569DFC5005CA658 /* UIColor+RKColor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4531B91569DFC5005CA658 /* UIColor+RKColor.m */; };
 		FA4531BB1569DFC5005CA658 /* UIColor+RKColor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4531B91569DFC5005CA658 /* UIColor+RKColor.m */; };
+		FA578085157039B000191B13 /* alertBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA578082157039B000191B13 /* alertBackground@2x.png */; };
+		FA578087157039B000191B13 /* alertButtonSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA578083157039B000191B13 /* alertButtonSelected@2x.png */; };
+		FA57808A15703EA800191B13 /* filters.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA57808915703EA800191B13 /* filters.plist */; };
+		FA57808B15703EA800191B13 /* filters.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA57808915703EA800191B13 /* filters.plist */; };
 		FA7338B5156875C700BCA82F /* DatabaseExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338B3156875C700BCA82F /* DatabaseExplorerViewController.m */; };
 		FA7338B6156875C700BCA82F /* DatabaseExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338B3156875C700BCA82F /* DatabaseExplorerViewController.m */; };
 		FA7338B7156875C700BCA82F /* DatabaseExplorerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338B4156875C700BCA82F /* DatabaseExplorerViewController.xib */; };
@@ -479,14 +487,26 @@
 		FA733BB6156880A500BCA82F /* UfoSightings-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA733BB4156880A400BCA82F /* UfoSightings-Info.plist */; };
 		FA733BBE15688D9F00BCA82F /* UfoSightings.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FA733BBC15688D9F00BCA82F /* UfoSightings.xcdatamodeld */; };
 		FA733BBF15688D9F00BCA82F /* UfoSightings.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = FA733BBC15688D9F00BCA82F /* UfoSightings.xcdatamodeld */; };
-		FA7B702B156AB70D00FD934B /* filters.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA7B702A156AB70D00FD934B /* filters.plist */; };
-		FA7B702C156AB70D00FD934B /* filters.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA7B702A156AB70D00FD934B /* filters.plist */; };
+		FA7534241576D9E000D18D9A /* ufo@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA7534221576D9E000D18D9A /* ufo@2x.png */; };
+		FA7534251576D9E000D18D9A /* ufo.png in Resources */ = {isa = PBXBuildFile; fileRef = FA7534231576D9E000D18D9A /* ufo.png */; };
 		FA86C0AB1558524800A2655D /* SightingTests.m in Sources */ = {isa = PBXBuildFile; fileRef = FA86C0AA1558524800A2655D /* SightingTests.m */; };
 		FAA0FF6A154CB826009897E9 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0FF69154CB826009897E9 /* UIKit.framework */; };
 		FAA0FF6C154CB826009897E9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0FF6B154CB826009897E9 /* Foundation.framework */; };
 		FAA0FF6E154CB826009897E9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0FF6D154CB826009897E9 /* CoreGraphics.framework */; };
 		FAA0FF70154CB826009897E9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0FF6F154CB826009897E9 /* CoreData.framework */; };
 		FAA0FF7C154CB826009897E9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA0FF7B154CB826009897E9 /* AppDelegate.m */; };
+		FABA697B156EB8CD00692B51 /* alertBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FABA696F156EB8CD00692B51 /* alertBackground@2x.png */; };
+		FABA697C156EB8CD00692B51 /* alertBackground.png in Resources */ = {isa = PBXBuildFile; fileRef = FABA6970156EB8CD00692B51 /* alertBackground.png */; };
+		FABA697D156EB8CD00692B51 /* alertTitleText@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FABA6971156EB8CD00692B51 /* alertTitleText@2x.png */; };
+		FABA697E156EB8CD00692B51 /* alertTitleText.png in Resources */ = {isa = PBXBuildFile; fileRef = FABA6972156EB8CD00692B51 /* alertTitleText.png */; };
+		FABA697F156EB8CD00692B51 /* alertButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FABA6973156EB8CD00692B51 /* alertButton@2x.png */; };
+		FABA6980156EB8CD00692B51 /* alertButtonSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FABA6974156EB8CD00692B51 /* alertButtonSelected@2x.png */; };
+		FABA6981156EB8CD00692B51 /* alertButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = FABA6975156EB8CD00692B51 /* alertButtonSelected.png */; };
+		FABA6982156EB8CD00692B51 /* alertButton.png in Resources */ = {isa = PBXBuildFile; fileRef = FABA6976156EB8CD00692B51 /* alertButton.png */; };
+		FABA6983156EB8CD00692B51 /* xButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FABA6977156EB8CD00692B51 /* xButton@2x.png */; };
+		FABA6984156EB8CD00692B51 /* xButton.png in Resources */ = {isa = PBXBuildFile; fileRef = FABA6978156EB8CD00692B51 /* xButton.png */; };
+		FABA698A156EB97900692B51 /* filterButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FABA6988156EB97900692B51 /* filterButton@2x.png */; };
+		FABA698B156EB97900692B51 /* filterButton.png in Resources */ = {isa = PBXBuildFile; fileRef = FABA6989156EB97900692B51 /* filterButton.png */; };
 		FAC38917154DBC4E00923139 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC38916154DBC4E00923139 /* Security.framework */; };
 		FAC38919154DBC5600923139 /* MobileCoreServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC38918154DBC5600923139 /* MobileCoreServices.framework */; };
 		FAC3891D154DBC6D00923139 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC3891C154DBC6D00923139 /* QuartzCore.framework */; };
@@ -523,6 +543,10 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		FA154A691572DE1100497B5F /* ConsoleDocumentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsoleDocumentView.h; sourceTree = "<group>"; };
+		FA154A6A1572DE1100497B5F /* ConsoleDocumentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsoleDocumentView.m; sourceTree = "<group>"; };
+		FA154A6C1572DE2B00497B5F /* ConsoleDocumentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConsoleDocumentView.xib; sourceTree = "<group>"; };
+		FA154A6E1572DF7E00497B5F /* AndaleMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AndaleMono.ttf; sourceTree = "<group>"; };
 		FA15B5481550BB7000896E95 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
 		FA1A96941557075700BD447F /* UfoSightingsTests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = UfoSightingsTests.octest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FA1A96951557075700BD447F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
@@ -535,6 +559,9 @@
 		FA1A96AC15570FCC00BD447F /* HeatMapTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeatMapTests.m; sourceTree = "<group>"; };
 		FA4531B81569DFC5005CA658 /* UIColor+RKColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+RKColor.h"; sourceTree = "<group>"; };
 		FA4531B91569DFC5005CA658 /* UIColor+RKColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+RKColor.m"; sourceTree = "<group>"; };
+		FA578082157039B000191B13 /* alertBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alertBackground@2x.png"; sourceTree = "<group>"; };
+		FA578083157039B000191B13 /* alertButtonSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alertButtonSelected@2x.png"; sourceTree = "<group>"; };
+		FA57808915703EA800191B13 /* filters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = filters.plist; sourceTree = "<group>"; };
 		FA7338B2156875C600BCA82F /* DatabaseExplorerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DatabaseExplorerViewController.h; path = "Database Explorer/DatabaseExplorerViewController.h"; sourceTree = "<group>"; };
 		FA7338B3156875C700BCA82F /* DatabaseExplorerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DatabaseExplorerViewController.m; path = "Database Explorer/DatabaseExplorerViewController.m"; sourceTree = "<group>"; };
 		FA7338B4156875C700BCA82F /* DatabaseExplorerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DatabaseExplorerViewController.xib; path = "Database Explorer/DatabaseExplorerViewController.xib"; sourceTree = "<group>"; };
@@ -789,7 +816,8 @@
 		FA733BB4156880A400BCA82F /* UfoSightings-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "UfoSightings-Info.plist"; sourceTree = "<group>"; };
 		FA733BB71568822100BCA82F /* UfoSightings-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UfoSightings-Prefix.pch"; sourceTree = "<group>"; };
 		FA733BBD15688D9F00BCA82F /* UfoSightings.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UfoSightings.xcdatamodel; sourceTree = "<group>"; };
-		FA7B702A156AB70D00FD934B /* filters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = filters.plist; path = ../../filters.plist; sourceTree = "<group>"; };
+		FA7534221576D9E000D18D9A /* ufo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ufo@2x.png"; sourceTree = "<group>"; };
+		FA7534231576D9E000D18D9A /* ufo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ufo.png; sourceTree = "<group>"; };
 		FA86C0A91558524800A2655D /* SightingTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SightingTests.h; sourceTree = "<group>"; };
 		FA86C0AA1558524800A2655D /* SightingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SightingTests.m; sourceTree = "<group>"; };
 		FAA0FF65154CB826009897E9 /* UfoSightings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UfoSightings.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -799,6 +827,18 @@
 		FAA0FF6F154CB826009897E9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
 		FAA0FF7A154CB826009897E9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		FAA0FF7B154CB826009897E9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		FABA696F156EB8CD00692B51 /* alertBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alertBackground@2x.png"; sourceTree = "<group>"; };
+		FABA6970156EB8CD00692B51 /* alertBackground.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alertBackground.png; sourceTree = "<group>"; };
+		FABA6971156EB8CD00692B51 /* alertTitleText@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alertTitleText@2x.png"; sourceTree = "<group>"; };
+		FABA6972156EB8CD00692B51 /* alertTitleText.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alertTitleText.png; sourceTree = "<group>"; };
+		FABA6973156EB8CD00692B51 /* alertButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alertButton@2x.png"; sourceTree = "<group>"; };
+		FABA6974156EB8CD00692B51 /* alertButtonSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alertButtonSelected@2x.png"; sourceTree = "<group>"; };
+		FABA6975156EB8CD00692B51 /* alertButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alertButtonSelected.png; sourceTree = "<group>"; };
+		FABA6976156EB8CD00692B51 /* alertButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = alertButton.png; sourceTree = "<group>"; };
+		FABA6977156EB8CD00692B51 /* xButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "xButton@2x.png"; sourceTree = "<group>"; };
+		FABA6978156EB8CD00692B51 /* xButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = xButton.png; sourceTree = "<group>"; };
+		FABA6988156EB97900692B51 /* filterButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "filterButton@2x.png"; sourceTree = "<group>"; };
+		FABA6989156EB97900692B51 /* filterButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = filterButton.png; sourceTree = "<group>"; };
 		FAC38916154DBC4E00923139 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = System/Library/Frameworks/Security.framework; sourceTree = SDKROOT; };
 		FAC38918154DBC5600923139 /* MobileCoreServices.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MobileCoreServices.framework; path = System/Library/Frameworks/MobileCoreServices.framework; sourceTree = SDKROOT; };
 		FAC3891C154DBC6D00923139 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
@@ -816,7 +856,7 @@
 		FAEEC084156DA59600D138FD /* viewMapButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewMapButton@2x.png"; sourceTree = "<group>"; };
 		FAEEC085156DA59600D138FD /* viewMapButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = viewMapButtonSelected.png; sourceTree = "<group>"; };
 		FAEEC086156DA59600D138FD /* viewMapButtonSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewMapButtonSelected@2x.png"; sourceTree = "<group>"; };
-		FAEEC08F156DA7D800D138FD /* RootController.h */ = {isa = PBXFileReference; fileEncoding = 4; path = RootController.h; sourceTree = "<group>"; };
+		FAEEC08F156DA7D800D138FD /* RootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootController.h; sourceTree = "<group>"; };
 		FAEEC090156DA7D800D138FD /* RootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -852,6 +892,16 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		FA154A671572DDE800497B5F /* ConsoleDocument */ = {
+			isa = PBXGroup;
+			children = (
+				FA154A691572DE1100497B5F /* ConsoleDocumentView.h */,
+				FA154A6A1572DE1100497B5F /* ConsoleDocumentView.m */,
+				FA154A6C1572DE2B00497B5F /* ConsoleDocumentView.xib */,
+			);
+			name = ConsoleDocument;
+			sourceTree = "<group>";
+		};
 		FA1A96991557075700BD447F /* UfoSightingsTests */ = {
 			isa = PBXGroup;
 			children = (
@@ -1007,6 +1057,7 @@
 		FA73390415687A1B00BCA82F /* MapModalView */ = {
 			isa = PBXGroup;
 			children = (
+				FA154A671572DDE800497B5F /* ConsoleDocument */,
 				FA73390B15687A1B00BCA82F /* PaperView */,
 				FA73390F15687A1B00BCA82F /* SliderPageControl */,
 				FA73390515687A1B00BCA82F /* MapModalCell.h */,
@@ -1041,11 +1092,12 @@
 		FA73393115687C7A00BCA82F /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				FA154A6E1572DF7E00497B5F /* AndaleMono.ttf */,
 				FA73393215687C7A00BCA82F /* Catagories */,
 				FA73393515687C7A00BCA82F /* Data */,
 				FA73393915687C7A00BCA82F /* images */,
 				FA733BA715687F9E00BCA82F /* main.m */,
-				FA7B702A156AB70D00FD934B /* filters.plist */,
+				FA57808915703EA800191B13 /* filters.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1086,6 +1138,8 @@
 				FA73399B15687C7A00BCA82F /* modalBackground.png */,
 				FA73398915687C7A00BCA82F /* greenBox.png */,
 				FA73399C15687C7A00BCA82F /* modalBackgroundPortrait.png */,
+				FA7534221576D9E000D18D9A /* ufo@2x.png */,
+				FA7534231576D9E000D18D9A /* ufo.png */,
 				FAD05E961569870A0009CFAC /* tabBarStrechy.png */,
 				FA7339A615687C7A00BCA82F /* reportTableInset.png */,
 				FA7339AC15687C7A00BCA82F /* tableViewInset.png */,
@@ -1191,6 +1245,20 @@
 		FA73398B15687C7A00BCA82F /* icons/buttons */ = {
 			isa = PBXGroup;
 			children = (
+				FA578082157039B000191B13 /* alertBackground@2x.png */,
+				FA578083157039B000191B13 /* alertButtonSelected@2x.png */,
+				FABA6988156EB97900692B51 /* filterButton@2x.png */,
+				FABA6989156EB97900692B51 /* filterButton.png */,
+				FABA696F156EB8CD00692B51 /* alertBackground@2x.png */,
+				FABA6970156EB8CD00692B51 /* alertBackground.png */,
+				FABA6971156EB8CD00692B51 /* alertTitleText@2x.png */,
+				FABA6972156EB8CD00692B51 /* alertTitleText.png */,
+				FABA6973156EB8CD00692B51 /* alertButton@2x.png */,
+				FABA6974156EB8CD00692B51 /* alertButtonSelected@2x.png */,
+				FABA6975156EB8CD00692B51 /* alertButtonSelected.png */,
+				FABA6976156EB8CD00692B51 /* alertButton.png */,
+				FABA6977156EB8CD00692B51 /* xButton@2x.png */,
+				FABA6978156EB8CD00692B51 /* xButton.png */,
 				FAEEC083156DA59600D138FD /* viewMapButton.png */,
 				FAEEC084156DA59600D138FD /* viewMapButton@2x.png */,
 				FAEEC085156DA59600D138FD /* viewMapButtonSelected.png */,
@@ -1692,11 +1760,14 @@
 				FA733B9515687CB400BCA82F /* masterCell.png in Resources */,
 				FA733B9715687CB400BCA82F /* masterCellSelected.png in Resources */,
 				FA733BB6156880A500BCA82F /* UfoSightings-Info.plist in Resources */,
-				FA7B702C156AB70D00FD934B /* filters.plist in Resources */,
 				FAEEC088156DA59600D138FD /* viewMapButton.png in Resources */,
 				FAEEC08A156DA59600D138FD /* viewMapButton@2x.png in Resources */,
 				FAEEC08C156DA59600D138FD /* viewMapButtonSelected.png in Resources */,
 				FAEEC08E156DA59600D138FD /* viewMapButtonSelected@2x.png in Resources */,
+				FA578085157039B000191B13 /* alertBackground@2x.png in Resources */,
+				FA578087157039B000191B13 /* alertButtonSelected@2x.png in Resources */,
+				FA57808B15703EA800191B13 /* filters.plist in Resources */,
+				FA154A701572DF7E00497B5F /* AndaleMono.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1917,13 +1988,29 @@
 				FAD05E93156986EE0009CFAC /* resetButtonDisabled.png in Resources */,
 				FAD05E94156986EE0009CFAC /* resetButtonDisabled@2x.png in Resources */,
 				FAD05E971569870A0009CFAC /* tabBarStrechy.png in Resources */,
-				FA7B702B156AB70D00FD934B /* filters.plist in Resources */,
 				FAEEC080156D73AB00D138FD /* greyCellBackground.png in Resources */,
 				FAEEC081156D73AB00D138FD /* greyCellBackground@2x.png in Resources */,
 				FAEEC087156DA59600D138FD /* viewMapButton.png in Resources */,
 				FAEEC089156DA59600D138FD /* viewMapButton@2x.png in Resources */,
 				FAEEC08B156DA59600D138FD /* viewMapButtonSelected.png in Resources */,
 				FAEEC08D156DA59600D138FD /* viewMapButtonSelected@2x.png in Resources */,
+				FABA697B156EB8CD00692B51 /* alertBackground@2x.png in Resources */,
+				FABA697C156EB8CD00692B51 /* alertBackground.png in Resources */,
+				FABA697D156EB8CD00692B51 /* alertTitleText@2x.png in Resources */,
+				FABA697E156EB8CD00692B51 /* alertTitleText.png in Resources */,
+				FABA697F156EB8CD00692B51 /* alertButton@2x.png in Resources */,
+				FABA6980156EB8CD00692B51 /* alertButtonSelected@2x.png in Resources */,
+				FABA6981156EB8CD00692B51 /* alertButtonSelected.png in Resources */,
+				FABA6982156EB8CD00692B51 /* alertButton.png in Resources */,
+				FABA6983156EB8CD00692B51 /* xButton@2x.png in Resources */,
+				FABA6984156EB8CD00692B51 /* xButton.png in Resources */,
+				FABA698A156EB97900692B51 /* filterButton@2x.png in Resources */,
+				FABA698B156EB97900692B51 /* filterButton.png in Resources */,
+				FA57808A15703EA800191B13 /* filters.plist in Resources */,
+				FA154A6D1572DE2B00497B5F /* ConsoleDocumentView.xib in Resources */,
+				FA154A6F1572DF7E00497B5F /* AndaleMono.ttf in Resources */,
+				FA7534241576D9E000D18D9A /* ufo@2x.png in Resources */,
+				FA7534251576D9E000D18D9A /* ufo.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2013,6 +2100,7 @@
 				FA733BBE15688D9F00BCA82F /* UfoSightings.xcdatamodeld in Sources */,
 				FA4531BA1569DFC5005CA658 /* UIColor+RKColor.m in Sources */,
 				FAEEC091156DA7D900D138FD /* RootController.m in Sources */,
+				FA154A6B1572DE1100497B5F /* ConsoleDocumentView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

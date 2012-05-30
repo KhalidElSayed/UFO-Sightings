@@ -32,12 +32,13 @@
  */
     
     
-    if(![[NSUserDefaults standardUserDefaults] objectForKey:@"firstRun"])
+      if(![[NSUserDefaults standardUserDefaults] objectForKey:@"firstRun"])
     {
         [self setupDefaults];
     }
+    //[self setupDefaults];
     
-    
+   
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
     self.rootViewController = [[RootController alloc]initWithManagedObjectContext:self.managedObjectContext];
@@ -190,22 +191,49 @@
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"mapType"];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"heatMapOverlayOn"];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"annotationsOn"];
-    
+    [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"CurrentControllerShowing"];
     [[NSUserDefaults standardUserDefaults] synchronize];
 
+    NSFileManager* fm = [NSFileManager defaultManager];
     
-    dispatch_async(kBgQueue, ^{
-        NSFileManager* fm = [NSFileManager defaultManager];
-        
+    
+    NSURL* documentsDirURL = [self applicationDocumentsDirectory];
+    NSURL* alienEmptiesDirURL = [[documentsDirURL URLByAppendingPathComponent:@"alien" isDirectory:YES] URLByAppendingPathComponent:@"empties" isDirectory:YES];
+    NSURL* classicEmptiesURL = [[documentsDirURL URLByAppendingPathComponent:@"classic" isDirectory:YES] URLByAppendingPathComponent:@"empties" isDirectory:YES];
+    
+    
+    [fm createDirectoryAtURL:alienEmptiesDirURL withIntermediateDirectories:YES attributes:nil error:nil];
+    [fm createDirectoryAtURL:classicEmptiesURL withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    
         NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"UfoSightings.sqlite"];
         NSString* dbInBundlePath = [[NSBundle mainBundle] pathForResource:@"UfoSightings" ofType:@"sqlite"];
         NSString* newDbPath = [storeURL path];
    
-        NSURL *filterPlistURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"UfoSightings.sqlite"];
-        NSString* filterPlistInBundlePath = [[NSBundle mainBundle] pathForResource:@"UfoSightings" ofType:@"sqlite"];
+        NSURL *filterPlistURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"filters.plist"];
+        NSString* filterPlistInBundlePath = [[NSBundle mainBundle] pathForResource:@"filters" ofType:@"plist"];
         NSString* newFilterPlistPath = [filterPlistURL path];
         
+    for (int i = 0; i <= 31; i++) 
+    {
         
+        NSString* bundlePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"alien%i",i] ofType:@"png"];
+        NSString* cBundlePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"classic%i",i] ofType:@"png"];
+        NSError* copyError = nil;
+        [fm copyItemAtPath:bundlePath toPath:[[alienEmptiesDirURL URLByAppendingPathComponent:[NSString stringWithFormat:@"alien%i.png",i]] path] error:&copyError];
+        [fm copyItemAtPath:cBundlePath toPath:[[classicEmptiesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"classic%i.png",i]] path] error:nil];
+        
+        if(copyError)
+            NSLog(@"%@",copyError);
+        
+        NSDictionary* noProtectDict = [NSDictionary dictionaryWithObject:NSFileProtectionNone forKey:NSFileProtectionKey];
+        
+        [fm setAttributes:noProtectDict ofItemAtPath:[[alienEmptiesDirURL URLByAppendingPathComponent:[NSString stringWithFormat:@"alien%i.png",i]] path] error:nil];
+        [fm setAttributes:noProtectDict ofItemAtPath:[[alienEmptiesDirURL URLByAppendingPathComponent:[NSString stringWithFormat:@"classic%i.png",i]] path] error:nil];        
+    }
+    
+
+    
         if( ![fm fileExistsAtPath:[storeURL path]] && [fm fileExistsAtPath:dbInBundlePath] )
         {
             NSError* error = nil;
@@ -217,6 +245,8 @@
         }
         
         
+        
+        
         if( ![fm fileExistsAtPath:[filterPlistURL path]] && [fm fileExistsAtPath:filterPlistInBundlePath] )
         {
             NSError* error = nil;
@@ -226,9 +256,8 @@
                 NSLog(@"ERROR - COPYING PLIST TO DOCUMENTS DIRECTORY");
             }
         }
-
-        
-    });
+    
+     
 
         
 }

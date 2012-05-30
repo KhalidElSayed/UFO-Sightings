@@ -8,9 +8,6 @@
 
 #import "ReportLengthSelectorController.h"
 
-@interface ReportLengthSelectorController ()
-
-@end
 
 @implementation ReportLengthSelectorController
 @synthesize checkmarkButtons;
@@ -30,16 +27,13 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     
     UIImage* strechyBackgroundImage =  [[UIImage imageNamed:@"greyBoxStrechable.png"] stretchableImageWithLeftCapWidth:3 topCapHeight:3];
-    
     for (UIImageView* imgView in self.tileBackgroundImageViews) {
         imgView.image = strechyBackgroundImage;
     }
     
     NSArray* lengthsToFilter = [filterOptions objectForKey:@"reportLengthsToFilter"];
-    
     for (UIButton* checkMarkButton in self.checkmarkButtons) {
         switch (checkMarkButton.tag) {
             case 0:
@@ -55,7 +49,6 @@
                 break;
         }
     }
-    
 }
 
 - (void)viewDidUnload
@@ -72,7 +65,6 @@
 {
   
     NSMutableArray* lengthsToFilter = [[NSMutableArray alloc]initWithCapacity:3];
-    
     for (UIButton* checkmarkButton in self.checkmarkButtons) {
         
         if (checkmarkButton.isSelected)
@@ -88,8 +80,6 @@
         else if (checkmarkButton.tag == 2) {
             [lengthsToFilter addObject:@"long"];
         }
-        
-        
     }
     
     NSMutableArray* filterCells = [filterOptions objectForKey:@"filterCells"];
@@ -117,6 +107,7 @@
     [cell setObject:[NSNumber numberWithBool:filters ] forKey:@"hasFilters"];
     
     [self.filterOptions setObject:lengthsToFilter forKey:@"reportLengthsToFilter"];
+    
 }
 
 

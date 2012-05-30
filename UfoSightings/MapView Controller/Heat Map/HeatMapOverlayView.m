@@ -67,7 +67,8 @@
         
         // Perform the image render on the current UI context
         UIGraphicsPushContext(context);
-        [img drawInRect:[self rectForMapRect:mapRect] blendMode:kCGBlendModeNormal alpha:1.0];
+        
+        [img drawInRect:[self rectForMapRect:mapRect]];
         UIGraphicsPopContext();
         
     }

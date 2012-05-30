@@ -22,6 +22,7 @@
 @property (nonatomic, retain) SightingLocation *location;
 
 +(NSArray*)allSightings;
++(NSArray*)allSightingsWithPredicate:(NSPredicate*)predicate;
 +(Sighting*)oldestSightingBasedOn:(NSString*)attr;
 +(Sighting*)newestSightingBasedOn:(NSString*)attr;
 @end

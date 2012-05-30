@@ -7,23 +7,14 @@
 //
 
 #import "FilterViewController.h"
-#import "MasterCell.h"
 #import "DatePickerTableViewController.h"
-#import "Sighting.h"
 #import "ShapeSelectorViewController.h"
 #import "ReportLengthSelectorController.h"
-#import "UIColor+RKColor.h"
+#import "MasterCell.h"
 
-@interface FilterViewController ()
-{
-    NSMutableDictionary* _predicates;
-    NSArray* _categories;
-}
 
-@end
 
 @implementation FilterViewController
-@synthesize delegate;
 @synthesize filterDict;
 @synthesize predicateKey;
 
@@ -32,20 +23,7 @@
 {
     if((self = [super init]))
     {
-        
-    }
-    return self;
-}
-
-
-- (id)initWithStyle:(UITableViewStyle)style
-{
-    self = [super initWithStyle:style];
-    if (self) {
-        
-        _categories = [NSArray arrayWithObjects:@"Report", @"Reported", @"Shape", @"Sighted", nil];
         self.predicateKey = @"main";
-        
     }
     return self;
 }
@@ -54,45 +32,26 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
     UITableView* tableView = (UITableView*)self.view;
     [tableView registerNib:[UINib nibWithNibName:@"MasterCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"masterCell"];
     [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [tableView setAllowsMultipleSelection:YES];
+    [tableView setBackgroundColor:[UIColor rgbColorWithRed:41 green:41 blue:41 alpha:1.0f]];
 }
 
-
--(void)viewWillLayoutSubviews
-{
-    /*
-     for (NSString* key in _categories) {
-     if ([_predicates objectForKey:key] != nil) {
-     NSUInteger row = [_categories indexOfObject:key];
-     
-     [(UITableView*)self.view selectRowAtIndexPath:[NSIndexPath indexPathForRow:row inSection:0] animated:NO scrollPosition:UITableViewScrollPositionNone];
-     }
-     }
-     */ 
-}
 
 -(void)viewWillAppear:(BOOL)animated
 {
     if(animated)
     [self.tableView reloadData];
-
 }
+
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-	return YES;
-}
 
 #pragma mark - Table view data source
 
@@ -102,7 +61,7 @@
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{// Return the number of rows in the section.
+{
     return [[self.filterDict objectForKey:@"filterCells"] count];
 }
 
@@ -111,9 +70,6 @@
     static NSString *masterCellIdentifier = @"masterCell";
     
     NSDictionary* cellDict = [[self.filterDict objectForKey:@"filterCells"] objectAtIndex:indexPath.row];
-    
-    
-    
     MasterCell *cell = [tableView dequeueReusableCellWithIdentifier:masterCellIdentifier];
     
     [cell.mainLabel setText:[cellDict objectForKey:@"title"]];
@@ -132,8 +88,6 @@
                 cell.subtitleLabel.alpha = 1.0f;
             }];
         }];
-        
-        
     }
     else
     {
@@ -149,8 +103,6 @@
             } completion:^(BOOL finished){
                     [cell.subtitleLabel setText:@""];
             }];
-            
-            
         }
     }
     return cell;
@@ -173,20 +125,15 @@
         datePickerVC.filterDict = self.filterDict;
         datePickerVC.title = @"Reported";
         
-       // CGRect frame = self.navigationController.view.frame;
-        
         [self.navigationController pushViewController:datePickerVC animated:YES];
     
-                NSLog(@"%@",NSStringFromCGRect(datePickerVC.view.frame));
     }
-    else if (indexPath.row == 1) {
-        
+    else if (indexPath.row == 1) 
+    {
         ReportLengthSelectorController* rls = [[ReportLengthSelectorController alloc]init];
         rls.filterOptions = self.filterDict;
         rls.title = @"Reports";
         [self.navigationController pushViewController:rls animated:YES];
-    
-        
     }
     else if(indexPath.row == 2)
     {
@@ -194,19 +141,15 @@
         shapeSelector.filterDict = self.filterDict;
         shapeSelector.title = @"Shapes";
         [self.navigationController pushViewController:shapeSelector animated:YES];
-        
-        
     }
-    else if (indexPath.row == 3) {
+    else if (indexPath.row == 3) 
+    {
         DatePickerTableViewController* datePickerVC = [[DatePickerTableViewController alloc]init];
         [datePickerVC setPredicateKey:@"sightedAt"];
         datePickerVC.title = @"Sighted";
         datePickerVC.filterDict = self.filterDict;
         [self.navigationController pushViewController:datePickerVC animated:YES];
     }
-    
-    
-    
 }
 
 
@@ -224,7 +167,6 @@
     }
     
     return hasFilters;
-    
 }
 
 
@@ -245,22 +187,5 @@
     [(UITableView*)self.view reloadData];
 }
 
-
-
--(NSCompoundPredicate*)predicate
-{
-    return [[NSCompoundPredicate alloc]initWithType:NSAndPredicateType subpredicates:[_predicates allValues]];
-}
-
--(void)storePredicate:(NSPredicate*)predicate forKey:(NSString*)key
-{
-    if (!predicate) {
-        [_predicates removeObjectForKey:key];
-    }
-    else
-        [_predicates setObject:predicate forKey:key];
-    
-    [self.delegate filterViewController:self didUpdatePredicate:self.predicate];
-}
 
 @end

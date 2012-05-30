@@ -4,137 +4,118 @@
 //
 //  Created by Richard Kirk on 5/13/12.
 //  Copyright (c) 2012 Home. All rights reserved.
-//
 
-#import "DatabaseExplorerViewController.h"
+
 #import <QuartzCore/QuartzCore.h>
+#import "DatabaseExplorerViewController.h"
+#import "RootController.h"
+#import "FilterViewController.h"
 #import "Sighting.h"
 #import "ReportCell.h"
-#import "FilterViewController.h"
 #import "UIColor+RKColor.h"
 
 
+static dispatch_queue_t coredata_background_queue;
+dispatch_queue_t CDbackground_queue()
+{
+    if (coredata_background_queue == NULL)
+    {
+        coredata_background_queue = dispatch_queue_create("com.richardKirk.coredata.backgroundfetches", 0);
+    }
+    return coredata_background_queue;
+}
+
 @interface DatabaseExplorerViewController ()
 {
-    UIImageView*    _separationLine;
-    NSDateFormatter* _df;
-    NSFetchedResultsController* _fetchController;
-    NSMutableDictionary*    _currentPredicates;
+    NSDateFormatter*            _df;
+    NSMutableDictionary*        _currentPredicates;
+    UIActivityIndicatorView*    _cellLoadingIndicator;
 }
--(void)setupForPortrait;
--(void)setupForLandscape;
--(void)reloadFetchWithSortDescriptors:(NSArray*)sorts andPredicate:(NSPredicate*)predicate;
 -(void)getMoreReportsWithLimit:(NSUInteger)limit;
 -(NSPredicate*)fullPredicate;
 -(void)filterCanReset:(NSNotification*)notification;
+-(NSMutableDictionary*)retrieveFilterOptions;
+-(void)saveFilterOptions:(NSDictionary*)options;
+-(void)refreshReportsWithPredicate:(NSPredicate*)predicate andPredicateKey:(NSString*)predKey;
 @end
 
 @implementation DatabaseExplorerViewController
 
-
-#pragma mark - ViewController Life cycle
+@synthesize rootController;
+@synthesize managedObjectContext;
 @synthesize masterView = _masterView, detailView = _detailView;
 @synthesize reportsTable = _reportsTable;
-@synthesize activityIndicator = _activityIndicator;
-@synthesize managedObjectContext;
 @synthesize reports = _reports;
 @synthesize filterOptions = _filterOptions;
-@synthesize backButton = _backButton;
-@synthesize resetButton = _resetButton;
+@synthesize backButton = _backButton, resetButton = _resetButton, viewOnMapButton = _viewOnMapButton;
 @synthesize filterLabel = _filterLabel;
-@synthesize viewOnMapButton = _viewOnMapButton;
+@synthesize loadingIndicator = _loadingIndicator, loadingLabel = _loadingLabel;
 
 
-
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    if (self) {
-        // Custom initialization
-        
-    }
-    return self;
-}
-
-
+//***************************************************************************************************
+#pragma mark - ViewController Life cycle
+//***************************************************************************************************
 -(id)init
 {
     if ((self = [super init]))
     {
         _df = [[NSDateFormatter alloc]init];
+        [_df setDateStyle:NSDateFormatterMediumStyle];
         _reports = [[NSMutableArray alloc]init];
-        _currentPredicates = [[NSMutableDictionary alloc]initWithCapacity:4];
-        
+
     }
     return self;
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"greyNoiseBackground.png"]];
-    
+
+    self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"greyNoiseBackground.png"]];    
     [_reportsTable registerNib:[UINib nibWithNibName:@"ReportCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"reportCell"];
     
-    [_df setDateStyle:NSDateFormatterMediumStyle];    
-    UIImage* lineImg = [[UIImage imageNamed:@"lineWithShadow.png"] stretchableImageWithLeftCapWidth:0 topCapHeight:1];
-    _separationLine = [[UIImageView alloc]initWithImage:lineImg];
-    
-    
+    _filterOptions = [self retrieveFilterOptions];
+    _currentPredicates = [_filterOptions objectForKey:@"predicates"];
     FilterViewController* fvc = [[FilterViewController alloc]init];
-    fvc.delegate = self;
-    fvc.filterDict = self.filterOptions;
+    fvc.filterDict = _filterOptions;
     fvc.title = @"Filters";
-    
-    //[fvc.view setFrame:CGRectMake(20, 96, 280, 556)];
-    //fvc.view.layer.cornerRadius = 5.0f;
-    
+        
     _filterNavController = [[UINavigationController alloc]initWithRootViewController:fvc];
     _filterNavController.view.frame = CGRectMake(20, 171, 280, 320);
-    //[_filterNavController pushViewController:fvc animated:YES];
     _filterNavController.delegate = self;
     _filterNavController.view.layer.borderWidth = 2.0f;
     _filterNavController.view.layer.borderColor = [UIColor blackColor].CGColor;
     _filterNavController.view.layer.cornerRadius = 4.0f;
-    
+
     [_masterView addSubview:_filterNavController.view];
     
-    
     _reportsTable.layer.cornerRadius = 5.0f;
-    
-    //NSSortDescriptor* sortDescriptor = [NSSortDescriptor sortDescriptorWithKey:@"sightedAt" ascending:YES]; 
-    //[self reloadFetchWithSortDescriptors:[NSArray arrayWithObject:sortDescriptor] andPredicate:nil];
-    
     self.backButton.superview.layer.cornerRadius = 10.0f;    
     self.backButton.superview.layer.borderWidth = 7.0f;
     self.backButton.superview.layer.borderColor = [UIColor rgbColorWithRed:33 green:33 blue:33 alpha:1.0].CGColor;
-    [self.viewOnMapButton addTarget:self.parentViewController action:@selector(switchViewController) forControlEvents:UIControlEventTouchUpInside];
-    
+
     [self getMoreReportsWithLimit:100];
-    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(filterCanReset:) name:@"FilterChoiceChanged" object:nil];
-
-
 }
-
 
 
 - (void)viewDidUnload
 {
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    dispatch_release(CDbackground_queue());
+    [self saveFilterOptions:_filterOptions];
     [self setMasterView:nil];
     [self setDetailView:nil];
     [self setReportsTable:nil];
-    
-    [self setActivityIndicator:nil];
-    
     [self setBackButton:nil];
     [self setResetButton:nil];
     [self setFilterLabel:nil];
     [self setViewOnMapButton:nil];
+    [self setReports:nil];
+    [self setLoadingIndicator:nil];
+    [self setLoadingLabel:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 
@@ -143,99 +124,77 @@
     [super viewWillLayoutSubviews];
     
     UIDeviceOrientation deviceOrientation = [[UIApplication sharedApplication]statusBarOrientation];
-    if (UIInterfaceOrientationIsLandscape(deviceOrientation )) {
-        [self setupForLandscape];
+    if (UIInterfaceOrientationIsLandscape(deviceOrientation )) 
+    {   // Setup For Landscape
+        [_detailView setFrame:CGRectMake(320, 0, self.view.bounds.size.width - 320, self.view.bounds.size.height)];    
+        [self.view addSubview:_masterView];
     }
-    else {
-        [self setupForPortrait];
+    else 
+    {   // Setup For Portrait
+        [_masterView removeFromSuperview];
+        _detailView.frame = self.view.bounds;
     }
 }
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
-{
-	return YES;
-}
-
--(void)setupForPortrait
-{
-    [_separationLine removeFromSuperview];
-    [_masterView removeFromSuperview];
-    _detailView.frame = self.view.bounds;
-    
-}
+//***************************************************************************************************
 
 
--(void)setupForLandscape
-{
-    [_separationLine setFrame:CGRectMake(320, 0, 5, self.view.frame.size.height)];
-    [_detailView setFrame:CGRectMake(320, 0, self.view.bounds.size.width - 320, self.view.bounds.size.height)];
-    
-    [self.view addSubview:_separationLine];
-    [self.view addSubview:_masterView];
-    
-}
 
 
-#pragma mark - Setters/Getters
 
-
--(NSMutableDictionary*)filterOptions
+//***************************************************************************************************
+#pragma mark - FilterOptions
+//***************************************************************************************************
+-(NSMutableDictionary*)retrieveFilterOptions
 {
     if(_filterOptions != nil)
     {
         return _filterOptions;        
     }
-    
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *filterPlistPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"filters.plist"];
-    NSDictionary* plist = [NSDictionary dictionaryWithContentsOfFile:filterPlistPath];
-    
+    NSMutableDictionary* plist = [[NSMutableDictionary dictionaryWithContentsOfFile:filterPlistPath] mutableCopy];
     _filterOptions =  [plist objectForKey:@"Filters"];
     
     return _filterOptions;
 }
 
 
--(void)saveFilterOptions
+-(void)saveFilterOptions:(NSDictionary*)options
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *filterPlistPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"filters.plist"];
     NSMutableDictionary* plist = [NSMutableDictionary dictionaryWithContentsOfFile:filterPlistPath];
-    
-    [plist setObject:_filterOptions forKey:@"Filters"];
+    [plist setObject:options forKey:@"Filters"];
     [plist writeToFile:filterPlistPath atomically:YES];
-    
 }
+//***************************************************************************************************
 
 
-#pragma mark - UITableViewDataSource 
+
+
+
+//***************************************************************************************************
+#pragma mark - UITableView Delegate/DataSource
+//***************************************************************************************************
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 1;
 }
 
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    
-    if (tableView == _reportsTable) {
-        if(_reports)
-            return [_reports count] + 1;
-        else
-            return 0;
-    }
+    if(_reports)
+        return [_reports count] + 1;
     else
         return 0;
-    
 }
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
-    
     static NSString* reportCellIdentifier = @"reportCell";
     static NSString* moreCellIdentifier = @"moreCell";
-    
     
     if(indexPath.row < [_reports count])
     {
@@ -245,79 +204,100 @@
         cell.sightedLabel.text = [_df stringFromDate:sighting.sightedAt];
         cell.reportedLabel.text = [_df stringFromDate:sighting.reportedAt];
         cell.reportTextView.text = sighting.report;
-        cell.locationLabel.text = sighting.location.formattedAddress;
-        
+      //  cell.locationLabel.text = sighting.location.formattedAddress;
         NSString* shapeString = [[_filterOptions objectForKey:@"badShapeMatching"] objectForKey:sighting.shape];
             
         if (!shapeString)
             shapeString = sighting.shape;
         
-        
         NSString* imgString = [NSString stringWithFormat:@"%@.png", shapeString]; 
         cell.shapeImageView.image = [UIImage imageNamed:imgString];
         return cell;    
     }
-    else if (indexPath.row == [_reports count]){
+    else if (indexPath.row == [_reports count])
+    {
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:moreCellIdentifier];
         if(!cell)
         {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:moreCellIdentifier];
             UIImage* strechyImage = [[UIImage imageNamed:@"blueStrechyBox.png"] stretchableImageWithLeftCapWidth:2 topCapHeight:9];
-        UIImageView* imgView = [[UIImageView alloc]initWithImage:strechyImage];
-        imgView.frame = cell.bounds;
-        [cell setBackgroundView:imgView];
-
+            UIImageView* imgView = [[UIImageView alloc]initWithImage:strechyImage];
+            imgView.frame = cell.bounds;
+            [cell setBackgroundView:imgView];
+            [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
+            
+            UIActivityIndicatorView* aiv = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+            
+            [cell addSubview:aiv];
+            aiv.center = cell.center;
+            _cellLoadingIndicator = aiv;
+            
         }
         
         return cell;            
     }
     else 
-        return [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"s"];
+        return [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"junk"];
 
 }
-
-
-#pragma mark - UITableViewDelegate
-
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    
+{    
     if(tableView == _reportsTable && indexPath.row == [_reports count])
         [self getMoreReportsWithLimit:100];
-    
 }
-
 
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.row < [_reports count]) {
-        
-        //NSLog(@"%d",indexPath.row);
+    if (indexPath.row < [_reports count]) 
+    {
         if(indexPath.row == [_reports count])
             return 100.0f;
         
         NSString *text = [[_reports objectAtIndex:indexPath.row] report];
-        
         CGSize constraint = CGSizeMake( _reportsTable.bounds.size.width - (20 * 2), 20000.0f);
-        
         CGSize size = [text sizeWithFont:[UIFont fontWithName:@"Helvetica-Light" size:14] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
-        
         CGFloat height = MAX(size.height, 44.0f);
         
         return height + 120.0f;
-        
-        //  UITextView *tv = [[UITextView alloc]initWithFrame:CGRectMake(0, 0, _reportsTable.bounds.size.width - 40, 0)];
-        //[tv setFont:[UIFont fontWithName:@"Helvetica-Light" size:14]];
-        //[tv setText:[[_reports objectAtIndex:indexPath.row] report]];
-        //return 45 + tv.contentSize.height + 5.0f;
-        
     }
     else 
         return 44.0f;
 }
+//***************************************************************************************************
+
+
+
+
+
+//***************************************************************************************************
+#pragma mark - Filtering Functions
+//***************************************************************************************************
+- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
+{
+    if([viewController isKindOfClass:[FilterViewController class]])
+        self.backButton.alpha = 0.0f;
+    else 
+        self.backButton.alpha = 1.0f;
+    
+    self.filterLabel.text = viewController.title;
+    [navigationController setNavigationBarHidden:YES];
+}
+
+
+-(void)filterCanReset:(NSNotification*)notification 
+{
+    [self.resetButton setEnabled:[(id<PredicateCreation>)notification.object canReset]];
+}
+
+
+- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated;
+{
+    self.resetButton.enabled = [(id<PredicateCreation>)viewController canReset];
+}
+
 
 
 -(NSPredicate*)fullPredicate
@@ -328,47 +308,53 @@
         return nil;
 }
 
-
--(void)reloadFetchWithSortDescriptors:(NSArray*)sorts andPredicate:(NSPredicate*)predicate;
+-(void)refreshReportsWithPredicate:(NSPredicate*)predicate andPredicateKey:(NSString*)predKey
 {
     
-    
-    
-    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
-    
-    [fetchRequest setSortDescriptors:sorts];
-    [fetchRequest setPredicate:predicate];
-    
-    _fetchController = [[NSFetchedResultsController alloc]initWithFetchRequest:fetchRequest managedObjectContext:self.managedObjectContext sectionNameKeyPath:nil cacheName:nil];
-    _reportsTable.alpha = 0.0f;
-    [self.activityIndicator startAnimating];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    if(![predicate isEqual:[_currentPredicates objectForKey:predKey]] || (predKey == nil && predicate == nil))
+    {
+        if (predicate != nil) 
+            [_currentPredicates setObject:predicate forKey:predKey];    
+        else if( predKey != nil)
+            [_currentPredicates removeObjectForKey:predKey];    
         
-        
-        NSError* error;
-        [_fetchController performFetch:&error];
-        if(!error)
-        {
-            dispatch_async(dispatch_get_main_queue(),^{
+        [self.loadingIndicator startAnimating];
+        [self.loadingLabel setHidden:NO];
+        dispatch_async(CDbackground_queue(), ^{
+            
+            NSFetchRequest* fetchRequest = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
+            NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:@"sightedAt" ascending:NO];
+            [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
+            NSPredicate* predicate = [self fullPredicate];
+            NSUInteger limit = MAX(_reports.count, 100);
+            NSLog(@"%i", limit);
+            [fetchRequest setFetchLimit:limit];
+            [fetchRequest setPredicate:predicate];
+            
+            NSError* error = nil;
+            __block NSArray* newReports = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
+            if(error)
+                NSLog(@"%@",error);
+            
+            
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                [self.loadingIndicator stopAnimating];
+                [self.loadingLabel setHidden:YES];
+                _reports = [newReports mutableCopy];
                 [_reportsTable reloadData];
-                [self.activityIndicator stopAnimating];
-                _reportsTable.alpha = 1.0f;
             });
             
-            
-        }
-        
-    });
-    
-    
-    
+        });
+    }
 }
 
 
+
 -(void)getMoreReportsWithLimit:(NSUInteger)limit
-{
+{   
     
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+    [_cellLoadingIndicator startAnimating];
+    dispatch_async(CDbackground_queue(), ^{
         
         NSFetchRequest* fetchRequest = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
         NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:@"sightedAt" ascending:NO];
@@ -382,175 +368,78 @@
             predicate = [[NSCompoundPredicate alloc]initWithType:NSAndPredicateType subpredicates:[NSArray arrayWithObjects:datePredicate, predicate, nil]];
         }
         [fetchRequest setPredicate:predicate];
+        NSArray* results = [self.managedObjectContext executeFetchRequest:fetchRequest error:nil];
         
-        [_reports addObjectsFromArray:[self.managedObjectContext executeFetchRequest:fetchRequest error:nil]];
-        
-        dispatch_async(dispatch_get_main_queue(), ^{
+        dispatch_sync(dispatch_get_main_queue(), ^{
+            [_cellLoadingIndicator stopAnimating];
+            [_reports addObjectsFromArray:results];
             [_reportsTable reloadData];
+            
         });
-        
     });
-    
-    
-    
 }
+//***************************************************************************************************
 
 
-#pragma mark - FilterDelegate 
-// Called when the navigation controller shows a new top view controller via a push, pop or setting of the view controller stack.
-- (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
-{
-    if([viewController isKindOfClass:[FilterViewController class]])
-    {
-        self.backButton.alpha = 0.0f;
-    }
-    else 
-    {
-        self.backButton.alpha = 1.0f;
-    }
-    
-    self.filterLabel.text = viewController.title;
-    
-    [navigationController setNavigationBarHidden:YES];
-    //[(UITableView*)viewController.view reloadData];
-}
 
 
-- (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated;
-{
-    self.resetButton.enabled = [(id<PredicateCreation>)viewController canReset];
-}
 
-
+//***************************************************************************************************
+#pragma mark - IBActions
+//***************************************************************************************************
 - (IBAction)viewOnMapSelected:(UIButton *)sender 
 {
-
+    [self.rootController switchViewController];
 }
 
-- (IBAction)backButtonPressed:(UIButton *)sender {
-    
+
+- (IBAction)backButtonPressed:(UIButton *)sender 
+{
     
     
     NSPredicate* predicate = [(id<PredicateCreation>)_filterNavController.topViewController createPredicate];
     NSString* predicateKey = [(id<PredicateCreation>)_filterNavController.topViewController predicateKey];
-    if(![predicate isEqual:[_currentPredicates objectForKey:predicateKey]])
-    {
-       
-        if (predicate != nil) {
-        [_currentPredicates setObject:predicate forKey:predicateKey];
-        }
-        else {
-            [_currentPredicates removeObjectForKey:predicateKey];
-        }
-        
-        
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            NSFetchRequest* fetchRequest = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
-            NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:@"sightedAt" ascending:NO];
-            [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
-            NSPredicate* predicate = [self fullPredicate];
-            [fetchRequest setFetchLimit:MAX(_reports.count, 100)];
-         
-            [fetchRequest setPredicate:predicate];
-
-            NSError* error = nil;
-            NSArray* newReports = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-            
-            if(error)
-                NSLog(@"%@",error);
-            
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-            
-
-                _reports = [newReports mutableCopy];
-                [_reportsTable reloadData];
-
-        });
-            
-            });
-
-
-        }
-            
+    [self refreshReportsWithPredicate:predicate andPredicateKey:predicateKey];
+    
     if(_filterNavController.view.frame.size.height != 320)
     {
         CGRect frame = _filterNavController.view.frame;
         frame.size.height = 320;
         
         [UIView animateWithDuration:0.5 animations:^{
-            
             _filterNavController.view.frame = frame;
         } completion:^(BOOL finished){
-        
-                    [_filterNavController popViewControllerAnimated:YES];
-            
+            [_filterNavController popViewControllerAnimated:YES];
         }];
-     
     }
     else 
         [_filterNavController popViewControllerAnimated:YES];
-
-
-    
-
 }
 
--(void)filterCanReset:(NSNotification*)notification 
-{
-    [self.resetButton setEnabled:[(id<PredicateCreation>)notification.object canReset]];
-}
 
 - (IBAction)resetButtonPressed:(UIButton *)sender 
 {
     NSString* predicateKey = [(id <PredicateCreation>)_filterNavController.topViewController predicateKey];
-
     [(id <PredicateCreation>)_filterNavController.topViewController reset];
+    
     if([predicateKey compare:@"main"] == 0)
     {
         [_currentPredicates removeAllObjects];
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            
-            NSFetchRequest* fetchRequest = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
-            NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:@"sightedAt" ascending:NO];
-            [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
-            NSPredicate* predicate = [self fullPredicate];
-            [fetchRequest setFetchLimit:MAX(_reports.count, 100)];
-            // if([_reports count] > 0)
-            //{
-            //  NSDate* date = [[_reports lastObject] sightedAt];
-            //NSPredicate* datePredicate = [NSPredicate predicateWithFormat:@"sightedAt > %@", date]; 
-            //      predicate = [[NSCompoundPredicate alloc]initWithType:NSAndPredicateType subpredicates:[NSArray arrayWithObjects:datePredicate, predicate, nil]];
-            // }
-            
-            [fetchRequest setPredicate:predicate];
-            
-            NSError* error = nil;
-            NSArray* newReports = [self.managedObjectContext executeFetchRequest:fetchRequest error:&error];
-            
-            if(error)
-                NSLog(@"%@",error);
-            
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                
-                
-                _reports = [newReports mutableCopy];
-                [_reportsTable reloadData];
-                
-            });
-            
-        });
-
+        [self refreshReportsWithPredicate:nil andPredicateKey:nil];
     }
     else if([_currentPredicates objectForKey:predicateKey])
-                [_currentPredicates removeObjectForKey:predicateKey];
+        [_currentPredicates removeObjectForKey:predicateKey];
     
-    
-        
-
-    [self.resetButton setEnabled:NO];
-    
+    [self.resetButton setEnabled:NO];    
 }
+
+
+
+
+
+
+
+
+
+
 @end

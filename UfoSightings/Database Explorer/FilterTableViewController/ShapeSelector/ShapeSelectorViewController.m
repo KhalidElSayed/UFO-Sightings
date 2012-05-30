@@ -31,36 +31,26 @@
     return self;
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-
     self.shapes =  [self.filterDict objectForKey:@"shapes"];
-
-
 }
-
 
 
 - (void)viewDidUnload
 {
     [self setScrollView:nil];
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
-    // e.g. self.myOutlet = nil;
 }
 
 -(void)viewDidAppear:(BOOL)animated
 {
-    
     if(self.navigationController)
     {
-        
         CGRect frame = self.navigationController.view.frame;
         frame.size.height = _scrollView.contentSize.height;
-        //self.navigationController.view.frame = frame;
-        
-        
         [UIView animateWithDuration:0.5 animations:^{
             self.navigationController.view.frame = frame;
         }];
@@ -71,7 +61,6 @@
 -(void)viewWillDisappear:(BOOL)animated
 {
     NSMutableArray* shapesToFilter = [[NSMutableArray alloc]init];
-    
     
     for (UIButton* button in self.scrollView.subviews) {
         if(!button.isSelected)

@@ -13,21 +13,19 @@
 @class SightingLocation;
 @interface MapModalView : UIViewController <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, SliderPageControlDelegate>
 {
-    SliderPageControl* sliderPageControl;
+    SliderPageControl* _sliderPageControl;
 }
 @property (strong, nonatomic) SightingLocation* location;
-@property (strong, nonatomic) NSDateFormatter* df;
-
-@property (strong, nonatomic) IBOutlet UIImageView *backgroundImageView;
-@property (strong, nonatomic) PaperView *documentView;
-@property (strong, nonatomic) IBOutlet UIView *paperViewPlaceholder;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) SliderPageControl *sliderPageControl;
+@property (strong, nonatomic) IBOutlet UILabel *headerLabel;
+@property (strong, nonatomic) IBOutlet UIView *loadingView;
+@property (strong, nonatomic) IBOutlet UILabel *loadingLabel;
+@property (strong, nonatomic) NSPredicate* predicate;
 
 - (IBAction)exitSelected:(id)sender;
 
 
--(id)initWithSightingLocation:(SightingLocation*)location;
+-(id)initWithSightingLocation:(SightingLocation*)location andPredicate:(NSPredicate*)pred;
 
 @end

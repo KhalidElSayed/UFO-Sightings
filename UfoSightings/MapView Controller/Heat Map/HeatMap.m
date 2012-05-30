@@ -128,7 +128,7 @@
 
 -(void)fetchFileForStyle:(NSString *)style zoomLevel:(NSUInteger)zoom withX:(NSUInteger)x andY:(NSUInteger)y completion:(void (^)())completion
 {  
-    NSURLRequest * req = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://192.168.1.106:8080/%@/%d/%d,%d.png", style, zoom, x, y]]];
+    NSURLRequest * req = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://richardbkirk.com/u/gheat/%@/%d/%d,%d.png", style, zoom, x, y]]];
  
     [NSURLConnection sendAsynchronousRequest:req queue:_tileServerQueue completionHandler:^(NSURLResponse *response, NSData* data, NSError* error){
         
@@ -137,11 +137,11 @@
         
         NSURL* orginalRequest = req.URL;
         NSArray* pathComponets = [orginalRequest pathComponents];        
-        NSString* fileName = [[pathComponets objectAtIndex:3] stringByDeletingPathExtension];
+        NSString* fileName = [[pathComponets objectAtIndex:5] stringByDeletingPathExtension];
         NSArray* fileNameComponents = [fileName componentsSeparatedByString:@","];
         
-        NSString* style = [pathComponets objectAtIndex:1];
-        NSString* zoom = [pathComponets objectAtIndex:2];
+        NSString* style = [pathComponets objectAtIndex:3];
+        NSString* zoom = [pathComponets objectAtIndex:4];
         NSString* x = [fileNameComponents objectAtIndex:0];
         NSString* y = [fileNameComponents objectAtIndex:1];
         
@@ -149,12 +149,14 @@
         NSURL* documentsDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
         NSString* pathToFile = [[documentsDirectory path] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@/%@/%@,%@.png",style,zoom,x,y]];
    
-        if(![[NSFileManager defaultManager]fileExistsAtPath:[pathToFile stringByDeletingLastPathComponent]])
+        if(![[NSFileManager defaultManager] fileExistsAtPath:[pathToFile stringByDeletingLastPathComponent]])
             [[NSFileManager defaultManager] createDirectoryAtPath:[pathToFile stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil];
         
         if(httpResponse.statusCode == 400)
         {
-            NSString* pathToEmpty = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@%@", style, zoom] ofType:@"png"];
+           NSURL* URLToEmptyFolder = [[documentsDirectory URLByAppendingPathComponent:@"alien" isDirectory:YES] URLByAppendingPathComponent:@"empties" isDirectory:YES];
+            NSString* pathToEmpty = [[URLToEmptyFolder URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@.png", style, zoom] isDirectory:NO] path];
+//            [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"%@%@", style, zoom] ofType:@"png"];
                     
             NSError* er;
             [[NSFileManager defaultManager ] linkItemAtPath:pathToEmpty toPath:pathToFile error:&er];
@@ -167,7 +169,11 @@
         {
             UIImage* newPNG = [UIImage imageWithData:data];
             NSData* pngData = [NSData dataWithData:UIImagePNGRepresentation(newPNG)]; 
-            [[NSFileManager defaultManager] createFileAtPath:pathToFile contents:pngData attributes:nil];
+            
+            [pngData writeToFile:pathToFile options:NSDataWritingFileProtectionNone error:nil];
+            
+            
+            //[[NSFileManager defaultManager] createFileAtPath:pathToFile contents:pngData attributes:nil];
             completion();
         }
     
@@ -177,7 +183,7 @@
 
 -(NSURL*)remoteUrlForStyle:(NSString*)style zoomLevel:(NSUInteger)zoom withX:(NSUInteger)x andY:(NSUInteger)y
 {
-    return [NSURL URLWithString:[NSString stringWithFormat:@"http://192.168.1.106:8080/%@/%d/%d,%d.png", style, zoom, x,y]];
+    return [NSURL URLWithString:[NSString stringWithFormat:@"http://richardbkirk.com/u/gheat/%@/%d/%d,%d.png", style, zoom, x,y]];
 }
 
 

@@ -57,9 +57,12 @@
 @property (nonatomic, assign) BOOL showsHint;
 @property (nonatomic, retain) UIImageView *backgroundView;
 @property (nonatomic, retain) UIImageView *slider;
+@property (nonatomic) CGRect maskRect;
 
 - (void)setNumberOfPages:(int)page;
 - (int)currentPage;
 - (void)setCurrentPage:(int)_currentPage animated:(BOOL)animated;
+
+
 
 @end

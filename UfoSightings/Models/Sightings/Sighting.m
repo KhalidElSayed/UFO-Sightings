@@ -23,20 +23,22 @@
 
 +(NSArray*)allSightings
 {
-    
-    NSManagedObjectContext* context = [(AppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
-    NSFetchRequest* fetch = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
-    
-    NSError* error;
-    NSArray * arr = [context executeFetchRequest:fetch error:&error];
-    
-    if(error)
-        NSLog(@"%@",error);
-    
-    return arr;
-    
+    return [Sighting allSightingsWithPredicate:nil];
 }
 
+
++(NSArray*)allSightingsWithPredicate:(NSPredicate*)predicate
+{
+    NSManagedObjectContext* context = [(AppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
+    NSFetchRequest* fetch = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
+    [fetch setPredicate:predicate];
+    NSError* error;
+    NSArray * arr = [context executeFetchRequest:fetch error:&error];
+
+    if(error)
+        NSLog(@"%@",error);
+    return arr;
+}
 
 
 +(Sighting*)oldestSightingBasedOn:(NSString*)attr

@@ -7,20 +7,16 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "DatabaseExplorerViewController.h"
+#import "UIColor+RKColor.h"
 
-@interface FilterViewController : UITableViewController <UINavigationControllerDelegate>
+@interface FilterViewController : UITableViewController <UINavigationControllerDelegate, PredicateCreation>
 
-@property(assign, nonatomic)id delegate;
-@property(weak, atomic)NSMutableDictionary* filterDict;
--(NSCompoundPredicate*)predicate;
--(void)storePredicate:(NSPredicate*)predicate forKey:(NSString*)key;
+@property (weak, atomic) NSMutableDictionary* filterDict;
 @property (strong, nonatomic)NSString* predicateKey;
+-(BOOL)canReset;
+-(void)reset;
 
 @end
 
-
-@protocol FilterControllerDelegate <NSObject>
--(void)filterViewController:(FilterViewController*)fvc didUpdatePredicate:(NSPredicate*)predicate;
-
-@end
 

@@ -19,34 +19,61 @@
 @implementation RootController
 @synthesize managedObjectContext;
 
+
 -(id)initWithManagedObjectContext:(NSManagedObjectContext*)context
 {
     if ((self = [super init]))
     {
         self.managedObjectContext = context;
+        self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin| UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
     }
 return self;
 
 }
 
+
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view.
     
-    _databaseViewController = [[DatabaseExplorerViewController alloc]init];
-    _databaseViewController.managedObjectContext = self.managedObjectContext;
-    _currentViewController = _databaseViewController;
+
+    if([[NSUserDefaults standardUserDefaults] integerForKey:@"CurrentControllerShowing"]) 
+    {
+        switch ([[NSUserDefaults standardUserDefaults] integerForKey:@"CurrentControllerShowing"]) {
+            case 0:
+                _mapViewController = [[MapViewController alloc]init];
+                _mapViewController.managedObjectContext = self.managedObjectContext;
+                _mapViewController.rootController = self;
+                _mapViewController.view.frame = self.view.bounds;
+                _currentViewController = _mapViewController;
+                break;
+            case 1:
+                _databaseViewController = [[DatabaseExplorerViewController alloc]init];
+                _databaseViewController.managedObjectContext = self.managedObjectContext;
+                _databaseViewController.rootController = self;
+                _databaseViewController.view.frame = self.view.bounds;
+                _currentViewController = _databaseViewController;
+                break;
+            default:
+                break;
+        }
+    }
+
     [self.view addSubview:_databaseViewController.view];
-    
-    
-    
 }
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    // Release any retained subviews of the main view.
+    if([_currentViewController isKindOfClass:[DatabaseExplorerViewController class]])
+    {
+        [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"CurrentControllerShowing"];
+    }
+    else {
+        [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"CurrentControllerShowing"];
+    }
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -58,8 +85,6 @@ return self;
 -(void)switchViewController
 {
   
-    
-
     UIViewController* nextViewController;
     UIViewAnimationOptions animationOption;
     if([_currentViewController isKindOfClass:[DatabaseExplorerViewController class]])
@@ -69,8 +94,12 @@ return self;
         {
             _mapViewController = [[MapViewController alloc]init];
             _mapViewController.managedObjectContext = self.managedObjectContext;
+            _mapViewController.rootController = self;
+
+            
         }
         
+        _mapViewController.predicate = [(DatabaseExplorerViewController*)_currentViewController fullPredicate];
         nextViewController = _mapViewController;
     }
     else 
@@ -80,16 +109,18 @@ return self;
         {
             _databaseViewController = [[DatabaseExplorerViewController alloc]init];
             _databaseViewController.managedObjectContext = self.managedObjectContext;
+            _databaseViewController.rootController = self;
         }
         nextViewController = _databaseViewController;
     }
     
-    
+    nextViewController.view.frame = self.view.bounds;
      
      [UIView transitionWithView:self.view duration:1.5f options:animationOption animations:^{
          [self.view addSubview:nextViewController.view];
      } completion:^(BOOL finished){
          [_currentViewController.view removeFromSuperview];
+         _currentViewController = nil;
          _currentViewController = nextViewController;
      }];
     

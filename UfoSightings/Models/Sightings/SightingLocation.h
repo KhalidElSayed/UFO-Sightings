@@ -25,7 +25,6 @@
 
 @property (strong, nonatomic)NSArray* containedAnnotations;
 @property (strong, nonatomic)SightingLocation* clusterAnnotation;
-@property (nonatomic)CLLocationCoordinate2D actualCoordinate;
 
 
 +(NSArray*)SightingLocationsInRegion:(MKCoordinateRegion)region;
@@ -33,6 +32,7 @@
 +(NSArray*)SightingLocationsInMapRect:(MKMapRect)mapRect withLimit:(NSUInteger)limit;
 
 +(NSArray*)allSightings;
++(NSArray*)allSightingsWithPredicate:(NSPredicate*)predicate;
 -(BOOL)compare:(SightingLocation*)aSighting;
 
 @end
