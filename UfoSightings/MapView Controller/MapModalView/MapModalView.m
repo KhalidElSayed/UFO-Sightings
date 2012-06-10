@@ -273,17 +273,7 @@
 #pragma mark - UITableViewDelegate
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
-
-    
-    NSLog(@"%i",_sliderPageControl.currentPage);
-    NSLog(@"%i", indexPath.row);
-    NSLog(@"%i",[self currentPage]);
-    //  if(_currentSelectionIndex != indexPath.row)    
-    //{
-      //  _currentSelectionIndex = indexPath.row;
-        
-        [self changeToPage:indexPath.row animated:YES];
-   // }
+    [self changeToPage:indexPath.row animated:YES];
 }
 
 

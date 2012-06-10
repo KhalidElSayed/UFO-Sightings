@@ -196,6 +196,20 @@
     NSURL* classicEmptiesURL = [[documentsDirURL URLByAppendingPathComponent:@"classic" isDirectory:YES] URLByAppendingPathComponent:@"empties" isDirectory:YES];
     NSDictionary* noProtectDict = [NSDictionary dictionaryWithObject:NSFileProtectionNone forKey:NSFileProtectionKey];
     
+    NSString *sourcePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"alien"];
+    NSString *destPath = [[[self applicationDocumentsDirectory] path] stringByAppendingPathComponent:@"alien"];
+
+    NSArray* resContents = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:sourcePath error:NULL];
+    
+    for (NSString* obj in resContents){
+        NSError* error;
+        [fm createDirectoryAtPath:obj withIntermediateDirectories:YES attributes:nil error:nil];
+        [fm createDirectoryAtURL:alienEmptiesDirURL withIntermediateDirectories:YES attributes:nil error:nil];
+        if (![[NSFileManager defaultManager] copyItemAtPath:[sourcePath stringByAppendingPathComponent:obj] toPath:[destPath stringByAppendingPathComponent:obj]
+                                                      error:&error])
+            NSLog(@"Error: %@", error);
+    }
+    
     if(![fm fileExistsAtPath:[alienEmptiesDirURL path]])
     {
         [fm createDirectoryAtURL:alienEmptiesDirURL withIntermediateDirectories:YES attributes:nil error:nil];

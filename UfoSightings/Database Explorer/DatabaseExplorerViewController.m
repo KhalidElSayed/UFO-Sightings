@@ -390,7 +390,6 @@ dispatch_queue_t CDbackground_queue()
             //[fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
             NSPredicate* predicate = [self fullPredicate];
             NSUInteger limit = MAX(_reports.count, 50);
-            NSLog(@"%i", limit);
             [fetchRequest setFetchLimit:limit];
             [fetchRequest setPredicate:predicate];
             [fetchRequest setResultType:NSManagedObjectIDResultType];
