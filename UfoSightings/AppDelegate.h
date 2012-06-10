@@ -22,6 +22,6 @@
 - (void)saveContext;
 - (NSURL *)applicationDocumentsDirectory;
 -(void)setupDefaults;
-
+-(void)importEmpties;
 
 @end

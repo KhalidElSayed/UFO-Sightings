@@ -60,10 +60,9 @@
     // Release any retained subviews of the main view.
 }
 
-
--(void)viewWillDisappear:(BOOL)animated
+-(void)saveState
 {
-  
+    
     NSMutableArray* lengthsToFilter = [[NSMutableArray alloc]initWithCapacity:3];
     for (UIButton* checkmarkButton in self.checkmarkButtons) {
         
@@ -95,7 +94,7 @@
     
     if (filters) {
         NSMutableString* subtitle = [[NSMutableString alloc]init];
-       
+        
         for (NSString* string in lengthsToFilter) {
             [subtitle appendFormat:@"%@, ",string];
         }
@@ -107,9 +106,8 @@
     [cell setObject:[NSNumber numberWithBool:filters ] forKey:@"hasFilters"];
     
     [self.filterOptions setObject:lengthsToFilter forKey:@"reportLengthsToFilter"];
-    
-}
 
+}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

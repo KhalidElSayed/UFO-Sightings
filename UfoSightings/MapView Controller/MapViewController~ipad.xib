@@ -272,7 +272,7 @@
 					<object class="IBUIButton" id="506473681">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">289</int>
-						<string key="NSFrame">{{506, 88}, {45, 34}}</string>
+						<string key="NSFrame">{{580, 88}, {45, 34}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="448682704"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -302,7 +302,7 @@
 					<object class="IBUIButton" id="448682704">
 						<reference key="NSNextResponder" ref="191373211"/>
 						<int key="NSvFlags">289</int>
-						<string key="NSFrame">{{564, 88}, {45, 34}}</string>
+						<string key="NSFrame">{{500, 88}, {45, 34}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="712191573"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
@@ -358,17 +358,18 @@
 					</object>
 					<object class="IBUIActivityIndicatorView" id="726848370">
 						<reference key="NSNextResponder" ref="191373211"/>
-						<int key="NSvFlags">292</int>
-						<string key="NSFrame">{{477, 95}, {20, 20}}</string>
+						<int key="NSvFlags">289</int>
+						<string key="NSFrame">{{638, 86}, {37, 37}}</string>
 						<reference key="NSSuperview" ref="191373211"/>
 						<reference key="NSNextKeyView" ref="506473681"/>
 						<string key="NSReuseIdentifierKey">_NS:9</string>
 						<bool key="IBUIOpaque">NO</bool>
 						<string key="targetRuntimeIdentifier">IBIPadFramework</string>
 						<bool key="IBUIAnimating">YES</bool>
+						<int key="IBUIStyle">0</int>
 						<object class="NSColor" key="IBUIColor">
 							<int key="NSColorSpace">2</int>
-							<bytes key="NSRGB">MC4wMDc4NDMxMzc3MTkgMC4wMTE3NjQ3MDcwNCAwAA</bytes>
+							<bytes key="NSRGB">MCAwLjM1Mjk0MTE4NTIgMAA</bytes>
 						</object>
 					</object>
 					<object class="IBUIView" id="89866581">
@@ -494,19 +495,19 @@
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
-						<string key="label">tvOverlay</string>
-						<reference key="source" ref="372490531"/>
-						<reference key="destination" ref="683615913"/>
-					</object>
-					<int key="connectionID">13</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBCocoaTouchOutletConnection" key="connection">
 						<string key="label">loadingIndicator</string>
 						<reference key="source" ref="372490531"/>
 						<reference key="destination" ref="726848370"/>
 					</object>
 					<int key="connectionID">50</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBCocoaTouchOutletConnection" key="connection">
+						<string key="label">tvOverlay</string>
+						<reference key="source" ref="372490531"/>
+						<reference key="destination" ref="683615913"/>
+					</object>
+					<int key="connectionID">13</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBCocoaTouchOutletConnection" key="connection">
@@ -699,13 +700,13 @@
 						<reference key="parent" ref="938072761"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">7</int>
-						<reference key="object" ref="683615913"/>
+						<int key="objectID">49</int>
+						<reference key="object" ref="726848370"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">49</int>
-						<reference key="object" ref="726848370"/>
+						<int key="objectID">7</int>
+						<reference key="object" ref="683615913"/>
 						<reference key="parent" ref="191373211"/>
 					</object>
 				</array>

@@ -15,7 +15,7 @@
 
 @implementation HeatMap
 @synthesize boundingMapRect, coordinate;
-@synthesize managedObjectContext;
+
 
 -(id)init
 {
@@ -129,13 +129,26 @@
 -(void)fetchFileForStyle:(NSString *)style zoomLevel:(NSUInteger)zoom withX:(NSUInteger)x andY:(NSUInteger)y completion:(void (^)())completion
 {  
     NSURLRequest * req = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://richardbkirk.com/u/gheat/%@/%d/%d,%d.png", style, zoom, x, y]]];
- 
+
     [NSURLConnection sendAsynchronousRequest:req queue:_tileServerQueue completionHandler:^(NSURLResponse *response, NSData* data, NSError* error){
         
         
         NSHTTPURLResponse *httpResponse = (NSHTTPURLResponse *)response;
         
+
+        
         NSURL* orginalRequest = req.URL;
+       // NSLog(@"%@", httpResponse.suggestedFilename);
+       // NSLog(@"%i", httpResponse.statusCode);
+       // NSLog(@"%i", httpResponse.allHeaderFields.count);
+        
+       //    NSLog(@"*********************");
+      //  for (NSString* key in [httpResponse.allHeaderFields allKeys]) {
+    
+       //    NSLog(@"%@ = %@",key, [httpResponse.allHeaderFields objectForKey:key]);
+       // }
+       //    NSLog(@"%i *********************", [httpResponse.allHeaderFields allKeys].count);        
+
         NSArray* pathComponets = [orginalRequest pathComponents];        
         NSString* fileName = [[pathComponets objectAtIndex:5] stringByDeletingPathExtension];
         NSArray* fileNameComponents = [fileName componentsSeparatedByString:@","];
@@ -151,6 +164,8 @@
    
         if(![[NSFileManager defaultManager] fileExistsAtPath:[pathToFile stringByDeletingLastPathComponent]])
             [[NSFileManager defaultManager] createDirectoryAtPath:[pathToFile stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil];
+        
+        
         
         if(httpResponse.statusCode == 400)
         {
@@ -238,5 +253,14 @@
         return MKMapRectNull;
     }
 }
+
+-(NSURLRequest *)connection:(NSURLConnection *)connection
+            willSendRequest:(NSURLRequest *)request
+           redirectResponse:(NSURLResponse *)redirectResponse
+{
+
+    return nil;
+}
+
 
 @end

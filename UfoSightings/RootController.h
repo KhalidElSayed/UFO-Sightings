@@ -15,9 +15,8 @@
     MapViewController*                  _mapViewController;
     DatabaseExplorerViewController*     _databaseViewController;
 }
-@property (strong,nonatomic) NSManagedObjectContext* managedObjectContext;
-
--(id)initWithManagedObjectContext:(NSManagedObjectContext*)context;
+@property ( strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+-(id)initWithPersistentStoreCoordinator:(NSPersistentStoreCoordinator*)persistentStoreCor;
 -(void)switchViewController;
 
 @end

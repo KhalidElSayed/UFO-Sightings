@@ -21,11 +21,9 @@
 }
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 @property (weak) RootController* rootController;
-@property (strong, nonatomic) NSPredicate* predicate;
 @property (strong, nonatomic) IBOutlet MKMapView *myMap;
 @property (strong, nonatomic) IBOutlet UIImageView *tvOverlay;
 @property (strong, nonatomic) IBOutlet UIView *modalPlaceholderView;
-@property (strong, nonatomic) IBOutlet UILabel *levelLabel;
 @property (strong, nonatomic) IBOutlet UIView *alertView;
 @property (strong, nonatomic) IBOutlet UIButton *compassButton;
 @property (strong, nonatomic) IBOutlet UIButton *sightingAnnotationsButton;
@@ -33,7 +31,6 @@
 @property (strong, nonatomic) IBOutlet UIButton *filterButton;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
 @property (strong, nonatomic) IBOutlet UISegmentedControl *mapTypeSegmentController;
-
 
 - (IBAction)compassButtonSelected:(UIButton *)sender;
 - (IBAction)sightingsAnnotationsButtonSelected:(UIButton *)sender;

@@ -37,6 +37,7 @@
     [tableView setSeparatorStyle:UITableViewCellSeparatorStyleNone];
     [tableView setAllowsMultipleSelection:YES];
     [tableView setBackgroundColor:[UIColor rgbColorWithRed:41 green:41 blue:41 alpha:1.0f]];
+    [tableView setScrollEnabled:NO];
 }
 
 
@@ -52,6 +53,10 @@
     [super viewDidUnload];
 }
 
+-(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+    return YES;
+}
 
 #pragma mark - Table view data source
 

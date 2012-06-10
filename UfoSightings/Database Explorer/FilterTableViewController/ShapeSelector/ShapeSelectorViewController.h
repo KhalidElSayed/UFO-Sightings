@@ -19,6 +19,6 @@
 -(NSPredicate*)createPredicate;
 -(BOOL)canReset;
 -(void)reset;
-
+-(void)saveState;
 
 @end

@@ -30,7 +30,8 @@
     [parser createDatabase];
     
  */
-    
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"CurrentControllerShowing"];
+    [[NSUserDefaults standardUserDefaults] synchronize];
     
       if(![[NSUserDefaults standardUserDefaults] objectForKey:@"firstRun"])
     {
@@ -41,7 +42,7 @@
    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    self.rootViewController = [[RootController alloc]initWithManagedObjectContext:self.managedObjectContext];
+    self.rootViewController = [[RootController alloc]initWithPersistentStoreCoordinator:self.persistentStoreCoordinator];
 
    
     //self.rootViewController = [[RootViewController alloc] init];
@@ -60,6 +61,7 @@
 
 - (void)applicationWillResignActive:(UIApplication *)application
 {
+    
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.
     // Use this method to pause ongoing tasks, disable timers, and throttle down OpenGL ES frame rates. Games should use this method to pause the game.
 }
@@ -184,6 +186,47 @@
     return [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
 }
 
+
+-(void)importEmpties
+{
+    NSFileManager* fm = [NSFileManager defaultManager];
+    
+    NSURL* documentsDirURL = [self applicationDocumentsDirectory];
+    NSURL* alienEmptiesDirURL = [[documentsDirURL URLByAppendingPathComponent:@"alien" isDirectory:YES] URLByAppendingPathComponent:@"empties" isDirectory:YES];
+    NSURL* classicEmptiesURL = [[documentsDirURL URLByAppendingPathComponent:@"classic" isDirectory:YES] URLByAppendingPathComponent:@"empties" isDirectory:YES];
+    NSDictionary* noProtectDict = [NSDictionary dictionaryWithObject:NSFileProtectionNone forKey:NSFileProtectionKey];
+    
+    if(![fm fileExistsAtPath:[alienEmptiesDirURL path]])
+    {
+        [fm createDirectoryAtURL:alienEmptiesDirURL withIntermediateDirectories:YES attributes:nil error:nil];
+        for (int i = 0; i <= 31; i++) 
+        {
+            NSString* bundlePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"alien%i",i] ofType:@"png"];
+            NSError* copyError = nil;
+            [fm copyItemAtPath:bundlePath toPath:[[alienEmptiesDirURL URLByAppendingPathComponent:[NSString stringWithFormat:@"alien%i.png",i]] path] error:&copyError];
+            if(copyError)
+                NSLog(@"%@",copyError);
+            
+            [fm setAttributes:noProtectDict ofItemAtPath:[[alienEmptiesDirURL URLByAppendingPathComponent:[NSString stringWithFormat:@"alien%i.png",i]] path] error:nil];
+        }
+    }
+    
+    if(![fm fileExistsAtPath:[classicEmptiesURL path]])
+    {
+        [fm createDirectoryAtURL:classicEmptiesURL withIntermediateDirectories:YES attributes:nil error:nil];
+        for (int i = 0; i <= 31; i++) 
+        {
+            NSString* cBundlePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"classic%i",i] ofType:@"png"];
+            NSError* copyError = nil;
+            [fm copyItemAtPath:cBundlePath toPath:[[classicEmptiesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"classic%i.png",i]] path] error:nil];
+            if(copyError)
+                NSLog(@"%@",copyError);
+    
+            [fm setAttributes:noProtectDict ofItemAtPath:[[classicEmptiesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"classic%i.png",i]] path] error:nil];        
+        }
+    }
+}
+
 -(void)setupDefaults
 {
     
@@ -191,73 +234,46 @@
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"mapType"];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"heatMapOverlayOn"];
     [[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"annotationsOn"];
-    [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"CurrentControllerShowing"];
+    [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"CurrentControllerShowing"];
     [[NSUserDefaults standardUserDefaults] synchronize];
-
+    
     NSFileManager* fm = [NSFileManager defaultManager];
     
+    NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"UfoSightings.sqlite"];
+    NSString* dbInBundlePath = [[NSBundle mainBundle] pathForResource:@"UfoSightings" ofType:@"sqlite"];
+    NSString* newDbPath = [storeURL path];
     
-    NSURL* documentsDirURL = [self applicationDocumentsDirectory];
-    NSURL* alienEmptiesDirURL = [[documentsDirURL URLByAppendingPathComponent:@"alien" isDirectory:YES] URLByAppendingPathComponent:@"empties" isDirectory:YES];
-    NSURL* classicEmptiesURL = [[documentsDirURL URLByAppendingPathComponent:@"classic" isDirectory:YES] URLByAppendingPathComponent:@"empties" isDirectory:YES];
+    NSURL *filterPlistURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"filters.plist"];
+    NSString* filterPlistInBundlePath = [[NSBundle mainBundle] pathForResource:@"filters" ofType:@"plist"];
+    NSString* newFilterPlistPath = [filterPlistURL path];
     
     
-    [fm createDirectoryAtURL:alienEmptiesDirURL withIntermediateDirectories:YES attributes:nil error:nil];
-    [fm createDirectoryAtURL:classicEmptiesURL withIntermediateDirectories:YES attributes:nil error:nil];
     
     
-        NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"UfoSightings.sqlite"];
-        NSString* dbInBundlePath = [[NSBundle mainBundle] pathForResource:@"UfoSightings" ofType:@"sqlite"];
-        NSString* newDbPath = [storeURL path];
-   
-        NSURL *filterPlistURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"filters.plist"];
-        NSString* filterPlistInBundlePath = [[NSBundle mainBundle] pathForResource:@"filters" ofType:@"plist"];
-        NSString* newFilterPlistPath = [filterPlistURL path];
-        
-    for (int i = 0; i <= 31; i++) 
+    if( ![fm fileExistsAtPath:[storeURL path]] && [fm fileExistsAtPath:dbInBundlePath] )
     {
-        
-        NSString* bundlePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"alien%i",i] ofType:@"png"];
-        NSString* cBundlePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"classic%i",i] ofType:@"png"];
-        NSError* copyError = nil;
-        [fm copyItemAtPath:bundlePath toPath:[[alienEmptiesDirURL URLByAppendingPathComponent:[NSString stringWithFormat:@"alien%i.png",i]] path] error:&copyError];
-        [fm copyItemAtPath:cBundlePath toPath:[[classicEmptiesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"classic%i.png",i]] path] error:nil];
-        
-        if(copyError)
-            NSLog(@"%@",copyError);
-        
-        NSDictionary* noProtectDict = [NSDictionary dictionaryWithObject:NSFileProtectionNone forKey:NSFileProtectionKey];
-        
-        [fm setAttributes:noProtectDict ofItemAtPath:[[alienEmptiesDirURL URLByAppendingPathComponent:[NSString stringWithFormat:@"alien%i.png",i]] path] error:nil];
-        [fm setAttributes:noProtectDict ofItemAtPath:[[alienEmptiesDirURL URLByAppendingPathComponent:[NSString stringWithFormat:@"classic%i.png",i]] path] error:nil];        
+        NSError* error = nil;
+        [fm copyItemAtPath:dbInBundlePath toPath:newDbPath error:&error];
+        NSLog(@"Copying Database intoDocuments Dir");
+        if (error) {
+            NSLog(@"ERROR - COPYING SQLITE DB TO DOCUMENTS DIRECTORY");
+        }
     }
     
-
     
-        if( ![fm fileExistsAtPath:[storeURL path]] && [fm fileExistsAtPath:dbInBundlePath] )
-        {
-            NSError* error = nil;
-            [fm copyItemAtPath:dbInBundlePath toPath:newDbPath error:&error];
-            NSLog(@"Copying Database intoDocuments Dir");
-            if (error) {
-                NSLog(@"ERROR - COPYING SQLITE DB TO DOCUMENTS DIRECTORY");
-            }
-        }
-        
-        
-        
-        
-        if( ![fm fileExistsAtPath:[filterPlistURL path]] && [fm fileExistsAtPath:filterPlistInBundlePath] )
-        {
-            NSError* error = nil;
-            [fm copyItemAtPath:filterPlistInBundlePath toPath:newFilterPlistPath error:&error];
-            NSLog(@"Copying FilterPlist intoDocuments Dir");
-            if (error) {
-                NSLog(@"ERROR - COPYING PLIST TO DOCUMENTS DIRECTORY");
-            }
-        }
     
-     
+    
+    if( ![fm fileExistsAtPath:[filterPlistURL path]] && [fm fileExistsAtPath:filterPlistInBundlePath] )
+    {
+        NSError* error = nil;
+        [fm copyItemAtPath:filterPlistInBundlePath toPath:newFilterPlistPath error:&error];
+        NSLog(@"Copying FilterPlist intoDocuments Dir");
+        if (error) {
+            NSLog(@"ERROR - COPYING PLIST TO DOCUMENTS DIRECTORY");
+        }
+    }
+    
+    [self importEmpties];
 
         
 }

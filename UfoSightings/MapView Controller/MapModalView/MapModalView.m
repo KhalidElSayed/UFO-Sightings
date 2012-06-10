@@ -203,6 +203,15 @@
 {
 
     [self showLoadingView];
+  //  NSManagedObjectContext* threadContext = [[_location managedObjectContext] concurrencyType]
+    
+    NSPersistentStoreCoordinator* persistentStore = [[_location managedObjectContext] persistentStoreCoordinator];
+    NSManagedObjectContext* threadContext = [[NSManagedObjectContext alloc]init];
+    [threadContext setPersistentStoreCoordinator:persistentStore];
+    
+    
+
+    
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         NSMutableSet *fillerSet = [[NSMutableSet alloc]init];
         
@@ -212,10 +221,7 @@
             [fillerSet unionSet:[containedLocation sighting]];
         }
         
-        if (_predicate) {
-            [fillerSet filterUsingPredicate:_predicate];
-        }
-    
+
         NSArray* sortedSightings = [[fillerSet allObjects] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2){
             Sighting* a = (Sighting*)obj1;
             Sighting* b = (Sighting*)obj2;
@@ -256,7 +262,7 @@
     Sighting* aSighting = [_sightings objectAtIndex:indexPath.row];
     
     UITableViewCell *cell = [_tableView dequeueReusableCellWithIdentifier:modalCellIdentifier];
-    NSString *theName = [NSString stringWithFormat:@"%i. %@", indexPath.row, [_df stringFromDate:aSighting.sightedAt]];
+    NSString *theName = [NSString stringWithFormat:@"%i.  %@", indexPath.row + 1, [_df stringFromDate:aSighting.sightedAt]];
     
     [[(MapModalCell *)cell label] setText:theName];
     return cell;
@@ -283,7 +289,7 @@
 
 -(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
-    return [[UIView alloc]initWithFrame:CGRectZero];
+    return [[UIView alloc]initWithFrame:CGRectMake(0, 0, 321, 1)];
 }
     /*
     UIView* header = [[UIView alloc]initWithFrame:CGRectMake(0, 0, 214, 40)];
@@ -392,8 +398,13 @@
     /* update our sliderControl */
     [_sliderPageControl setCurrentPage:page animated:YES];
     if(sender.isDragging)
-    [_tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:page inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
-
+    {
+        [_tableView selectRowAtIndexPath:[NSIndexPath indexPathForRow:page inSection:0] animated:YES scrollPosition:UITableViewScrollPositionNone];
+        [_tableView scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:page inSection:0] atScrollPosition:UITableViewScrollPositionMiddle animated:YES];
+    
+    }
+        
+        
     // Apple : A possible optimization would be to unload the views+controllers which are no longer visible
     /* Me    : We Shall */
   
@@ -510,15 +521,13 @@
     [self.view addSubview:self.loadingView];
     
     self.loadingTimer = [NSTimer scheduledTimerWithTimeInterval:0.3f target:self selector:@selector(updateLoadingLabel) userInfo:nil repeats:YES];
-    BOOL timerState = [self.loadingTimer isValid];
-    NSLog(@"Timer Validity is: %@", timerState?@"YES":@"NO");
+
 }
 
 
 -(void)updateLoadingLabel
 {
     NSString* loadingText = self.loadingLabel.text;
-    NSLog(@"load : %i", loadingText.length);
     if(loadingText.length < 12)
         loadingText = [loadingText stringByAppendingString:@"."];
     else 

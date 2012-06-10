@@ -20,19 +20,18 @@
 @property (nonatomic, retain) NSString * formattedAddress;
 @property (nonatomic, retain) NSSet *sighting;
 
-@property (nonatomic) CLLocationCoordinate2D coordinate;
+@property (nonatomic, readwrite) CLLocationCoordinate2D coordinate;
 @property (nonatomic, readonly, copy) NSString *title;
+@property (strong, nonatomic) NSString* aggregateTitle; 
 
 @property (strong, nonatomic)NSArray* containedAnnotations;
 @property (strong, nonatomic)SightingLocation* clusterAnnotation;
 
 
-+(NSArray*)SightingLocationsInRegion:(MKCoordinateRegion)region;
-+(NSArray*)SightingLocationsInMapRect:(MKMapRect)mapRect;
-+(NSArray*)SightingLocationsInMapRect:(MKMapRect)mapRect withLimit:(NSUInteger)limit;
+-(CLLocationCoordinate2D)actualCoordinate;
 
-+(NSArray*)allSightings;
-+(NSArray*)allSightingsWithPredicate:(NSPredicate*)predicate;
+
+
 -(BOOL)compare:(SightingLocation*)aSighting;
 
 @end

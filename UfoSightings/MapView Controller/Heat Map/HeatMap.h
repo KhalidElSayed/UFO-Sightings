@@ -13,11 +13,11 @@
 
 
 
-@interface HeatMap : NSObject <MKOverlay>
+@interface HeatMap : NSObject <MKOverlay, NSURLConnectionDataDelegate>
 {
     NSOperationQueue*   _tileServerQueue;
 }
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
+
 
 
 

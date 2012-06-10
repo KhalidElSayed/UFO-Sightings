@@ -21,5 +21,6 @@
 
 -(BOOL)canReset;
 -(void)reset;
+-(void)saveState;
 
 @end

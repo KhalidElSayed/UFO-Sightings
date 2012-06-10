@@ -11,55 +11,80 @@
 @interface RootController ()
 {
     UIViewController* _currentViewController;
+    NSManagedObjectContext*     _mapContext;
+    NSManagedObjectContext*     _databaseContext;
 }
-
-
+@property (strong, nonatomic) NSManagedObjectContext* mapContext;
+@property (strong, nonatomic) NSManagedObjectContext* databaseContext;
+@property (strong, nonatomic) MapViewController* mapViewController;
+@property (strong, nonatomic) DatabaseExplorerViewController* databaseViewController;
 @end
 
 @implementation RootController
-@synthesize managedObjectContext;
-
-
--(id)initWithManagedObjectContext:(NSManagedObjectContext*)context
+@synthesize persistentStoreCoordinator;
+@synthesize mapContext = _mapContext, databaseContext = _databaseContext;
+@synthesize mapViewController = _mapViewController, databaseViewController = _databaseViewController;
+-(id)initWithPersistentStoreCoordinator:(NSPersistentStoreCoordinator*)persistentStoreCor
 {
     if ((self = [super init]))
     {
-        self.managedObjectContext = context;
-        self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin| UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
+        self.persistentStoreCoordinator = persistentStoreCor;
+        
+        self.mapContext = [[NSManagedObjectContext alloc]init];
+        [self.mapContext setPersistentStoreCoordinator:persistentStoreCor ];
+        self.databaseContext = [[NSManagedObjectContext alloc]init];
+        [self.databaseContext setPersistentStoreCoordinator:persistentStoreCor];
     }
-return self;
-
+    return self;
 }
 
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    
+        self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin| UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
 
-    if([[NSUserDefaults standardUserDefaults] integerForKey:@"CurrentControllerShowing"]) 
-    {
-        switch ([[NSUserDefaults standardUserDefaults] integerForKey:@"CurrentControllerShowing"]) {
-            case 0:
-                _mapViewController = [[MapViewController alloc]init];
-                _mapViewController.managedObjectContext = self.managedObjectContext;
-                _mapViewController.rootController = self;
-                _mapViewController.view.frame = self.view.bounds;
-                _currentViewController = _mapViewController;
-                break;
-            case 1:
-                _databaseViewController = [[DatabaseExplorerViewController alloc]init];
-                _databaseViewController.managedObjectContext = self.managedObjectContext;
-                _databaseViewController.rootController = self;
-                _databaseViewController.view.frame = self.view.bounds;
-                _currentViewController = _databaseViewController;
-                break;
-            default:
-                break;
-        }
+    switch ([[NSUserDefaults standardUserDefaults] integerForKey:@"CurrentControllerShowing"]) {
+        case 0:
+                _currentViewController = self.mapViewController;
+            break;
+        case 1:
+                _currentViewController = self.databaseViewController;
+            break;
+        default:
+            break;
     }
+    self.view.backgroundColor = [UIColor blackColor];
 
-    [self.view addSubview:_databaseViewController.view];
+    [self.view addSubview:_currentViewController.view];
+}
+
+
+-(MapViewController*)mapViewController
+{
+    if(_mapViewController)
+        return _mapViewController;
+   
+    _mapViewController = [[MapViewController alloc]init];
+    _mapViewController.managedObjectContext = _mapContext;
+    _mapViewController.rootController = self;
+    _mapViewController.view.frame = self.view.bounds;
+    
+    return _mapViewController;
+}
+
+
+-(DatabaseExplorerViewController*)databaseViewController
+{
+    if(_databaseViewController)
+        return _databaseViewController;
+    
+    _databaseViewController = [[DatabaseExplorerViewController alloc]init];
+    _databaseViewController.managedObjectContext = _databaseContext;
+    _databaseViewController.rootController = self;
+    _databaseViewController.view.frame = self.view.bounds;
+    
+    return _databaseViewController;
 }
 
 - (void)viewDidUnload
@@ -84,34 +109,38 @@ return self;
 
 -(void)switchViewController
 {
-  
+     UIDeviceOrientation deviceOrientation = [[UIApplication sharedApplication]statusBarOrientation];
     UIViewController* nextViewController;
     UIViewAnimationOptions animationOption;
     if([_currentViewController isKindOfClass:[DatabaseExplorerViewController class]])
     {
-        animationOption = UIViewAnimationOptionTransitionFlipFromLeft;
-        if(!_mapViewController)
-        {
-            _mapViewController = [[MapViewController alloc]init];
-            _mapViewController.managedObjectContext = self.managedObjectContext;
-            _mapViewController.rootController = self;
-
-            
+     
+        if (UIInterfaceOrientationIsLandscape(deviceOrientation )) 
+        {   // Setup For Landscape
+            animationOption = UIViewAnimationOptionTransitionFlipFromBottom;
         }
-        
-        _mapViewController.predicate = [(DatabaseExplorerViewController*)_currentViewController fullPredicate];
-        nextViewController = _mapViewController;
+        else 
+        {   // Setup For Portrait
+            animationOption = UIViewAnimationOptionTransitionFlipFromLeft;
+        }
+
+       
+        nextViewController = self.mapViewController;
     }
     else 
     {
-        animationOption = UIViewAnimationOptionTransitionFlipFromRight;
-        if(!_databaseViewController)
-        {
-            _databaseViewController = [[DatabaseExplorerViewController alloc]init];
-            _databaseViewController.managedObjectContext = self.managedObjectContext;
-            _databaseViewController.rootController = self;
+        
+
+        if (UIInterfaceOrientationIsLandscape(deviceOrientation )) 
+        {   // Setup For Landscape
+             animationOption = UIViewAnimationOptionTransitionFlipFromTop;
         }
-        nextViewController = _databaseViewController;
+        else 
+        {   // Setup For Portrait
+                 animationOption = UIViewAnimationOptionTransitionFlipFromRight;   
+        }
+
+        nextViewController = self.databaseViewController;
     }
     
     nextViewController.view.frame = self.view.bounds;

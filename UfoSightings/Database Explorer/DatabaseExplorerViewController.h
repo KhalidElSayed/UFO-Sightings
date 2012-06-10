@@ -17,7 +17,7 @@
 }
 @property (strong, nonatomic) NSManagedObjectContext* managedObjectContext;
 @property (weak) RootController* rootController;
-@property (strong, nonatomic) NSMutableArray* reports;
+@property (strong, nonatomic) NSArray* reports;
 @property (strong, atomic) NSMutableDictionary* filterOptions;
 @property (strong, nonatomic) IBOutlet UIView *masterView;
 @property (strong, nonatomic) IBOutlet UIView *detailView;
@@ -28,12 +28,15 @@
 @property (strong, nonatomic) IBOutlet UIButton *viewOnMapButton;
 @property (strong, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
 @property (strong, nonatomic) IBOutlet UILabel *loadingLabel;
+@property (strong, nonatomic) IBOutlet UIButton *addMoreButton;
 
 
 - (IBAction)viewOnMapSelected:(UIButton *)sender;
 - (IBAction)backButtonPressed:(UIButton *)sender;
 - (IBAction)resetButtonPressed:(UIButton *)sender;
+-(IBAction)addMoreButtonSelected:(UIButton*)button;
 -(NSPredicate*)fullPredicate;
+
 @end
 
 
@@ -43,7 +46,8 @@
 -(BOOL)canReset;
 -(void)reset;
 
+
 @optional
 -(NSPredicate*)createPredicate;
-
+-(void)saveState;
 @end

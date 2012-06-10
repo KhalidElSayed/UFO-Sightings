@@ -33,7 +33,7 @@
         [_slider addTarget:self action:@selector(sliderDidUpdate) forControlEvents:UIControlEventValueChanged];
         [_slider setMinimumRange:1];
         _df = [[NSDateFormatter alloc]init];      
-
+     
     }
     return self;
 }
@@ -46,22 +46,28 @@
     [tableView registerNib:[UINib nibWithNibName:@"RangeCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"rangeCell"];
     tableView.backgroundColor = [UIColor rgbColorWithRed:41 green:41 blue:41 alpha:1.0f];
     tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    tableView.scrollEnabled = NO;
 }
+
+
+
 
 
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    [self setSlider:nil];
-    _rangeLabel = nil;
     _df = nil;
 }
 
 
--(void)viewWillDisappear:(BOOL)animated
+
+-(void)saveState
 {
-    NSDate *minDate = [_df dateFromString:[NSString stringWithFormat:@"%i0101",(int)_slider.selectedMinimumValue]];
-    NSDate *maxDate = [_df dateFromString:[NSString stringWithFormat:@"%i0101",(int)_slider.selectedMaximumValue]];
+    [_df setDateFormat:@"yyyy"];
+    
+    NSDate *minDate = [_df dateFromString:[NSString stringWithFormat:@"%i",(int)_slider.selectedMinimumValue]];
+    NSDate *maxDate = [_df dateFromString:[NSString stringWithFormat:@"%i",(int)_slider.selectedMaximumValue]];
+    
     [filterDict setObject:minDate forKey:[NSString stringWithFormat:@"%@SelectedMinimumDate", predicateKey]];
     [filterDict setObject:maxDate forKey:[NSString stringWithFormat:@"%@SelectedMaximumDate",predicateKey]];
     NSMutableArray* filterCells = [filterDict objectForKey:@"filterCells"];
@@ -75,10 +81,10 @@
     }
     
     [cell setObject:[NSNumber numberWithBool:_hasChosenRange ] forKey:@"hasFilters"];
-
-    if(_hasChosenRange)
-            [cell setObject:_rangeLabel.text forKey:@"subtitle"];
     
+    if(_hasChosenRange)
+        [cell setObject:_rangeLabel.text forKey:@"subtitle"];
+
 }
 
 
@@ -104,30 +110,27 @@
     static NSString *CellIdentifier = @"rangeCell";
     static NSString *anotherCellIdentifier = @"aCell";
     
-    UITableViewCell *cell;
-    
+        
     if(indexPath.row == 0)
     {
-        cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
+        RangeCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
         cell.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"greyCellBackground.png"]];
         
         CGRect b = cell.bounds;
         b.size.width = 200;
         b.origin.x = 10;
         
-        NSDate* minimumDate;
-        NSDate* maximumDate;
-        NSDate* selectedMaximumDate;
-        NSDate* selectedMinimumDate;
+
         
+        [_df setDateFormat:@"yyyy"];
+        NSDate* minimumDate = [filterDict objectForKey:[NSString stringWithFormat:@"%@MinimumDate",predicateKey]];
+        NSDate* maximumDate = [filterDict objectForKey:[NSString stringWithFormat:@"%@MaximumDate",predicateKey]];
+        cell.minLabel.text = [_df stringFromDate:minimumDate];
+        cell.maxLabel.text = [_df stringFromDate:maximumDate];
         if([predicateKey isEqualToString:@"reportedAt"] || [predicateKey isEqualToString:@"sightedAt"])
         {
-            
-            [_df setDateFormat:@"yyyy"];
-            minimumDate = [filterDict objectForKey:[NSString stringWithFormat:@"%@MinimumDate",predicateKey]];
-            maximumDate = [filterDict objectForKey:[NSString stringWithFormat:@"%@MaximumDate",predicateKey]];
-            selectedMaximumDate = [filterDict objectForKey:[NSString stringWithFormat:@"%@SelectedMaximumDate", predicateKey]];
-            selectedMinimumDate = [filterDict objectForKey:[NSString stringWithFormat:@"%@SelectedMinimumDate",predicateKey]];
+            NSDate* selectedMaximumDate = [filterDict objectForKey:[NSString stringWithFormat:@"%@SelectedMaximumDate", predicateKey]];
+            NSDate* selectedMinimumDate = [filterDict objectForKey:[NSString stringWithFormat:@"%@SelectedMinimumDate",predicateKey]];
             
             [_slider setMinimumValue:[[_df stringFromDate:minimumDate] floatValue]];
             [_slider setMaximumValue:[[_df stringFromDate:maximumDate] floatValue]];
@@ -144,9 +147,10 @@
         _slider.center = cell.center;
 
         [cell addSubview:_slider];
+        return cell;
     }
     else if(indexPath.row == 1) {
-        cell = [tableView dequeueReusableCellWithIdentifier:anotherCellIdentifier];
+       UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:anotherCellIdentifier];
         if(!cell)
         {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:anotherCellIdentifier];
@@ -166,12 +170,12 @@
             
         }
         [_rangeLabel setText:[NSString stringWithFormat:@"%i - %i",(int)_slider.selectedMinimumValue, (int)_slider.selectedMaximumValue]];
-        
+        return cell;
     }
     else {
         NSLog(@"BAD INDEX PATH: %i",indexPath.row);
     }
-    return cell;
+    return [[UITableViewCell alloc]initWithFrame:CGRectZero];
 }
 
 -(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath

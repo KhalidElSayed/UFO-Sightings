@@ -5,7 +5,7 @@
 //  Created by Richard Kirk on 5/9/12.
 //  Copyright (c) 2012 Home. All rights reserved.
 //
-
+#import <CoreData/CoreData.h>
 #import <UIKit/UIKit.h>
 #import "SliderPageControl.h"
 
@@ -14,6 +14,7 @@
 @interface MapModalView : UIViewController <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, SliderPageControlDelegate>
 {
     SliderPageControl* _sliderPageControl;
+
 }
 @property (strong, nonatomic) SightingLocation* location;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;

@@ -47,6 +47,7 @@
 
 -(void)viewDidAppear:(BOOL)animated
 {
+  
     if(self.navigationController)
     {
         CGRect frame = self.navigationController.view.frame;
@@ -58,7 +59,7 @@
 }
 
 
--(void)viewWillDisappear:(BOOL)animated
+-(void)saveState
 {
     NSMutableArray* shapesToFilter = [[NSMutableArray alloc]init];
     
@@ -77,16 +78,26 @@
             break;
         }
     }
-
+    
     
     bool filters = shapesToFilter.count > 0;
     [cell setObject:[NSNumber numberWithBool:filters] forKey:@"hasFilters"];
     
     if (filters) {
+        NSDictionary* badShapeNamesDict = [self.filterDict objectForKey:@"badShapeMatching"];
         NSMutableString* subtitle = [[NSMutableString alloc]init];
         
         for (NSString* string in shapesToFilter) {
             [subtitle appendFormat:@"%@, ",string];
+            
+            if([badShapeNamesDict allKeysForObject:string].count > 0)
+            {
+                for (NSString* badShapeName in [badShapeNamesDict allKeysForObject:string]) {
+                    [subtitle appendFormat:@"%@, ",badShapeName];
+                }
+            }
+            
+            
         }
         
         [subtitle deleteCharactersInRange:NSMakeRange(subtitle.length -2, 2)];
@@ -94,10 +105,7 @@
     }
     
     [self.filterDict setObject:shapesToFilter forKey:@"shapesToFilter"];
-
-     
 }
-
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -217,14 +225,20 @@
             NSPredicate* predicate = nil;
             if(view.tag == 3)
             {
-                predicate = [NSPredicate predicateWithFormat:@"shape != \"circle\" AND shape != \"sphere\" AND shape != \"round\""];
+                predicate = [NSPredicate predicateWithFormat:@"shape != \"circle\" AND shape != \"sphere\" AND shape != \"round\" AND shape != \"dome\""];
             }
             else if(view.tag == 11)
             {
                 predicate = [NSPredicate predicateWithFormat:@"shape != \"flash\" AND shape != \"light\""];
             }
+            else if (view.tag == 12) {
+                predicate = [NSPredicate predicateWithFormat:@"shape != \"formation\" AND shape != \"hexagon\" "];
+            }
             else if (view.tag == 14) {
-                predicate = [NSPredicate predicateWithFormat:@"shape != \"unspecified\" AND shape != \"other\" AND shape != \"unknown\""];
+                predicate = [NSPredicate predicateWithFormat:@"shape != \"unspecified\" AND shape != \"other\" AND shape != \"unknown\" AND shape != \"cresent\""];
+            }
+            else if (view.tag == 17) {
+                predicate = [NSPredicate predicateWithFormat:@"shape != \"triangle\" AND shape != \"other\" AND shape != \"pyramid\""];
             }
             else {
                 predicate = [NSPredicate predicateWithFormat:@"shape != %@", [NSString stringWithFormat:@"%@",[_shapes objectAtIndex:view.tag]]];
