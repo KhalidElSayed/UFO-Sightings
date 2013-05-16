@@ -11,11 +11,10 @@
 #import "UFODatabaseExplorerViewController.h"
 
 @interface UFORootController : UFOBaseViewController
-{
-    UFOMapViewController*                  _mapViewController;
-    UFODatabaseExplorerViewController*     _databaseViewController;
-}
+
 @property ( strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
+@property (strong, nonatomic) UFOMapViewController* mapViewController;
+@property (strong, nonatomic) UFODatabaseExplorerViewController* databaseViewController;
 
 -(void)switchViewController;
 
