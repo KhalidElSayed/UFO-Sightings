@@ -1,6 +1,6 @@
 //
-//  ViewController.h
-//  LocationFun
+//  UFOMapViewController.h
+//  UFO Sightings
 //
 //  Created by Richard Kirk on 12/19/11.
 //  Copyright (c) 2011 Home. All rights reserved.
@@ -13,15 +13,17 @@
 @class UFORootController;
 @class UFOHeatMap;
 
+@protocol UFOMapViewControllerDelegate;
+
 @interface UFOMapViewController : UIViewController <CLLocationManagerDelegate,MKMapViewDelegate>
 {
     CLLocationManager *locationManager;
     CLLocationCoordinate2D *userLocation;
-    UFOHeatMap*    _heatMapOverlay;
 }
+@property (weak, nonatomic) id <UFOMapViewControllerDelegate> delegate;
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (weak) UFORootController* rootController;
-@property (strong, nonatomic) IBOutlet MKMapView *myMap;
+@property (strong, nonatomic) IBOutlet MKMapView *mapView;
+@property (strong, nonatomic) UFOHeatMap* heatMapOverlay;
 @property (strong, nonatomic) IBOutlet UIImageView *tvOverlay;
 @property (strong, nonatomic) IBOutlet UIView *modalPlaceholderView;
 @property (strong, nonatomic) IBOutlet UIView *alertView;
@@ -40,6 +42,10 @@
 - (IBAction)stopFilteringSelected:(UIButton *)sender;
 - (IBAction)mapTypeSegmentChanged:(UISegmentedControl *)sender;
 
--(void)modalWantsToDismiss;
+- (void)modalWantsToDismiss;
 
-@end	
+@end
+
+@protocol UFOMapViewControllerDelegate <NSObject>
+- (void)UFOMapViewControllerWantsToExit:(UFOMapViewController*)mapController;
+@end

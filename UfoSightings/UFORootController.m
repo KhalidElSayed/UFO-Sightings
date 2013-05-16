@@ -21,7 +21,7 @@
 
 @implementation UFORootController
 
--(id)init
+- (id)init
 {
     if ((self = [super init]))
     {
@@ -46,19 +46,19 @@
 }
 
 
--(UFOMapViewController*)mapViewController
+- (UFOMapViewController*)mapViewController
 {
-    if(_mapViewController) {
+    if(!_mapViewController) {
         _mapViewController = [[UFOMapViewController alloc]init];
         _mapViewController.managedObjectContext = _mapContext;
-        _mapViewController.rootController = self;
+        _mapViewController.delegate = self;
         _mapViewController.view.frame = self.view.bounds;
     }
     return _mapViewController;
 }
 
 
--(UFODatabaseExplorerViewController*)databaseViewController
+- (UFODatabaseExplorerViewController*)databaseViewController
 {
     if(!_databaseViewController) {
         _databaseViewController = [[UFODatabaseExplorerViewController alloc]init];
@@ -76,7 +76,7 @@
 }
 
 
--(void)switchViewController
+- (void)switchViewController
 {
     UIDeviceOrientation deviceOrientation = [[UIApplication sharedApplication]statusBarOrientation];
     UIViewController* nextViewController;
@@ -99,6 +99,14 @@
          _currentViewController = nil;
          _currentViewController = nextViewController;
      }];
+}
+
+
+#pragma mark - UFOMapViewController Delegate protocols
+
+- (void)UFOMapViewControllerWantsToExit:(UFOMapViewController *)mapController
+{
+    [self switchViewController];
 }
      
 @end

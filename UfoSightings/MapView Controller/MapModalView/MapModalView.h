@@ -27,6 +27,6 @@
 - (IBAction)exitSelected:(id)sender;
 
 
--(id)initWithSightingLocation:(SightingLocation*)location andPredicate:(NSPredicate*)pred;
+- (id)initWithSightingLocation:(SightingLocation*)location andPredicate:(NSPredicate*)pred;
 
 @end

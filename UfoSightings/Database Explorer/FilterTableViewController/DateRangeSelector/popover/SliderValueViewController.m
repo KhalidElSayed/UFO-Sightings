@@ -13,7 +13,7 @@
 
 @synthesize sliderValue;
 
--(void)updateSliderValueTo:(CGFloat)_value {
+- (void)updateSliderValueTo:(CGFloat)_value {
 
 
 	[sliderValue setText:[NSString stringWithFormat:@"%i", (int)_value]];

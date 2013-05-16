@@ -24,13 +24,13 @@
 }
 @property (strong, nonatomic)NSArray* _sightings;
 @property (strong, nonatomic)NSTimer* loadingTimer;
--(void)setupSlider;
--(void)setupForPortrait;
--(void)setupForLandscape;
--(void)refreshLocation;
--(void)showLoadingView;
--(void)hideLoadingView;
--(void)updateLoadingLabel;
+- (void)setupSlider;
+- (void)setupForPortrait;
+- (void)setupForLandscape;
+- (void)refreshLocation;
+- (void)showLoadingView;
+- (void)hideLoadingView;
+- (void)updateLoadingLabel;
 @end
 
 @implementation MapModalView
@@ -56,7 +56,7 @@
 }
 
 
--(id)initWithSightingLocation:(SightingLocation*)location andPredicate:(NSPredicate*)pred
+- (id)initWithSightingLocation:(SightingLocation*)location andPredicate:(NSPredicate*)pred
 {
     if ((self = [super init]))
     {   
@@ -101,13 +101,13 @@
 }
 
 
--(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
 	return YES;
 }
 
 
--(void)viewWillLayoutSubviews
+- (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
     
@@ -174,13 +174,13 @@
 
 
 
--(void)setupForLandscape
+- (void)setupForLandscape
 {
     [self.scrollView setFrame:CGRectZero];
     [_sliderPageControl setFrame:CGRectZero];
 }
 
--(void)setupForPortrait
+- (void)setupForPortrait
 {
     
     
@@ -199,7 +199,7 @@
 
 #pragma mark - Custom setters
 
--(void)refreshLocation
+- (void)refreshLocation
 {
 
     [self showLoadingView];
@@ -277,7 +277,7 @@
 }
 
 
--(UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+- (UIView*)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     return [[UIView alloc]initWithFrame:CGRectMake(0, 0, 321, 1)];
 }
@@ -308,7 +308,7 @@
 */
 
 
--(CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
 {
     return 40.0f;
 }
@@ -424,7 +424,7 @@
     
 }
 
--(NSUInteger)currentPage
+- (NSUInteger)currentPage
 {
     CGFloat pageWidth = self.scrollView.frame.size.width;
     int page = floor((self.scrollView.contentOffset.x - pageWidth / 2) / pageWidth) + 1;
@@ -432,7 +432,7 @@
     return MAX(page, 0);
 }
 
--(void)resizeScrollView
+- (void)resizeScrollView
 {
     self.scrollView.contentSize = CGSizeMake(self.scrollView.bounds.size.width * [_sightings count], 1);
 }
@@ -453,7 +453,7 @@
 
 #pragma mark - SliderPageControl Functions
 
--(void)setupSlider
+- (void)setupSlider
 {
     _sliderPageControl = [[SliderPageControl  alloc] initWithFrame:CGRectMake(40, 870, 600, 40)];
     [_sliderPageControl addTarget:self action:@selector(onPageChanged:) forControlEvents:UIControlEventValueChanged];
@@ -506,7 +506,7 @@
 }
 
 
--(void)showLoadingView
+- (void)showLoadingView
 {
     [self.view addSubview:self.loadingView];
     
@@ -515,7 +515,7 @@
 }
 
 
--(void)updateLoadingLabel
+- (void)updateLoadingLabel
 {
     NSString* loadingText = self.loadingLabel.text;
     if(loadingText.length < 12)
@@ -528,7 +528,7 @@
 }
 
 
--(void)hideLoadingView
+- (void)hideLoadingView
 {
     
     [self.loadingView removeFromSuperview];

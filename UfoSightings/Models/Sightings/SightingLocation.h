@@ -28,11 +28,11 @@
 @property (strong, nonatomic)SightingLocation* clusterAnnotation;
 
 
--(CLLocationCoordinate2D)actualCoordinate;
+- (CLLocationCoordinate2D)actualCoordinate;
 
 
 
--(BOOL)compare:(SightingLocation*)aSighting;
+- (BOOL)compare:(SightingLocation*)aSighting;
 
 @end
 

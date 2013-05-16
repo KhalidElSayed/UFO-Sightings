@@ -36,12 +36,12 @@ dispatch_queue_t CDbackground_queue()
     NSManagedObjectContext*     _backgroundContext;
 
 }
--(void)getMoreReportsWithLimit:(NSUInteger)limit;
--(NSPredicate*)fullPredicate;
--(void)filterCanReset:(NSNotification*)notification;
--(NSMutableDictionary*)retrieveFilterOptions;
--(void)saveFilterOptions:(NSDictionary*)options;
--(void)refreshReportsWithPredicate:(NSPredicate*)predicate andPredicateKey:(NSString*)predKey;
+- (void)getMoreReportsWithLimit:(NSUInteger)limit;
+- (NSPredicate*)fullPredicate;
+- (void)filterCanReset:(NSNotification*)notification;
+- (NSMutableDictionary*)retrieveFilterOptions;
+- (void)saveFilterOptions:(NSDictionary*)options;
+- (void)refreshReportsWithPredicate:(NSPredicate*)predicate andPredicateKey:(NSString*)predKey;
 
 @end
 
@@ -61,7 +61,7 @@ dispatch_queue_t CDbackground_queue()
 //***************************************************************************************************
 #pragma mark - ViewController Life cycle
 //***************************************************************************************************
--(id)init
+- (id)init
 {
     if ((self = [super init]))
     {
@@ -134,7 +134,7 @@ dispatch_queue_t CDbackground_queue()
 }
 
 
--(void)viewWillLayoutSubviews
+- (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
     
@@ -152,7 +152,7 @@ dispatch_queue_t CDbackground_queue()
 }
 
 
--(void)addMoreButtonSelected:(UIButton*)button
+- (void)addMoreButtonSelected:(UIButton*)button
 {
 
     [self getMoreReportsWithLimit:DEFAULT_FETCH_LIMIT];
@@ -168,7 +168,7 @@ dispatch_queue_t CDbackground_queue()
 //***************************************************************************************************
 #pragma mark - FilterOptions
 //***************************************************************************************************
--(NSMutableDictionary*)retrieveFilterOptions
+- (NSMutableDictionary*)retrieveFilterOptions
 {
     if(_filterOptions != nil)
     {
@@ -183,7 +183,7 @@ dispatch_queue_t CDbackground_queue()
 }
 
 
--(void)saveFilterOptions:(NSDictionary*)options
+- (void)saveFilterOptions:(NSDictionary*)options
 {
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *filterPlistPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"filters.plist"];
@@ -286,7 +286,7 @@ dispatch_queue_t CDbackground_queue()
  This is a problem when calculating 60,000 reports because while the UITableView does not
  load all of the data into the table at once, it does calculate the height for every cell up front. 
  */
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.section == 0) 
     {
@@ -334,7 +334,7 @@ dispatch_queue_t CDbackground_queue()
  This will be called whenever one of the filter selection view controllers recognizes that
  it's state has been altered. 
  */
--(void)filterCanReset:(NSNotification*)notification 
+- (void)filterCanReset:(NSNotification*)notification 
 {
     [self.resetButton setEnabled:[(id<PredicateCreation>)notification.object canReset]];
 }
@@ -350,7 +350,7 @@ dispatch_queue_t CDbackground_queue()
 
 
 
--(NSPredicate*)fullPredicate
+- (NSPredicate*)fullPredicate
 {
     if([[_currentPredicates allValues] count] > 0)
     {
@@ -370,7 +370,7 @@ dispatch_queue_t CDbackground_queue()
         return nil;
 }
 
--(void)refreshReportsWithPredicate:(NSPredicate*)predicate andPredicateKey:(NSString*)predKey
+- (void)refreshReportsWithPredicate:(NSPredicate*)predicate andPredicateKey:(NSString*)predKey
 {
 
     
@@ -420,7 +420,7 @@ dispatch_queue_t CDbackground_queue()
 
 
 
--(void)getMoreReportsWithLimit:(NSUInteger)limit
+- (void)getMoreReportsWithLimit:(NSUInteger)limit
 {       
     /* Animating the Lading indicator*/
     if(!_addMoreButton.isSelected)

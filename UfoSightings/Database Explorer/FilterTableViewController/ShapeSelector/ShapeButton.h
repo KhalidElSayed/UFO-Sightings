@@ -10,6 +10,6 @@
 
 @interface ShapeButton : UIButton
 
--(void)setShape:(NSString*)shape;
+- (void)setShape:(NSString*)shape;
 
 @end

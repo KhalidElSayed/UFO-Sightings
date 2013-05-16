@@ -9,7 +9,7 @@
 #import "ConsoleDocumentView.h"
 #import "Sighting.h"
 @interface ConsoleDocumentView()
--(void)setup;
+- (void)setup;
 @end
 
 @implementation ConsoleDocumentView
@@ -31,7 +31,7 @@
     return self;
 }
 
--(id)init
+- (id)init
 {
     self = [[[NSBundle mainBundle] loadNibNamed:@"ConsoleDocumentView" owner:self options:nil] lastObject];
     if (self) {
@@ -41,7 +41,7 @@
 
 }
 
--(id)initWithSighting:(Sighting*)sighting
+- (id)initWithSighting:(Sighting*)sighting
 {
     if((self = [[[NSBundle mainBundle] loadNibNamed:@"ConsoleDocumentView" owner:self options:nil] lastObject]))
     {
@@ -57,7 +57,7 @@
     }
     return self;
 }
--(void)setup
+- (void)setup
 {
     
     UIFont* andale = [UIFont fontWithName:@"AndaleMono" size:18.0f];
@@ -76,7 +76,7 @@
     
 }
 
--(void)layoutSubviews
+- (void)layoutSubviews
 {
     [super layoutSubviews];
     
@@ -97,7 +97,7 @@
 
 
 
--(void)setReport:(NSString *)report
+- (void)setReport:(NSString *)report
 {
          _report = report;
 }

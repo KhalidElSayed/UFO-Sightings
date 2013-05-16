@@ -12,12 +12,12 @@
 @synthesize coordinate, title;
 @synthesize containedAnnotations;
 
--(NSString*)title
+- (NSString*)title
 {
     return @" ";
 }
 
--(NSString*)buildTitle
+- (NSString*)buildTitle
 {
     if(!containedAnnotations)
     {

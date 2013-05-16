@@ -34,13 +34,13 @@
 + (NSUInteger)zoomLevelForMapRect:(MKMapRect)mapRect;
 + (NSUInteger)zoomLevelForZoomScale:(MKZoomScale)zoomScale;
 + (NSUInteger)zoomLevelForRegion:(MKCoordinateRegion)region;
--(NSURL*)remoteUrlForStyle:(NSString*)style zoomLevel:(NSUInteger)zoom withX:(NSUInteger)x andY:(NSUInteger)y;
--(NSURL*)localUrlForStyle:(NSString*)style zoomLevel:(NSUInteger)zoom withX:(NSUInteger)x andY:(NSUInteger)y;
--(NSURL*)localUrlForStyle:(NSString *)style withMapRect:(MKMapRect)mapRect andZoomScale:(MKZoomScale)zoomScale;
--(NSURL*)remoteUrlForStyle:(NSString *)style withMapRect:(MKMapRect)mapRect andZoomScale:(MKZoomScale)zoomScale;
+- (NSURL*)remoteUrlForStyle:(NSString*)style zoomLevel:(NSUInteger)zoom withX:(NSUInteger)x andY:(NSUInteger)y;
+- (NSURL*)localUrlForStyle:(NSString*)style zoomLevel:(NSUInteger)zoom withX:(NSUInteger)x andY:(NSUInteger)y;
+- (NSURL*)localUrlForStyle:(NSString *)style withMapRect:(MKMapRect)mapRect andZoomScale:(MKZoomScale)zoomScale;
+- (NSURL*)remoteUrlForStyle:(NSString *)style withMapRect:(MKMapRect)mapRect andZoomScale:(MKZoomScale)zoomScale;
 
--(void)fetchFileForStyle:(NSString*)style zoomLevel:(NSUInteger)zoom withX:(NSUInteger)x andY:(NSUInteger)y completion:(void (^)())completion;
--(void)fetchFileForStyle:(NSString*)style withMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale completion:(void (^)())completion;
+- (void)fetchFileForStyle:(NSString*)style zoomLevel:(NSUInteger)zoom withX:(NSUInteger)x andY:(NSUInteger)y completion:(void (^)())completion;
+- (void)fetchFileForStyle:(NSString*)style withMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale completion:(void (^)())completion;
 
 
 @end

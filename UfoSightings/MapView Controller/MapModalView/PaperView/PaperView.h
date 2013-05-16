@@ -19,6 +19,6 @@
 @property (strong, nonatomic) IBOutlet UITextView *reportTextView;
 
 
--(void)randomize;
+- (void)randomize;
 
 @end

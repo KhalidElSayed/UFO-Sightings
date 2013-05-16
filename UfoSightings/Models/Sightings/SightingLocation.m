@@ -21,17 +21,18 @@
 @synthesize title, aggregateTitle;
 
 
--(BOOL)compare:(SightingLocation*)aSighting
+- (BOOL)compare:(SightingLocation*)aSighting
 {
     return [self.lat compare:aSighting.lat] && [self.lng compare:aSighting.lng] && [self.formattedAddress compare:aSighting.formattedAddress];    
 }
 
--(NSString*)title
+- (NSString*)title
 {
     return @" ";
 }
 
--(CLLocationCoordinate2D)actualCoordinate
+
+- (CLLocationCoordinate2D)actualCoordinate
 {
    return CLLocationCoordinate2DMake([self.lat doubleValue], [self.lng doubleValue]);
 }

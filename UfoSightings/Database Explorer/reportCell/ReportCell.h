@@ -15,5 +15,5 @@
 @property (strong, nonatomic) IBOutlet UIImageView *shapeImageView;
 @property (strong, nonatomic) IBOutlet UILabel *locationLabel;
 
--(CGFloat)mySize;
+- (CGFloat)mySize;
 @end

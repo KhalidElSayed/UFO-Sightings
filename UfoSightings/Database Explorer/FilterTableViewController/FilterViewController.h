@@ -14,8 +14,8 @@
 
 @property (weak, atomic) NSMutableDictionary* filterDict;
 @property (strong, nonatomic)NSString* predicateKey;
--(BOOL)canReset;
--(void)reset;
+- (BOOL)canReset;
+- (void)reset;
 
 @end
 

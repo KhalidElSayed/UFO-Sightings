@@ -17,7 +17,7 @@
 @synthesize boundingMapRect, coordinate;
 
 
--(id)init
+- (id)init
 {
     if((self = [super init]))
     {
@@ -115,7 +115,7 @@
 // ******************* End of Matt Tigas' wonderful helpers*******************
 
 
--(void)fetchFileForStyle:(NSString *)style withMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale completion:(void (^)())completion
+- (void)fetchFileForStyle:(NSString *)style withMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale completion:(void (^)())completion
 {
     NSUInteger zoomLevel = [UFOHeatMap zoomLevelForZoomScale:zoomScale];
     CGPoint mercatorPoint = [self mercatorTileOriginForMapRect:mapRect];
@@ -126,7 +126,7 @@
 }
 
 
--(void)fetchFileForStyle:(NSString *)style zoomLevel:(NSUInteger)zoom withX:(NSUInteger)x andY:(NSUInteger)y completion:(void (^)())completion
+- (void)fetchFileForStyle:(NSString *)style zoomLevel:(NSUInteger)zoom withX:(NSUInteger)x andY:(NSUInteger)y completion:(void (^)())completion
 {  
     NSURLRequest * req = [NSURLRequest requestWithURL:[NSURL URLWithString:[NSString stringWithFormat:@"http://richardbkirk.com/u/gheat/%@/%d/%d,%d.png", style, zoom, x, y]]];
 
@@ -196,20 +196,20 @@
 }
 
 
--(NSURL*)remoteUrlForStyle:(NSString*)style zoomLevel:(NSUInteger)zoom withX:(NSUInteger)x andY:(NSUInteger)y
+- (NSURL*)remoteUrlForStyle:(NSString*)style zoomLevel:(NSUInteger)zoom withX:(NSUInteger)x andY:(NSUInteger)y
 {
     return [NSURL URLWithString:[NSString stringWithFormat:@"http://richardbkirk.com/u/gheat/%@/%d/%d,%d.png", style, zoom, x,y]];
 }
 
 
--(NSURL*)localUrlForStyle:(NSString*)style zoomLevel:(NSUInteger)zoom withX:(NSUInteger)x andY:(NSUInteger)y
+- (NSURL*)localUrlForStyle:(NSString*)style zoomLevel:(NSUInteger)zoom withX:(NSUInteger)x andY:(NSUInteger)y
 {
     NSURL* documentsDirectory = [[[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask] lastObject];
     return [documentsDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@/%d/%d,%d.png", style,zoom, x, y] isDirectory:NO];
 }
 
 
--(NSURL*)localUrlForStyle:(NSString *)style withMapRect:(MKMapRect)mapRect andZoomScale:(MKZoomScale)zoomScale
+- (NSURL*)localUrlForStyle:(NSString *)style withMapRect:(MKMapRect)mapRect andZoomScale:(MKZoomScale)zoomScale
 {
     NSUInteger zoomLevel = [UFOHeatMap zoomLevelForZoomScale:zoomScale];
     CGPoint mercatorPoint = [self mercatorTileOriginForMapRect:mapRect];
@@ -220,7 +220,7 @@
 }
 
 
--(NSURL*)remoteUrlForStyle:(NSString *)style withMapRect:(MKMapRect)mapRect andZoomScale:(MKZoomScale)zoomScale
+- (NSURL*)remoteUrlForStyle:(NSString *)style withMapRect:(MKMapRect)mapRect andZoomScale:(MKZoomScale)zoomScale
 {    
     NSUInteger zoomLevel = [UFOHeatMap zoomLevelForZoomScale:zoomScale];
     CGPoint mercatorPoint = [self mercatorTileOriginForMapRect:mapRect];
@@ -235,13 +235,13 @@
 // The Heat map of UFO sightings spans the globe 
 // The center coordinate will where the prime meridian meets
 // the equator.   
--(CLLocationCoordinate2D)coordinate
+- (CLLocationCoordinate2D)coordinate
 {
     return CLLocationCoordinate2DMake(0.0, 0.0);
 }
 
 
--(MKMapRect)boundingMapRect
+- (MKMapRect)boundingMapRect
 {
     MKMapRect mr = MKMapRectWorld;
     mr.size.width += 1;
@@ -254,7 +254,7 @@
     }
 }
 
--(NSURLRequest *)connection:(NSURLConnection *)connection
+- (NSURLRequest *)connection:(NSURLConnection *)connection
             willSendRequest:(NSURLRequest *)request
            redirectResponse:(NSURLResponse *)redirectResponse
 {

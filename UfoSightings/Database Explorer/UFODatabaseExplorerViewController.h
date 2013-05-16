@@ -33,8 +33,8 @@
 - (IBAction)viewOnMapSelected:(UIButton *)sender;
 - (IBAction)backButtonPressed:(UIButton *)sender;
 - (IBAction)resetButtonPressed:(UIButton *)sender;
--(IBAction)addMoreButtonSelected:(UIButton*)button;
--(NSPredicate*)fullPredicate;
+- (IBAction)addMoreButtonSelected:(UIButton*)button;
+- (NSPredicate*)fullPredicate;
 
 @end
 
@@ -42,11 +42,11 @@
 
 @protocol PredicateCreation <NSObject>
 @property (strong, nonatomic)NSString* predicateKey;
--(BOOL)canReset;
--(void)reset;
+- (BOOL)canReset;
+- (void)reset;
 
 
 @optional
--(NSPredicate*)createPredicate;
--(void)saveState;
+- (NSPredicate*)createPredicate;
+- (void)saveState;
 @end

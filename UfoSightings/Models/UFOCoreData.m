@@ -75,21 +75,17 @@
 // If the coordinator doesn't already exist, it is created and the application's store added to it.
 - (NSPersistentStoreCoordinator *)persistentStoreCoordinator
 {
-
-    if (_persistentStoreCoordinator != nil) {
-        return _persistentStoreCoordinator;
-    }
-    
-    NSURL *storeURL = [[[NSFileManager defaultManager] applicationDocumentsDirectory] URLByAppendingPathComponent:@"UfoSightings.sqlite"];
-    
-    NSError *error = nil;
-    _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
-    if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+    if (!_persistentStoreCoordinator) {
+        NSURL *storeURL = [[[NSFileManager defaultManager] applicationDocumentsDirectory] URLByAppendingPathComponent:@"UfoSightings.sqlite"];
         
-        NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
-        abort();
+        NSError *error = nil;
+        _persistentStoreCoordinator = [[NSPersistentStoreCoordinator alloc] initWithManagedObjectModel:[self managedObjectModel]];
+        if (![_persistentStoreCoordinator addPersistentStoreWithType:NSSQLiteStoreType configuration:nil URL:storeURL options:nil error:&error]) {
+            
+            NSLog(@"Unresolved error %@, %@", error, [error userInfo]);
+            abort();
+        }
     }
-    
     return _persistentStoreCoordinator;
 }
 
@@ -104,8 +100,6 @@
     }
     return context;
 }
-
-
 
 
 @end

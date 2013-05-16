@@ -11,8 +11,8 @@
 
 
 @interface ShapeSelectorViewController ()
--(void)loadShapeButtons;
--(NSPredicate*)createPredicate;
+- (void)loadShapeButtons;
+- (NSPredicate*)createPredicate;
 @end
 
 @implementation ShapeSelectorViewController
@@ -22,7 +22,7 @@
 @synthesize filterDict;
 
 
--(id)init
+- (id)init
 {
     if ((self = [super self]))
     {
@@ -45,7 +45,7 @@
     [super viewDidUnload];
 }
 
--(void)viewDidAppear:(BOOL)animated
+- (void)viewDidAppear:(BOOL)animated
 {
   
     if(self.navigationController)
@@ -59,7 +59,7 @@
 }
 
 
--(void)saveState
+- (void)saveState
 {
     NSMutableArray* shapesToFilter = [[NSMutableArray alloc]init];
     
@@ -113,20 +113,20 @@
 }
 
 
--(void)shapeButtonTapped:(UIButton*)button
+- (void)shapeButtonTapped:(UIButton*)button
 {
   
     [button setSelected:!button.isSelected];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"FilterChoiceChanged" object:self];
 }
 
--(void)setShapes:(NSArray *)shapes
+- (void)setShapes:(NSArray *)shapes
 {
     _shapes = shapes;
     [self loadShapeButtons];
 }
 
--(void)loadShapeButtons
+- (void)loadShapeButtons
 {
     
     NSArray* selectedShapes = [self.filterDict objectForKey:@"shapesToFilter"];
@@ -191,7 +191,7 @@
 }
 
 
--(BOOL)canReset
+- (BOOL)canReset
 {
     BOOL hasChosenShapes = NO;
     for (UIButton* shapeButton in _scrollView.subviews) {
@@ -205,7 +205,7 @@
 }
 
 
--(void)reset
+- (void)reset
 {
     for (UIButton* shapeButton in _scrollView.subviews) {
         [shapeButton setSelected:YES];
@@ -214,7 +214,7 @@
 
 
 
--(NSPredicate*)createPredicate
+- (NSPredicate*)createPredicate
 {
     
     NSMutableArray* selectedButtonPredicates = [[NSMutableArray alloc]initWithCapacity:_shapes.count];

@@ -55,7 +55,7 @@
 
 }
 
--(void)testSightingLocationCoordinate
+- (void)testSightingLocationCoordinate
 {
     
     NSFetchRequest* fetch = [[NSFetchRequest alloc]initWithEntityName:@"SightingLocation"];

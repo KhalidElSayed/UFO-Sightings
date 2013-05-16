@@ -36,7 +36,7 @@
         [self.imageView setContentMode:UIViewContentModeCenter];
 }
 
--(void)setShape:(NSString*)shape
+- (void)setShape:(NSString*)shape
 {
 
 

@@ -9,9 +9,9 @@
 #import "RangeSlider.h"
 
 @interface RangeSlider (PrivateMethods)
--(float)xForValue:(float)value;
--(float)valueForX:(float)x;
--(void)updateTrackHighlight;
+- (float)xForValue:(float)value;
+- (float)valueForX:(float)x;
+- (void)updateTrackHighlight;
 @end
 
 @implementation RangeSlider
@@ -63,7 +63,7 @@
 }
 
 
--(void)layoutSubviews
+- (void)layoutSubviews
 {
     // Set the initial state
     _minThumb.center = CGPointMake([self xForValue:selectedMinimumValue], self.center.y);
@@ -77,15 +77,15 @@
     
 }
 
--(float)xForValue:(float)value{
-    return (self.frame.size.width-(_padding*2))*((value - minimumValue) / (maximumValue - minimumValue))+_padding;
+- (float)xForValue:(float)value{
+    return (self.frame.size.width- (_padding*2))*((value - minimumValue) / (maximumValue - minimumValue))+_padding;
 }
 
--(float) valueForX:(float)x{
-    return minimumValue + (x-_padding) / (self.frame.size.width-(_padding*2)) * (maximumValue - minimumValue);
+- (float) valueForX:(float)x{
+    return minimumValue + (x-_padding) / (self.frame.size.width- (_padding*2)) * (maximumValue - minimumValue);
 }
 
--(BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event{
+- (BOOL)continueTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event{
     if(!_minThumbOn && !_maxThumbOn){
         return YES;
     }
@@ -111,7 +111,7 @@
     return YES;
 }
 
--(BOOL) beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event{
+- (BOOL) beginTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event{
     CGPoint touchPoint = [touch locationInView:self];
     
 
@@ -128,7 +128,7 @@
     return YES;
 }
 
--(void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event{
+- (void)endTrackingWithTouch:(UITouch *)touch withEvent:(UIEvent *)event{
     _minThumbOn = false;
     _maxThumbOn = false;
     
@@ -143,7 +143,7 @@
 
 }
 
--(void)updateTrackHighlight{
+- (void)updateTrackHighlight{
 	_track.frame = CGRectMake(
                               _minThumb.center.x,
                               _track.center.y - (_track.frame.size.height/2),

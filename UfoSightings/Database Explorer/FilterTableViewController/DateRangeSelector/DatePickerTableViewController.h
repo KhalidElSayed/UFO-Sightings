@@ -17,10 +17,10 @@
 @property (weak, atomic) NSMutableDictionary* filterDict;
 
 
--(NSPredicate*)createPredicate;
+- (NSPredicate*)createPredicate;
 
--(BOOL)canReset;
--(void)reset;
--(void)saveState;
+- (BOOL)canReset;
+- (void)reset;
+- (void)saveState;
 
 @end

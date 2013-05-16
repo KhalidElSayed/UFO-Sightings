@@ -41,7 +41,7 @@
     return self;
 }
 
--(id)initWithCoder:(NSCoder *)aDecoder
+- (id)initWithCoder:(NSCoder *)aDecoder
 {
     self = [super initWithCoder:aDecoder];
     if (self) {
@@ -63,7 +63,7 @@
 
 
 
--(void)randomize
+- (void)randomize
 {
     topImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"top%i.png", rand()% MAX_RAND]];
     leftImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"left%i.png", rand()% MAX_RAND]];

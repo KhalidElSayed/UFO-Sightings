@@ -12,7 +12,7 @@
 @interface SightingsParser : NSObject
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
 
--(void)createDatabase;
+- (void)createDatabase;
 
 
 - (NSURL *)applicationDocumentsDirectory;

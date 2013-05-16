@@ -18,9 +18,9 @@
 
 - (IBAction)checkmarkButtonSelected:(UIButton *)sender;
 
--(NSPredicate*)createPredicate;
--(BOOL)canReset;
--(void)reset;
--(void)saveState;
+- (NSPredicate*)createPredicate;
+- (BOOL)canReset;
+- (void)reset;
+- (void)saveState;
 
 @end

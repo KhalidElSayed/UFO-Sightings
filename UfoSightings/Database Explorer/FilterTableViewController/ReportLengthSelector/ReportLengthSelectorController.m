@@ -15,7 +15,7 @@
 @synthesize predicateKey;
 @synthesize filterOptions;
 
--(id)init
+- (id)init
 {
     if ((self = [super self]))
     {
@@ -60,7 +60,7 @@
     // Release any retained subviews of the main view.
 }
 
--(void)saveState
+- (void)saveState
 {
     
     NSMutableArray* lengthsToFilter = [[NSMutableArray alloc]initWithCapacity:3];
@@ -122,7 +122,7 @@
 
 
 
--(BOOL)canReset
+- (BOOL)canReset
 {
     BOOL hasChosenLengths = NO;
     for (UIButton* checkmarkButton in self.checkmarkButtons) {
@@ -138,7 +138,7 @@
 }
 
 
--(void)reset
+- (void)reset
 {
     for (UIButton* checkmarkButton in self.checkmarkButtons) {
         [checkmarkButton setSelected:YES];
@@ -146,7 +146,7 @@
 }
 
 
--(NSPredicate*)createPredicate
+- (NSPredicate*)createPredicate
 {
 
     bool a = NO;

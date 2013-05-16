@@ -19,6 +19,6 @@
 
 @property (strong, nonatomic) NSString* report;
 
--(id)initWithSighting:(Sighting*)sighting;
+- (id)initWithSighting:(Sighting*)sighting;
 
 @end

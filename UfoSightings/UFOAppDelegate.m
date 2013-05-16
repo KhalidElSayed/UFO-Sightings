@@ -56,7 +56,7 @@
 
 #pragma mark - Core Data stack
 
--(void)setupDefaults
+- (void)setupDefaults
 {
     [[NSUserDefaults standardUserDefaults] setObject:[NSDate date] forKey:@"firstRun"];
     [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"mapType"];

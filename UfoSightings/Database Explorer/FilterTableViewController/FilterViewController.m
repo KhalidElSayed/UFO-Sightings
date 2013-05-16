@@ -19,7 +19,7 @@
 @synthesize predicateKey;
 
 
--(id)init
+- (id)init
 {
     if((self = [super init]))
     {
@@ -41,7 +41,7 @@
 }
 
 
--(void)viewWillAppear:(BOOL)animated
+- (void)viewWillAppear:(BOOL)animated
 {
     if(animated)
     [self.tableView reloadData];
@@ -53,7 +53,7 @@
     [super viewDidUnload];
 }
 
--(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {
     return YES;
 }
@@ -113,7 +113,7 @@
     return cell;
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     return 80.f;
 }
@@ -158,7 +158,7 @@
 }
 
 
--(BOOL)canReset
+- (BOOL)canReset
 {
     BOOL hasFilters = NO;
     NSArray* cells = [self.filterDict objectForKey:@"filterCells"];    
@@ -175,7 +175,7 @@
 }
 
 
--(void)reset
+- (void)reset
 {
     NSArray* cells = [self.filterDict objectForKey:@"filterCells"];        
     for (NSMutableDictionary* cellDict in cells) {

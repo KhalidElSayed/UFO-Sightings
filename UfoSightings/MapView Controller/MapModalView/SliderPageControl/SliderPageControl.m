@@ -66,7 +66,7 @@
 }
 
 
--(void)setFrame:(CGRect)frame
+- (void)setFrame:(CGRect)frame
 {
     backgroundView.frame = CGRectMake(0,0,frame.size.width,frame.size.height);
     

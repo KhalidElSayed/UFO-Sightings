@@ -32,7 +32,7 @@
 }
 
 
--(CGFloat)mySize
+- (CGFloat)mySize
 {
    return reportTextView.frame.origin.y + reportTextView.contentSize.height + 5.0f;
 }

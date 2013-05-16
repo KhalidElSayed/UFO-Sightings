@@ -16,7 +16,7 @@
     NSDateFormatter*    _df;
     UILabel*            _rangeLabel;
 }
--(void)sliderDidUpdate;
+- (void)sliderDidUpdate;
 @end
 
 @implementation DatePickerTableViewController
@@ -25,7 +25,7 @@
 @synthesize filterDict;
 
 
--(id)init
+- (id)init
 {
     if((self = [super init]))
     {
@@ -61,7 +61,7 @@
 
 
 
--(void)saveState
+- (void)saveState
 {
     [_df setDateFormat:@"yyyy"];
     
@@ -178,7 +178,7 @@
     return [[UITableViewCell alloc]initWithFrame:CGRectZero];
 }
 
--(CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     if (indexPath.row == 0)
         return 80.0f;
@@ -189,7 +189,7 @@
 }
 
 
--(void)sliderDidUpdate
+- (void)sliderDidUpdate
 {
     if(_slider.selectedMinimumValue != _slider.minimumValue || _slider.selectedMaximumValue != _slider.maximumValue)
     {
@@ -216,13 +216,13 @@
     }
 }
 
--(BOOL)canReset
+- (BOOL)canReset
 {
     return _hasChosenRange;
 }
 
 
--(void)reset
+- (void)reset
 {
     _slider.selectedMinimumValue = _slider.minimumValue;
     _slider.selectedMaximumValue = _slider.maximumValue;
@@ -230,7 +230,7 @@
     [self sliderDidUpdate];
 }
 
--(NSPredicate*)createPredicate
+- (NSPredicate*)createPredicate
 {
     [_df setDateFormat:@"yyyyMMdd"];
     NSPredicate* minimumDate = nil;

@@ -16,6 +16,6 @@
 
 @property (nonatomic, retain) IBOutlet UILabel *sliderValue;
 
--(void)updateSliderValueTo:(CGFloat)_value;
+- (void)updateSliderValueTo:(CGFloat)_value;
 
 @end

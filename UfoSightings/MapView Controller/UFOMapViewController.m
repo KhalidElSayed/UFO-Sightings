@@ -1,6 +1,6 @@
 //
-//  ViewController.m
-//  LocationFun
+//  UFOMapViewController.m
+//  UFO Sightings
 //
 //  Created by Richard Kirk on 12/19/11.
 //  Copyright (c) 2011 Home. All rights reserved.
@@ -15,6 +15,7 @@
 #define DEGREES_TO_RADIANS(angle) (angle / 180.0 * M_PI)
 #define CLUSTER_ANIMATION YES
 #define APPROXIMATE_CENTER_ANNOTATION YES
+
 static dispatch_queue_t annons_background_queue;
 dispatch_queue_t annotations_background_queue()
 {
@@ -24,7 +25,6 @@ dispatch_queue_t annotations_background_queue()
     }
     return annons_background_queue;
 }
-
 
 static dispatch_queue_t title_generation_backgrond_queue;
 dispatch_queue_t title_backgrond_queue()
@@ -42,43 +42,30 @@ dispatch_queue_t title_backgrond_queue()
     MKMapView *                 _backMap;
     MapModalView*               _modalView;
     bool                        _mapSelectionOpen;
-    bool                        _annotationsShowing;
-    bool                        _heatMapShowing;
     __block bool                _isFetching;
     __block bool                _stopGettingTitle;
     MKAnnotationView*           _selectedAnnotationView;
     NSManagedObjectContext*     _backgroundManagedObjectContext;
-    UIActivityIndicatorView*    _annotationActivityIndicator;
-    
 }
+@property (strong, nonatomic) UIActivityIndicatorView* annotationActivityIndicator;
+@property (assign, nonatomic) BOOL annotationsShowing;
+@property (assign, nonatomic) BOOL heatMapShowing;
+
 - (void)updateVisibleAnnotations;
-- (id<MKAnnotation>)annotationInGrid:(MKMapRect)gridMapRect usingAnnotations:(NSSet*)annotations;
--(void)reloadSightingLocations;
--(void)showAlert;
--(void)hideAlert;
-
-
-
+- (id<MKAnnotation>)centerAnnotationInGrid:(MKMapRect)gridMapRect usingAnnotations:(NSSet*)annotations;
+- (void)reloadSightingLocations;
+- (void)showAlert;
+- (void)hideAlert;
 @end
 
+
+
 @implementation UFOMapViewController
-@synthesize managedObjectContext;
-@synthesize rootController;
-@synthesize myMap = _myMap;
-@synthesize tvOverlay;
-@synthesize modalPlaceholderView = _modalPlaceholderView;
-@synthesize compassButton, sightingAnnotationsButton, mapLayerButton, filterButton, mapTypeSegmentController;;
-@synthesize loadingIndicator = _loadingIndicator;
-@synthesize alertView;
 
-
-//***************************************************************************************************
 #pragma mark - View lifecycle
-//***************************************************************************************************
--(id)init
+- (id)init
 {
-    if((self = [super init]))
-    {
+    if((self = [super init])) {
         _heatMapOverlay = [[UFOHeatMap alloc]init];
         _backMap = [[MKMapView alloc]initWithFrame:CGRectZero];
         _mapSelectionOpen = NO;
@@ -89,46 +76,33 @@ dispatch_queue_t title_backgrond_queue()
 }
 
 
--(void)viewWillAppear:(BOOL)animated
-{
-    [self showAlert];
-}
-
-
-
-
 - (void)viewDidLoad
 {
     [super viewDidLoad];
     MKCoordinateRegion region = {{ 36.102376, -119.091797}, {32.451446, 28.125000}};
-    [_myMap setRegion:region];       
+    [self.mapView setRegion:region];
     
     NSInteger mapType = [[NSUserDefaults standardUserDefaults] integerForKey:@"mapType"];
-    [_myMap setMapType:mapType];
+    [self.mapView setMapType:mapType];
     [self.mapTypeSegmentController setSelectedSegmentIndex:mapType];
     
-    _annotationsShowing = [[NSUserDefaults standardUserDefaults] boolForKey:@"annotationsOn"];
-    [self.sightingAnnotationsButton setSelected:_annotationsShowing];
+    self.annotationsShowing = [[NSUserDefaults standardUserDefaults] boolForKey:@"annotationsOn"];
+    [self.sightingAnnotationsButton setSelected:self.annotationsShowing];
     
-    _backgroundManagedObjectContext = [[NSManagedObjectContext alloc]init];
-    _backgroundManagedObjectContext.persistentStoreCoordinator =  self.managedObjectContext.persistentStoreCoordinator;    
+    _backgroundManagedObjectContext = [[UFOCoreData sharedInstance] createManagedObjectContext];
     [self reloadSightingLocations];
     
-    _heatMapShowing = [[NSUserDefaults standardUserDefaults] boolForKey:@"heatMapOverlayOn"]; 
+    self.heatMapShowing = [[NSUserDefaults standardUserDefaults] boolForKey:@"heatMapOverlayOn"];
     [self.mapLayerButton setSelected:_heatMapShowing];
-    if(_heatMapShowing)
-    {
-        [_myMap addOverlay:_heatMapOverlay];
-    }
     
-    _annotationActivityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    [_annotationActivityIndicator setHidesWhenStopped:YES];
+    if(self.heatMapShowing) {
+        [self.mapView addOverlay:self.heatMapOverlay];
+    }
 }
 
 
--(void)viewWillUnload
+- (void)dealloc
 {
-    [super viewWillUnload];
     [[NSUserDefaults standardUserDefaults] setBool:self.mapLayerButton.isSelected forKey:@"heatMapOverlayOn"];
     [[NSUserDefaults standardUserDefaults] setBool:self.sightingAnnotationsButton.isSelected forKey:@"annotationsOn"];
     [[NSUserDefaults standardUserDefaults] setInteger:self.mapTypeSegmentController.selectedSegmentIndex forKey:@"mapType"];
@@ -136,70 +110,47 @@ dispatch_queue_t title_backgrond_queue()
 }
 
 
-- (void)viewDidUnload
-{
-    /*
-    dispatch_release(annotations_background_queue());
-    dispatch_release(title_backgrond_queue());
-    */
-     [self setMyMap:nil];
-    _heatMapOverlay = nil;
-    _backMap = nil;
-    [self setTvOverlay:nil];
-    [self setModalPlaceholderView:nil];
-    [self setCompassButton:nil];
-    [self setMapLayerButton:nil];
-    [self setSightingAnnotationsButton:nil];
-    [self setMapTypeSegmentController:nil];
-    [self setFilterButton:nil];
-    [self setAlertView:nil];
-    [self setLoadingIndicator:nil];
-    [super viewDidUnload];
-}
-
-
--(void)viewWillLayoutSubviews
+- (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
     if (_modalView) {
         _modalView.view.frame = _modalPlaceholderView.frame;
     }
     
-    UIDeviceOrientation deviceOrientation = [[UIApplication sharedApplication]statusBarOrientation];
-    if (UIInterfaceOrientationIsPortrait(deviceOrientation )) {
-        self.tvOverlay.image = [UIImage imageNamed:@"tvOverlayPortrait.png"];   
-    }
-    else {
-        self.tvOverlay.image = [UIImage imageNamed:@"TVOverlay.png"];
-    }
-    
+    UIDeviceOrientation deviceOrientation = [[UIApplication sharedApplication] statusBarOrientation];
+    self.tvOverlay.image = UIInterfaceOrientationIsPortrait(deviceOrientation) ? [UIImage imageNamed:@"tvOverlayPortrait.png"] : [UIImage imageNamed:@"TVOverlay.png"];
 }
 
--(BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {    
     return YES;
 }
 
 
--(void)modalWantsToDismiss
+- (UIActivityIndicatorView*)annotationActivityIndicator
+{
+    if(!_annotationActivityIndicator) {
+        _annotationActivityIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        [_annotationActivityIndicator setHidesWhenStopped:YES];
+    }
+    return _annotationActivityIndicator;
+}
+
+
+- (void)modalWantsToDismiss
 {
     [_modalView.view removeFromSuperview];
     _modalView = nil;
-    [_myMap setUserInteractionEnabled:YES];
+    [self.mapView setUserInteractionEnabled:YES];
     
 }
-//***************************************************************************************************
 
 
-
-
-
-//***************************************************************************************************
 #pragma mark - Data gathering
-//***************************************************************************************************
+
 /**
  This function is meant to fetch all of the sighting locations stored in the database
- and provide them to the backmap to be used by -(void)updateVisibleAnnotations. This
+ and provide them to the backmap to be used by - (void)updateVisibleAnnotations. This
  method will be ammeded in the future to include a predicate which will filter annotations
  
  We fetch on the background context because that portion of the function runs on a separate 
@@ -207,11 +158,11 @@ dispatch_queue_t title_backgrond_queue()
  While this does not save much time currently, it will greatly reduce the work on the 
  main thread when we introduce a predicate to filter with.
  */
--(void)reloadSightingLocations;
+- (void)reloadSightingLocations;
 {
     _isFetching = YES; 
-    [_loadingIndicator startAnimating];
-    [_myMap removeAnnotations:[_myMap annotations]]; // If there are any annotations currently showing, remove them
+    [self.loadingIndicator startAnimating];
+    [self.mapView removeAnnotations:[self.mapView annotations]]; // If there are any annotations currently showing, remove them
     [_backMap removeAnnotations:[_backMap annotations]];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
         
@@ -227,8 +178,7 @@ dispatch_queue_t title_backgrond_queue()
             
             dispatch_sync(dispatch_get_main_queue(), ^{
                 
-                for (NSManagedObjectID* objID in allsightings) 
-                {
+                for (NSManagedObjectID* objID in allsightings) {
                     SightingLocation* sightingLoc = (SightingLocation*)[self.managedObjectContext objectWithID:objID];
                     //*********************************
                     // This is neccesary to implement the cluster annotation
@@ -237,11 +187,12 @@ dispatch_queue_t title_backgrond_queue()
                     [_backMap addAnnotation:sightingLoc];
                 }
                 
-                if(_annotationsShowing)
-                    [self updateVisibleAnnotations];   
+                if(self.annotationsShowing) {
+                    [self updateVisibleAnnotations];
+                }
                 
                 _isFetching = NO;
-                [_loadingIndicator stopAnimating]; 
+                [self.loadingIndicator stopAnimating]; 
             });
         }
     });
@@ -262,19 +213,9 @@ dispatch_queue_t title_backgrond_queue()
  @param UIbutton
  */
 - (IBAction)compassButtonSelected:(UIButton *)sender 
-{    
-    CGAffineTransform rotate;
-    CGFloat newAlpha;
-    if (_mapSelectionOpen) 
-    {
-        rotate = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(-45));
-        newAlpha = 0.0f;
-    }
-    else
-    {
-        rotate = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(45));
-        newAlpha = 1.0f;
-    }
+{
+    CGAffineTransform rotate = CGAffineTransformMakeRotation(DEGREES_TO_RADIANS(_mapSelectionOpen ? -45 : 45));
+    CGFloat newAlpha = _mapSelectionOpen ? 0.0f : 1.0;
     
     [UIView animateWithDuration:0.3 delay:0.0f options:UIViewAnimationCurveEaseInOut animations:^{
         self.mapTypeSegmentController.alpha = newAlpha;
@@ -291,13 +232,14 @@ dispatch_queue_t title_backgrond_queue()
  */
 - (IBAction)sightingsAnnotationsButtonSelected:(UIButton *)sender 
 {
-    if(_annotationsShowing)
-        [_myMap removeAnnotations:[_myMap annotations]];
-    else 
-        [self updateVisibleAnnotations];   
-    
-    _annotationsShowing = !_annotationsShowing;
-    [sender setSelected:_annotationsShowing];    
+    if(self.annotationsShowing){
+        [self.mapView removeAnnotations:[self.mapView annotations]];
+    }
+    else {
+        [self updateVisibleAnnotations];
+    }
+    self.annotationsShowing = !self.annotationsShowing;
+    [sender setSelected:self.annotationsShowing];
 }
 
 
@@ -307,18 +249,16 @@ dispatch_queue_t title_backgrond_queue()
  */
 - (IBAction)mapLayerButtonSelected:(UIButton *)sender {
     
-    if(_heatMapShowing)
-    {
-        if([[_myMap overlays] containsObject:_heatMapOverlay])
-            [_myMap removeOverlay:_heatMapOverlay];
+    if(self.heatMapShowing) {
+        if([[self.mapView overlays] containsObject:self.heatMapOverlay])
+            [self.mapView removeOverlay:self.heatMapOverlay];
     }
-    else 
-    {
-        if(![[_myMap overlays] containsObject:_heatMapOverlay])
-            [_myMap addOverlay:_heatMapOverlay];
+    else {
+        if(![[self.mapView overlays] containsObject:self.heatMapOverlay])
+            [self.mapView addOverlay:self.heatMapOverlay];
     }
-    _heatMapShowing = !_heatMapShowing;
-    [sender setSelected:_heatMapShowing];    
+    self.heatMapShowing = !self.heatMapShowing;
+    [sender setSelected:self.heatMapShowing];
 }
 
 
@@ -328,7 +268,9 @@ dispatch_queue_t title_backgrond_queue()
  */
 - (IBAction)filterButtonSelected:(UIButton *)sender 
 {
-    [self.rootController switchViewController];
+    if([self.delegate respondsToSelector:@selector(UFOMapViewControllerWantsToExit:)]) {
+        [self.delegate UFOMapViewControllerWantsToExit:self];
+    }
 }
 
 
@@ -348,21 +290,19 @@ dispatch_queue_t title_backgrond_queue()
  It is currently unused.
  @param UIButton
  */
--(IBAction)userLocationButtonSelected:(UIButton*)sender
+- (IBAction)userLocationButtonSelected:(UIButton*)sender
 {
-    if([CLLocationManager locationServicesEnabled])
-    {
+    if([CLLocationManager locationServicesEnabled]) {
         locationManager = [[CLLocationManager alloc]init];
         locationManager.delegate = self;
         [locationManager setDistanceFilter:1000];
         [locationManager setDesiredAccuracy:kCLLocationAccuracyKilometer];
         [locationManager startUpdatingLocation];
     }
-    else
-    {
+    else {
         NSLog(@"User does not allow location services");
     }
-    [_myMap setShowsUserLocation:YES];
+    [self.mapView setShowsUserLocation:YES];
 }
 
 
@@ -378,18 +318,13 @@ dispatch_queue_t title_backgrond_queue()
 
 - (IBAction)mapTypeSegmentChanged:(UISegmentedControl *)sender 
 {
-    [_myMap setMapType:[sender selectedSegmentIndex]];
+    [self.mapView setMapType:[sender selectedSegmentIndex]];
 }
 
-//***************************************************************************************************
 
-
-
-
-//***************************************************************************************************
 #pragma mark - MapKit Delegate Functions
-//***************************************************************************************************
--(MKOverlayView*) mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay
+
+- (MKOverlayView*) mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay
 {
     return [[UFOHeatMapOverlayView alloc] initWithOverlay:overlay];
 }
@@ -401,11 +336,9 @@ dispatch_queue_t title_backgrond_queue()
  */
 - (void)mapView:(MKMapView *)mapView regionDidChangeAnimated:(BOOL)animated
 {
-    if(_annotationsShowing)
-    {   
+    if(self.annotationsShowing) {
         _selectedAnnotationView.selected = NO;
-        [self updateVisibleAnnotations];   
-        
+        [self updateVisibleAnnotations];
     }
 }   
 
@@ -414,7 +347,7 @@ dispatch_queue_t title_backgrond_queue()
  This function gets called when the user taps the right arrow on an anotation which has been selected
  We want to create a MapModalView to show the sightings in this location to the user. 
  */
--(void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
+- (void)mapView:(MKMapView *)mapView annotationView:(MKAnnotationView *)view calloutAccessoryControlTapped:(UIControl *)control
 {
     _stopGettingTitle = YES;    // If working on a background thread building the title, stop.
     SightingLocation* location = view.annotation;
@@ -432,19 +365,17 @@ dispatch_queue_t title_backgrond_queue()
  cluster annotation, but that can be costly with a large set of annotations. 
  This is the point where we need to implement the behavior. 
  */
--(void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
+- (void)mapView:(MKMapView *)mapView didAddAnnotationViews:(NSArray *)views
 {
     for (MKAnnotationView* annotationView in views) 
     {
         if(![annotationView.annotation isKindOfClass:[SightingLocation class]])
             continue;
         
-        if(CLUSTER_ANIMATION)
-        {
+        if(CLUSTER_ANIMATION) {
             SightingLocation* annotation = (SightingLocation*)annotationView.annotation;
            
-            if(annotation.clusterAnnotation != nil)
-            {
+            if(annotation.clusterAnnotation != nil) {
                 CLLocationCoordinate2D containerCoordinate = annotation.clusterAnnotation.coordinate;
                 annotation.clusterAnnotation = nil;
                 annotation.coordinate = containerCoordinate;
@@ -455,15 +386,13 @@ dispatch_queue_t title_backgrond_queue()
             }
             
         }
-        else 
-        {
+        else {
             // In place of the cluster animation we will simply fade in.
             annotationView.alpha = 0.0f;
             [UIView animateWithDuration:0.5 animations:^{
                 annotationView.alpha = 1.0f;
             }];    
         }
-
     }
 }
 
@@ -479,7 +408,7 @@ dispatch_queue_t title_backgrond_queue()
  3. Do work on the bg annotations thread to determine the title
  4. Return it to the main thread and stop the indicator
  */
--(void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
+- (void)mapView:(MKMapView *)mapView didSelectAnnotationView:(MKAnnotationView *)view
 {       
     _stopGettingTitle = YES;
     _selectedAnnotationView = view;
@@ -555,9 +484,9 @@ dispatch_queue_t title_backgrond_queue()
         [label setTextColor:[UIColor whiteColor]];
         [label setBackgroundColor:[UIColor clearColor]];
         [label setFont:[UIFont fontWithName:@"Helvetica-Bold" size:16.0f]];
-        [label setTextAlignment:UITextAlignmentCenter];
+        [label setTextAlignment:NSTextAlignmentCenter];
         [label setAdjustsFontSizeToFitWidth:YES];
-        [label setMinimumFontSize:6.0f];
+        [label setMinimumScaleFactor:0.3];
         [leftCalloutView addSubview:label];
         annotationView.leftCalloutAccessoryView = leftCalloutView;
         return annotationView;
@@ -592,10 +521,8 @@ dispatch_queue_t title_backgrond_queue()
  We use a separate map called _backmap with a frame of CGRectZero to take advantage
  of the -annotationsInMapRect: apple has provided for us. 
  */
--(void)updateVisibleAnnotations
+- (void)updateVisibleAnnotations
 {
-    
-    
     dispatch_async(annotations_background_queue(), ^{        
         
         /* These two sets are the goal of this function */
@@ -609,13 +536,13 @@ dispatch_queue_t title_backgrond_queue()
                                         // the map view gets iterated through. 
         
         /* 1. Determine the MapRect currently being shown to the user */
-        MKMapRect visibleMaprect = [_myMap visibleMapRect]; // possibly unsafe. 
+        MKMapRect visibleMaprect = [self.mapView visibleMapRect]; // possibly unsafe. 
         MKMapRect adjustedVisibleMapRect = MKMapRectInset(visibleMaprect, -marginFactor * visibleMaprect.size.width, -marginFactor * visibleMaprect.size.height);
         
         /* determining the coordinates for the first bucket. 
          MapKit takes care of mercator projection with    -convertPoint: toCoordinateFromView: */
-        CLLocationCoordinate2D leftCoordinate =  [_myMap convertPoint:CGPointZero toCoordinateFromView:self.view];
-        CLLocationCoordinate2D rightCoordinate = [_myMap convertPoint:CGPointMake(bucketSize, 0) toCoordinateFromView:self.view];
+        CLLocationCoordinate2D leftCoordinate =  [self.mapView convertPoint:CGPointZero toCoordinateFromView:self.view];
+        CLLocationCoordinate2D rightCoordinate = [self.mapView convertPoint:CGPointMake(bucketSize, 0) toCoordinateFromView:self.view];
         
         /* gridMapRect is the iterator we will use for the map */
         double gridSize = MKMapPointForCoordinate(rightCoordinate).x - MKMapPointForCoordinate(leftCoordinate).x ;
@@ -636,12 +563,12 @@ dispatch_queue_t title_backgrond_queue()
 
                 /* a. determine all annotations in this grid */
                 NSMutableSet* allAnnotationsInBucket = [[_backMap annotationsInMapRect:gridMapRect] mutableCopy];
-                NSSet* visibleAnnotationsInBucket = [_myMap annotationsInMapRect:gridMapRect];
+                NSSet* visibleAnnotationsInBucket = [self.mapView annotationsInMapRect:gridMapRect];
 
                 if(allAnnotationsInBucket.count > 0) {
 
                     /* b. find the ~center most annotation */ 
-                    SightingLocation* annotationForGrid  = (SightingLocation*)[self annotationInGrid:gridMapRect usingAnnotations:allAnnotationsInBucket];
+                    SightingLocation* annotationForGrid  = (SightingLocation*)[self centerAnnotationInGrid:gridMapRect usingAnnotations:allAnnotationsInBucket];
                                     
                     [allAnnotationsInBucket removeObject:annotationForGrid];
                     NSSet* filteredAnnotationsInBucket = allAnnotationsInBucket;
@@ -661,8 +588,7 @@ dispatch_queue_t title_backgrond_queue()
                     [setToRemove removeObject:annotationForGrid];
 
                 
-                    for (SightingLocation *annotation in filteredAnnotationsInBucket) 
-                    {
+                    for (SightingLocation *annotation in filteredAnnotationsInBucket) {
                         annotation.clusterAnnotation = annotationForGrid;
                         annotation.containedAnnotations = nil;
                     }
@@ -677,24 +603,23 @@ dispatch_queue_t title_backgrond_queue()
         /* 3. Return to the main thread to do UI work */
         dispatch_sync(dispatch_get_main_queue(), ^{
             
-            if(CLUSTER_ANIMATION)
-            {
-                for (SightingLocation* annotation in setToRemove) 
-                {
+            if(CLUSTER_ANIMATION) {
+                
+                for (SightingLocation* annotation in setToRemove) {
                     [UIView animateWithDuration:0.3f animations:^{
                         annotation.coordinate = annotation.clusterAnnotation.coordinate;
                         
                     } completion:^(BOOL finished){
                         annotation.coordinate = [annotation actualCoordinate];
-                        [self.myMap removeAnnotation:annotation];
+                        [self.mapView removeAnnotation:annotation];
                     }];
                 }
             }
-            else 
-                [_myMap removeAnnotations:[setToRemove allObjects]];
-
+            else {
+                [self.mapView removeAnnotations:[setToRemove allObjects]];
+            }
             
-            [_myMap addAnnotations:[setToAdd allObjects]];
+            [self.mapView addAnnotations:[setToAdd allObjects]];
             
         });
         
@@ -708,9 +633,9 @@ dispatch_queue_t title_backgrond_queue()
  @param gridMapRect, annotations
  @returns MKAnnotation
  */
-- (id<MKAnnotation>)annotationInGrid:(MKMapRect)gridMapRect usingAnnotations:(NSSet*)annotations
+- (id<MKAnnotation>)centerAnnotationInGrid:(MKMapRect)gridMapRect usingAnnotations:(NSSet*)annotations
 {
-    NSSet* visibleAnnotationsInBucket = [_myMap annotationsInMapRect:gridMapRect];
+    NSSet* visibleAnnotationsInBucket = [self.mapView annotationsInMapRect:gridMapRect];
     NSSet* annotationsForGridSet = [annotations objectsPassingTest:^BOOL(id obj, BOOL* stop){
         BOOL returnValue = ([visibleAnnotationsInBucket containsObject:obj]);
         if(returnValue)
@@ -718,27 +643,20 @@ dispatch_queue_t title_backgrond_queue()
         return returnValue;
     }];
     
-    if(annotationsForGridSet.count != 0){
-        return  [annotationsForGridSet anyObject];
-    }
-    
-    if(annotations.count < 10)
-        return [annotations anyObject];
+    if(annotationsForGridSet.count != 0) { return  [annotationsForGridSet anyObject]; }
+    if(annotations.count < 10) { return [annotations anyObject]; }
     
     NSMutableArray* annotationsToOrder = [[annotations allObjects] mutableCopy];
   
-    
-    if(APPROXIMATE_CENTER_ANNOTATION)
-        if (annotationsToOrder.count > 30)
-            [annotationsToOrder removeObjectsInRange:NSMakeRange(29, annotationsToOrder.count - 30)]; 
-
-    
+    if(APPROXIMATE_CENTER_ANNOTATION && annotationsToOrder.count > 30) {
+        [annotationsToOrder removeObjectsInRange:NSMakeRange(29, annotationsToOrder.count - 30)];
+    }
 
     MKMapPoint centerMapPoint = MKMapPointMake(MKMapRectGetMidX(gridMapRect), MKMapRectGetMidY(gridMapRect));
     
-    NSArray*  sortedAnnotations = [annotationsToOrder sortedArrayUsingComparator:^(id obj1, id obj2){
-        MKMapPoint mapPoint1 = MKMapPointForCoordinate(((id<MKAnnotation>)obj1).coordinate);
-        MKMapPoint mapPoint2 = MKMapPointForCoordinate(((id<MKAnnotation>)obj2).coordinate);        
+    NSArray*  sortedAnnotations = [annotationsToOrder sortedArrayUsingComparator:^(id<MKAnnotation> obj1, id<MKAnnotation> obj2){
+        MKMapPoint mapPoint1 = MKMapPointForCoordinate(obj1.coordinate);
+        MKMapPoint mapPoint2 = MKMapPointForCoordinate(obj2.coordinate);
         
         CLLocationDistance distance1 = MKMetersBetweenMapPoints(mapPoint1, centerMapPoint);
         CLLocationDistance distance2 = MKMetersBetweenMapPoints(mapPoint2, centerMapPoint);
@@ -753,43 +671,31 @@ dispatch_queue_t title_backgrond_queue()
         return NSOrderedSame;
     }];
     
-    
-    
-    
     return [sortedAnnotations objectAtIndex:0];
-    
 }
-//***************************************************************************************************
 
 
-
-
-
-//***************************************************************************************************
 #pragma mark - Alert View
-//***************************************************************************************************
--(void)showAlert
+
+- (void)showAlert
 {
-    if(alertView && alertView.frame.size.height == 0)
-    {
-        CGRect frame = alertView.frame;
+    if(self.alertView && self.alertView.frame.size.height == 0) {
+        CGRect frame = self.alertView.frame;
         frame.size.height = 90;
         [UIView animateWithDuration:1.0f animations:^{
-            alertView.frame = frame;
+            self.alertView.frame = frame;
         }];
     }
 }
 
 
--(void)hideAlert
+- (void)hideAlert
 {
-    
-    if(alertView &&  alertView.frame.size.height == 90)
-    {
-        CGRect frame = alertView.frame;
+    if(self.alertView &&  self.alertView.frame.size.height == 90) {
+        CGRect frame = self.alertView.frame;
         frame.size.height = 0;
         [UIView animateWithDuration:1.0f animations:^{
-            alertView.frame = frame;
+            self.alertView.frame = frame;
         }];
     }
 }

@@ -16,7 +16,7 @@
 @property (nonatomic, readonly, copy) NSString *title;
 @property (strong, nonatomic) NSArray* containedAnnotations;
 
--(NSString*)buildTitle;
+- (NSString*)buildTitle;
 
 
 @end
