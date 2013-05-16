@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Home. All rights reserved.
 //
 
-#import "HeatMapOverlayView.h"
-#import "HeatMap.h"
+#import "UFOHeatMapOverlayView.h"
+#import "UFOHeatMap.h"
 
 
-@implementation HeatMapOverlayView
+@implementation UFOHeatMapOverlayView
 
 #pragma mark MKOverlayView methods
 - (id)initWithOverlay:(id <MKOverlay>)overlay
@@ -36,11 +36,11 @@
  * can be forced by calling setNeedsDisplayInMapRect:zoomScale:)
 */
 - (BOOL)canDrawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale {
-    NSURL* fileURL = [(HeatMap*)self.overlay localUrlForStyle:@"alien" withMapRect:mapRect andZoomScale:zoomScale];
+    NSURL* fileURL = [(UFOHeatMap*)self.overlay localUrlForStyle:@"alien" withMapRect:mapRect andZoomScale:zoomScale];
     if([[NSFileManager defaultManager] fileExistsAtPath:[fileURL path]])
         return YES;
     
-    [(HeatMap*)self.overlay fetchFileForStyle:@"alien" withMapRect:mapRect zoomScale:zoomScale completion:^{
+    [(UFOHeatMap*)self.overlay fetchFileForStyle:@"alien" withMapRect:mapRect zoomScale:zoomScale completion:^{
         [self setNeedsDisplayInMapRect:mapRect zoomScale:zoomScale];
     }];
     
@@ -60,7 +60,7 @@
  */
 - (void)drawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale inContext:(CGContextRef)context {
     
-    NSURL* fileURL = [(HeatMap*)self.overlay localUrlForStyle:@"alien" withMapRect:mapRect andZoomScale:zoomScale];
+    NSURL* fileURL = [(UFOHeatMap*)self.overlay localUrlForStyle:@"alien" withMapRect:mapRect andZoomScale:zoomScale];
     NSData *imageData = [NSData dataWithContentsOfURL:fileURL ];
     if (imageData != nil) {
         UIImage *img = [UIImage imageWithData:imageData];

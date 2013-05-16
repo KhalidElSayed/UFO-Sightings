@@ -6,9 +6,9 @@
 //  Copyright (c) 2012 Home. All rights reserved.
 //
 
-#import "SightingAnnotation.h"
+#import "UFOSightingAnnotation.h"
 
-@implementation SightingAnnotation
+@implementation UFOSightingAnnotation
 @synthesize coordinate, title;
 @synthesize containedAnnotations;
 

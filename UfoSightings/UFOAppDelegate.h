@@ -7,12 +7,12 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "RootController.h"
+#import "UFORootController.h"
 
-@interface AppDelegate : UIResponder <UIApplicationDelegate>
+@interface UFOAppDelegate : UIResponder <UIApplicationDelegate>
 
 @property (strong, nonatomic) UIWindow *window;
-@property (strong, nonatomic) RootController* rootViewController;
+@property (strong, nonatomic) UFORootController* rootViewController;
 
 
 @property (readonly, strong, nonatomic) NSManagedObjectContext *managedObjectContext;

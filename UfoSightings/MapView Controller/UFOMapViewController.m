@@ -6,10 +6,10 @@
 //  Copyright (c) 2011 Home. All rights reserved.
 //
 
-#import "MapViewController.h"
-#import "RootController.h"
-#import "Sighting.h"
-#import "HeatMap.h"
+#import "UFOMapViewController.h"
+#import "UFORootController.h"
+#import "UFOSighting.h"
+#import "UFOHeatMap.h"
 #import "MapModalView.h"
 
 #define DEGREES_TO_RADIANS(angle) (angle / 180.0 * M_PI)
@@ -37,7 +37,7 @@ dispatch_queue_t title_backgrond_queue()
 }
 
 
-@interface MapViewController()
+@interface UFOMapViewController()
 {
     MKMapView *                 _backMap;
     MapModalView*               _modalView;
@@ -61,7 +61,7 @@ dispatch_queue_t title_backgrond_queue()
 
 @end
 
-@implementation MapViewController
+@implementation UFOMapViewController
 @synthesize managedObjectContext;
 @synthesize rootController;
 @synthesize myMap = _myMap;
@@ -79,7 +79,7 @@ dispatch_queue_t title_backgrond_queue()
 {
     if((self = [super init]))
     {
-        _heatMapOverlay = [[HeatMap alloc]init];
+        _heatMapOverlay = [[UFOHeatMap alloc]init];
         _backMap = [[MKMapView alloc]initWithFrame:CGRectZero];
         _mapSelectionOpen = NO;
         _isFetching = NO;
@@ -389,7 +389,7 @@ dispatch_queue_t title_backgrond_queue()
 //***************************************************************************************************
 -(MKOverlayView*) mapView:(MKMapView *)mapView viewForOverlay:(id<MKOverlay>)overlay
 {
-    return [[HeatMapOverlayView alloc] initWithOverlay:overlay];
+    return [[UFOHeatMapOverlayView alloc] initWithOverlay:overlay];
 }
 
 /**

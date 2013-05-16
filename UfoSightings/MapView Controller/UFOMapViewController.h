@@ -10,17 +10,17 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/Mapkit.h>
 
-@class RootController;
-@class HeatMap;
+@class UFORootController;
+@class UFOHeatMap;
 
-@interface MapViewController : UIViewController <CLLocationManagerDelegate,MKMapViewDelegate>
+@interface UFOMapViewController : UIViewController <CLLocationManagerDelegate,MKMapViewDelegate>
 {
     CLLocationManager *locationManager;
     CLLocationCoordinate2D *userLocation;
-    HeatMap*    _heatMapOverlay;
+    UFOHeatMap*    _heatMapOverlay;
 }
 @property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (weak) RootController* rootController;
+@property (weak) UFORootController* rootController;
 @property (strong, nonatomic) IBOutlet MKMapView *myMap;
 @property (strong, nonatomic) IBOutlet UIImageView *tvOverlay;
 @property (strong, nonatomic) IBOutlet UIView *modalPlaceholderView;

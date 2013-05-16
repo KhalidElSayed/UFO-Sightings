@@ -6,14 +6,14 @@
 //  Copyright (c) 2012 Home. All rights reserved.
 //
 
-#import "HeatMap.h"
-@interface HeatMap()
+#import "UFOHeatMap.h"
+@interface UFOHeatMap()
 
 - (NSUInteger)worldTileWidthForZoomLevel:(NSUInteger)zoomLevel;
 - (CGPoint)mercatorTileOriginForMapRect:(MKMapRect)mapRect;
 @end
 
-@implementation HeatMap
+@implementation UFOHeatMap
 @synthesize boundingMapRect, coordinate;
 
 
@@ -117,7 +117,7 @@
 
 -(void)fetchFileForStyle:(NSString *)style withMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale completion:(void (^)())completion
 {
-    NSUInteger zoomLevel = [HeatMap zoomLevelForZoomScale:zoomScale];
+    NSUInteger zoomLevel = [UFOHeatMap zoomLevelForZoomScale:zoomScale];
     CGPoint mercatorPoint = [self mercatorTileOriginForMapRect:mapRect];
     NSUInteger tilex = floor(mercatorPoint.x * [self worldTileWidthForZoomLevel:zoomLevel]);
     NSUInteger tiley = floor(mercatorPoint.y * [self worldTileWidthForZoomLevel:zoomLevel]);
@@ -211,7 +211,7 @@
 
 -(NSURL*)localUrlForStyle:(NSString *)style withMapRect:(MKMapRect)mapRect andZoomScale:(MKZoomScale)zoomScale
 {
-    NSUInteger zoomLevel = [HeatMap zoomLevelForZoomScale:zoomScale];
+    NSUInteger zoomLevel = [UFOHeatMap zoomLevelForZoomScale:zoomScale];
     CGPoint mercatorPoint = [self mercatorTileOriginForMapRect:mapRect];
     NSUInteger tilex = floor(mercatorPoint.x * [self worldTileWidthForZoomLevel:zoomLevel]);
     NSUInteger tiley = floor(mercatorPoint.y * [self worldTileWidthForZoomLevel:zoomLevel]);
@@ -222,7 +222,7 @@
 
 -(NSURL*)remoteUrlForStyle:(NSString *)style withMapRect:(MKMapRect)mapRect andZoomScale:(MKZoomScale)zoomScale
 {    
-    NSUInteger zoomLevel = [HeatMap zoomLevelForZoomScale:zoomScale];
+    NSUInteger zoomLevel = [UFOHeatMap zoomLevelForZoomScale:zoomScale];
     CGPoint mercatorPoint = [self mercatorTileOriginForMapRect:mapRect];
     NSUInteger tilex = floor(mercatorPoint.x * [self worldTileWidthForZoomLevel:zoomLevel]);
     NSUInteger tiley = floor(mercatorPoint.y * [self worldTileWidthForZoomLevel:zoomLevel]);

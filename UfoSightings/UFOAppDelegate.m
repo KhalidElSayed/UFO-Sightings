@@ -9,12 +9,12 @@
 #define GENERATE_SEED_DB YES
 #define kBgQueue dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0)
 
-#import "AppDelegate.h"
+#import "UFOAppDelegate.h"
 #import <dispatch/dispatch.h>
 #import "SightingsParser.h"
 
 
-@implementation AppDelegate
+@implementation UFOAppDelegate
 
 @synthesize window = _window;
 @synthesize rootViewController = _rootViewController;
@@ -42,7 +42,7 @@
    
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
     
-    self.rootViewController = [[RootController alloc]initWithPersistentStoreCoordinator:self.persistentStoreCoordinator];
+    self.rootViewController = [[UFORootController alloc]initWithPersistentStoreCoordinator:self.persistentStoreCoordinator];
 
    
     //self.rootViewController = [[RootViewController alloc] init];

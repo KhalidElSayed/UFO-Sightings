@@ -26,11 +26,11 @@
 		FA578087157039B000191B13 /* alertButtonSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA578083157039B000191B13 /* alertButtonSelected@2x.png */; };
 		FA57808A15703EA800191B13 /* filters.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA57808915703EA800191B13 /* filters.plist */; };
 		FA57808B15703EA800191B13 /* filters.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA57808915703EA800191B13 /* filters.plist */; };
-		FA687AE215800B22000B7C85 /* SightingAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = FA687AE115800B22000B7C85 /* SightingAnnotation.m */; };
-		FA7338B5156875C700BCA82F /* DatabaseExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338B3156875C700BCA82F /* DatabaseExplorerViewController.m */; };
-		FA7338B6156875C700BCA82F /* DatabaseExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338B3156875C700BCA82F /* DatabaseExplorerViewController.m */; };
-		FA7338B7156875C700BCA82F /* DatabaseExplorerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338B4156875C700BCA82F /* DatabaseExplorerViewController.xib */; };
-		FA7338B8156875C700BCA82F /* DatabaseExplorerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338B4156875C700BCA82F /* DatabaseExplorerViewController.xib */; };
+		FA687AE215800B22000B7C85 /* UFOSightingAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = FA687AE115800B22000B7C85 /* UFOSightingAnnotation.m */; };
+		FA7338B5156875C700BCA82F /* UFODatabaseExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338B3156875C700BCA82F /* UFODatabaseExplorerViewController.m */; };
+		FA7338B6156875C700BCA82F /* UFODatabaseExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338B3156875C700BCA82F /* UFODatabaseExplorerViewController.m */; };
+		FA7338B7156875C700BCA82F /* UFODatabaseExplorerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338B4156875C700BCA82F /* UFODatabaseExplorerViewController.xib */; };
+		FA7338B8156875C700BCA82F /* UFODatabaseExplorerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338B4156875C700BCA82F /* UFODatabaseExplorerViewController.xib */; };
 		FA7338BD1568765300BCA82F /* ReportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338BB1568765300BCA82F /* ReportCell.m */; };
 		FA7338BE1568765300BCA82F /* ReportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338BB1568765300BCA82F /* ReportCell.m */; };
 		FA7338BF1568765300BCA82F /* ReportCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338BC1568765300BCA82F /* ReportCell.xib */; };
@@ -65,10 +65,10 @@
 		FA7338FB1568789700BCA82F /* ShapeSelectorViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338DE1568789700BCA82F /* ShapeSelectorViewController.m */; };
 		FA7338FC1568789700BCA82F /* ShapeSelectorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338DF1568789700BCA82F /* ShapeSelectorViewController.xib */; };
 		FA7338FD1568789700BCA82F /* ShapeSelectorViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338DF1568789700BCA82F /* ShapeSelectorViewController.xib */; };
-		FA73391615687A1C00BCA82F /* HeatMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73390115687A1B00BCA82F /* HeatMap.m */; };
-		FA73391715687A1C00BCA82F /* HeatMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73390115687A1B00BCA82F /* HeatMap.m */; };
-		FA73391815687A1C00BCA82F /* HeatMapOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73390315687A1B00BCA82F /* HeatMapOverlayView.m */; };
-		FA73391915687A1C00BCA82F /* HeatMapOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73390315687A1B00BCA82F /* HeatMapOverlayView.m */; };
+		FA73391615687A1C00BCA82F /* UFOHeatMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73390115687A1B00BCA82F /* UFOHeatMap.m */; };
+		FA73391715687A1C00BCA82F /* UFOHeatMap.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73390115687A1B00BCA82F /* UFOHeatMap.m */; };
+		FA73391815687A1C00BCA82F /* UFOHeatMapOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73390315687A1B00BCA82F /* UFOHeatMapOverlayView.m */; };
+		FA73391915687A1C00BCA82F /* UFOHeatMapOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73390315687A1B00BCA82F /* UFOHeatMapOverlayView.m */; };
 		FA73391A15687A1C00BCA82F /* MapModalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73390615687A1B00BCA82F /* MapModalCell.m */; };
 		FA73391B15687A1C00BCA82F /* MapModalCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73390615687A1B00BCA82F /* MapModalCell.m */; };
 		FA73391C15687A1C00BCA82F /* MapModalCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA73390715687A1B00BCA82F /* MapModalCell.xib */; };
@@ -83,12 +83,12 @@
 		FA73392515687A1C00BCA82F /* PaperView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA73390E15687A1B00BCA82F /* PaperView.xib */; };
 		FA73392615687A1C00BCA82F /* SliderPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73391115687A1B00BCA82F /* SliderPageControl.m */; };
 		FA73392715687A1C00BCA82F /* SliderPageControl.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73391115687A1B00BCA82F /* SliderPageControl.m */; };
-		FA73392815687A1C00BCA82F /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73391315687A1B00BCA82F /* MapViewController.m */; };
-		FA73392915687A1C00BCA82F /* MapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73391315687A1B00BCA82F /* MapViewController.m */; };
-		FA73392A15687A1C00BCA82F /* MapViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA73391415687A1B00BCA82F /* MapViewController~ipad.xib */; };
-		FA73392B15687A1C00BCA82F /* MapViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA73391415687A1B00BCA82F /* MapViewController~ipad.xib */; };
-		FA73392C15687A1C00BCA82F /* MapViewController~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA73391515687A1C00BCA82F /* MapViewController~iphone.xib */; };
-		FA73392D15687A1C00BCA82F /* MapViewController~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA73391515687A1C00BCA82F /* MapViewController~iphone.xib */; };
+		FA73392815687A1C00BCA82F /* UFOMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73391315687A1B00BCA82F /* UFOMapViewController.m */; };
+		FA73392915687A1C00BCA82F /* UFOMapViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73391315687A1B00BCA82F /* UFOMapViewController.m */; };
+		FA73392A15687A1C00BCA82F /* UFOMapViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA73391415687A1B00BCA82F /* UFOMapViewController~ipad.xib */; };
+		FA73392B15687A1C00BCA82F /* UFOMapViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA73391415687A1B00BCA82F /* UFOMapViewController~ipad.xib */; };
+		FA73392C15687A1C00BCA82F /* UFOMapViewController~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA73391515687A1C00BCA82F /* UFOMapViewController~iphone.xib */; };
+		FA73392D15687A1C00BCA82F /* UFOMapViewController~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA73391515687A1C00BCA82F /* UFOMapViewController~iphone.xib */; };
 		FA733A0515687C7A00BCA82F /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73393415687C7A00BCA82F /* NSString+HTML.m */; };
 		FA733A0615687C7A00BCA82F /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73393415687C7A00BCA82F /* NSString+HTML.m */; };
 		FA733A0715687C7A00BCA82F /* sample.txt in Resources */ = {isa = PBXBuildFile; fileRef = FA73393615687C7A00BCA82F /* sample.txt */; };
@@ -477,8 +477,8 @@
 		FA733B9515687CB400BCA82F /* masterCell.png in Resources */ = {isa = PBXBuildFile; fileRef = FA733B9215687CB400BCA82F /* masterCell.png */; };
 		FA733B9615687CB400BCA82F /* masterCellSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = FA733B9315687CB400BCA82F /* masterCellSelected.png */; };
 		FA733B9715687CB400BCA82F /* masterCellSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = FA733B9315687CB400BCA82F /* masterCellSelected.png */; };
-		FA733B9E15687D0200BCA82F /* Sighting.m in Sources */ = {isa = PBXBuildFile; fileRef = FA733B9B15687D0200BCA82F /* Sighting.m */; };
-		FA733B9F15687D0200BCA82F /* Sighting.m in Sources */ = {isa = PBXBuildFile; fileRef = FA733B9B15687D0200BCA82F /* Sighting.m */; };
+		FA733B9E15687D0200BCA82F /* UFOSighting.m in Sources */ = {isa = PBXBuildFile; fileRef = FA733B9B15687D0200BCA82F /* UFOSighting.m */; };
+		FA733B9F15687D0200BCA82F /* UFOSighting.m in Sources */ = {isa = PBXBuildFile; fileRef = FA733B9B15687D0200BCA82F /* UFOSighting.m */; };
 		FA733BA015687D0200BCA82F /* SightingLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = FA733B9D15687D0200BCA82F /* SightingLocation.m */; };
 		FA733BA115687D0200BCA82F /* SightingLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = FA733B9D15687D0200BCA82F /* SightingLocation.m */; };
 		FA733BA415687EEA00BCA82F /* SightingsParser.m in Sources */ = {isa = PBXBuildFile; fileRef = FA733BA315687EEA00BCA82F /* SightingsParser.m */; };
@@ -495,7 +495,7 @@
 		FAA0FF6C154CB826009897E9 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0FF6B154CB826009897E9 /* Foundation.framework */; };
 		FAA0FF6E154CB826009897E9 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0FF6D154CB826009897E9 /* CoreGraphics.framework */; };
 		FAA0FF70154CB826009897E9 /* CoreData.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0FF6F154CB826009897E9 /* CoreData.framework */; };
-		FAA0FF7C154CB826009897E9 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA0FF7B154CB826009897E9 /* AppDelegate.m */; };
+		FAA0FF7C154CB826009897E9 /* UFOAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA0FF7B154CB826009897E9 /* UFOAppDelegate.m */; };
 		FAA4B65D157A89D1003902B8 /* lineWithShadowHorizontal.png in Resources */ = {isa = PBXBuildFile; fileRef = FAA4B65C157A89D1003902B8 /* lineWithShadowHorizontal.png */; };
 		FAA4B663157A932D003902B8 /* addButtonSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAA4B65F157A932D003902B8 /* addButtonSelected@2x.png */; };
 		FAA4B664157A932D003902B8 /* addButton@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAA4B660157A932D003902B8 /* addButton@2x.png */; };
@@ -539,8 +539,8 @@
 		FAEEC08C156DA59600D138FD /* viewMapButtonSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEEC085156DA59600D138FD /* viewMapButtonSelected.png */; };
 		FAEEC08D156DA59600D138FD /* viewMapButtonSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEEC086156DA59600D138FD /* viewMapButtonSelected@2x.png */; };
 		FAEEC08E156DA59600D138FD /* viewMapButtonSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FAEEC086156DA59600D138FD /* viewMapButtonSelected@2x.png */; };
-		FAEEC091156DA7D900D138FD /* RootController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAEEC090156DA7D800D138FD /* RootController.m */; };
-		FAEEC092156DA7D900D138FD /* RootController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAEEC090156DA7D800D138FD /* RootController.m */; };
+		FAEEC091156DA7D900D138FD /* UFORootController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAEEC090156DA7D800D138FD /* UFORootController.m */; };
+		FAEEC092156DA7D900D138FD /* UFORootController.m in Sources */ = {isa = PBXBuildFile; fileRef = FAEEC090156DA7D800D138FD /* UFORootController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -573,11 +573,11 @@
 		FA578082157039B000191B13 /* alertBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alertBackground@2x.png"; sourceTree = "<group>"; };
 		FA578083157039B000191B13 /* alertButtonSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alertButtonSelected@2x.png"; sourceTree = "<group>"; };
 		FA57808915703EA800191B13 /* filters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = filters.plist; sourceTree = "<group>"; };
-		FA687AE015800B22000B7C85 /* SightingAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SightingAnnotation.h; sourceTree = "<group>"; };
-		FA687AE115800B22000B7C85 /* SightingAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SightingAnnotation.m; sourceTree = "<group>"; };
-		FA7338B2156875C600BCA82F /* DatabaseExplorerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DatabaseExplorerViewController.h; path = "Database Explorer/DatabaseExplorerViewController.h"; sourceTree = "<group>"; };
-		FA7338B3156875C700BCA82F /* DatabaseExplorerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DatabaseExplorerViewController.m; path = "Database Explorer/DatabaseExplorerViewController.m"; sourceTree = "<group>"; };
-		FA7338B4156875C700BCA82F /* DatabaseExplorerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DatabaseExplorerViewController.xib; path = "Database Explorer/DatabaseExplorerViewController.xib"; sourceTree = "<group>"; };
+		FA687AE015800B22000B7C85 /* UFOSightingAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOSightingAnnotation.h; sourceTree = "<group>"; };
+		FA687AE115800B22000B7C85 /* UFOSightingAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOSightingAnnotation.m; sourceTree = "<group>"; };
+		FA7338B2156875C600BCA82F /* UFODatabaseExplorerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UFODatabaseExplorerViewController.h; path = "Database Explorer/UFODatabaseExplorerViewController.h"; sourceTree = "<group>"; };
+		FA7338B3156875C700BCA82F /* UFODatabaseExplorerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UFODatabaseExplorerViewController.m; path = "Database Explorer/UFODatabaseExplorerViewController.m"; sourceTree = "<group>"; };
+		FA7338B4156875C700BCA82F /* UFODatabaseExplorerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UFODatabaseExplorerViewController.xib; path = "Database Explorer/UFODatabaseExplorerViewController.xib"; sourceTree = "<group>"; };
 		FA7338BA1568765300BCA82F /* ReportCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportCell.h; sourceTree = "<group>"; };
 		FA7338BB1568765300BCA82F /* ReportCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportCell.m; sourceTree = "<group>"; };
 		FA7338BC1568765300BCA82F /* ReportCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportCell.xib; sourceTree = "<group>"; };
@@ -605,10 +605,10 @@
 		FA7338DD1568789700BCA82F /* ShapeSelectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ShapeSelectorViewController.h; sourceTree = "<group>"; };
 		FA7338DE1568789700BCA82F /* ShapeSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShapeSelectorViewController.m; sourceTree = "<group>"; };
 		FA7338DF1568789700BCA82F /* ShapeSelectorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShapeSelectorViewController.xib; sourceTree = "<group>"; };
-		FA73390015687A1B00BCA82F /* HeatMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeatMap.h; sourceTree = "<group>"; };
-		FA73390115687A1B00BCA82F /* HeatMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeatMap.m; sourceTree = "<group>"; };
-		FA73390215687A1B00BCA82F /* HeatMapOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeatMapOverlayView.h; sourceTree = "<group>"; };
-		FA73390315687A1B00BCA82F /* HeatMapOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeatMapOverlayView.m; sourceTree = "<group>"; };
+		FA73390015687A1B00BCA82F /* UFOHeatMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOHeatMap.h; sourceTree = "<group>"; };
+		FA73390115687A1B00BCA82F /* UFOHeatMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOHeatMap.m; sourceTree = "<group>"; };
+		FA73390215687A1B00BCA82F /* UFOHeatMapOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOHeatMapOverlayView.h; sourceTree = "<group>"; };
+		FA73390315687A1B00BCA82F /* UFOHeatMapOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOHeatMapOverlayView.m; sourceTree = "<group>"; };
 		FA73390515687A1B00BCA82F /* MapModalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapModalCell.h; sourceTree = "<group>"; };
 		FA73390615687A1B00BCA82F /* MapModalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapModalCell.m; sourceTree = "<group>"; };
 		FA73390715687A1B00BCA82F /* MapModalCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapModalCell.xib; sourceTree = "<group>"; };
@@ -620,10 +620,10 @@
 		FA73390E15687A1B00BCA82F /* PaperView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaperView.xib; sourceTree = "<group>"; };
 		FA73391015687A1B00BCA82F /* SliderPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderPageControl.h; sourceTree = "<group>"; };
 		FA73391115687A1B00BCA82F /* SliderPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SliderPageControl.m; sourceTree = "<group>"; };
-		FA73391215687A1B00BCA82F /* MapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapViewController.h; sourceTree = "<group>"; };
-		FA73391315687A1B00BCA82F /* MapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapViewController.m; sourceTree = "<group>"; };
-		FA73391415687A1B00BCA82F /* MapViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MapViewController~ipad.xib"; sourceTree = "<group>"; };
-		FA73391515687A1C00BCA82F /* MapViewController~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "MapViewController~iphone.xib"; sourceTree = "<group>"; };
+		FA73391215687A1B00BCA82F /* UFOMapViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOMapViewController.h; sourceTree = "<group>"; };
+		FA73391315687A1B00BCA82F /* UFOMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOMapViewController.m; sourceTree = "<group>"; };
+		FA73391415687A1B00BCA82F /* UFOMapViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "UFOMapViewController~ipad.xib"; sourceTree = "<group>"; };
+		FA73391515687A1C00BCA82F /* UFOMapViewController~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "UFOMapViewController~iphone.xib"; sourceTree = "<group>"; };
 		FA73393315687C7A00BCA82F /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
 		FA73393415687C7A00BCA82F /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
 		FA73393615687C7A00BCA82F /* sample.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sample.txt; sourceTree = "<group>"; };
@@ -819,8 +819,8 @@
 		FA7339FC15687C7A00BCA82F /* triangleSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "triangleSelected@2x.png"; sourceTree = "<group>"; };
 		FA733B9215687CB400BCA82F /* masterCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = masterCell.png; sourceTree = "<group>"; };
 		FA733B9315687CB400BCA82F /* masterCellSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = masterCellSelected.png; sourceTree = "<group>"; };
-		FA733B9A15687D0200BCA82F /* Sighting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sighting.h; sourceTree = "<group>"; };
-		FA733B9B15687D0200BCA82F /* Sighting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sighting.m; sourceTree = "<group>"; };
+		FA733B9A15687D0200BCA82F /* UFOSighting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOSighting.h; sourceTree = "<group>"; };
+		FA733B9B15687D0200BCA82F /* UFOSighting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOSighting.m; sourceTree = "<group>"; };
 		FA733B9C15687D0200BCA82F /* SightingLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SightingLocation.h; sourceTree = "<group>"; };
 		FA733B9D15687D0200BCA82F /* SightingLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SightingLocation.m; sourceTree = "<group>"; };
 		FA733BA215687EEA00BCA82F /* SightingsParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SightingsParser.h; sourceTree = "<group>"; };
@@ -838,8 +838,8 @@
 		FAA0FF6B154CB826009897E9 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		FAA0FF6D154CB826009897E9 /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
 		FAA0FF6F154CB826009897E9 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
-		FAA0FF7A154CB826009897E9 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		FAA0FF7B154CB826009897E9 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		FAA0FF7A154CB826009897E9 /* UFOAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UFOAppDelegate.h; sourceTree = "<group>"; };
+		FAA0FF7B154CB826009897E9 /* UFOAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UFOAppDelegate.m; sourceTree = "<group>"; };
 		FAA4B65C157A89D1003902B8 /* lineWithShadowHorizontal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = lineWithShadowHorizontal.png; sourceTree = "<group>"; };
 		FAA4B65F157A932D003902B8 /* addButtonSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addButtonSelected@2x.png"; sourceTree = "<group>"; };
 		FAA4B660157A932D003902B8 /* addButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "addButton@2x.png"; sourceTree = "<group>"; };
@@ -879,8 +879,8 @@
 		FAEEC084156DA59600D138FD /* viewMapButton@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewMapButton@2x.png"; sourceTree = "<group>"; };
 		FAEEC085156DA59600D138FD /* viewMapButtonSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = viewMapButtonSelected.png; sourceTree = "<group>"; };
 		FAEEC086156DA59600D138FD /* viewMapButtonSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "viewMapButtonSelected@2x.png"; sourceTree = "<group>"; };
-		FAEEC08F156DA7D800D138FD /* RootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RootController.h; sourceTree = "<group>"; };
-		FAEEC090156DA7D800D138FD /* RootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RootController.m; sourceTree = "<group>"; };
+		FAEEC08F156DA7D800D138FD /* UFORootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFORootController.h; sourceTree = "<group>"; };
+		FAEEC090156DA7D800D138FD /* UFORootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFORootController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -954,9 +954,9 @@
 			children = (
 				FA7338C11568789700BCA82F /* FilterTableViewController */,
 				FA7338B91568765300BCA82F /* reportCell */,
-				FA7338B2156875C600BCA82F /* DatabaseExplorerViewController.h */,
-				FA7338B3156875C700BCA82F /* DatabaseExplorerViewController.m */,
-				FA7338B4156875C700BCA82F /* DatabaseExplorerViewController.xib */,
+				FA7338B2156875C600BCA82F /* UFODatabaseExplorerViewController.h */,
+				FA7338B3156875C700BCA82F /* UFODatabaseExplorerViewController.m */,
+				FA7338B4156875C700BCA82F /* UFODatabaseExplorerViewController.xib */,
 			);
 			name = DBExplorer;
 			sourceTree = "<group>";
@@ -964,8 +964,8 @@
 		FA687ADE15800B07000B7C85 /* SightingAnnotation */ = {
 			isa = PBXGroup;
 			children = (
-				FA687AE015800B22000B7C85 /* SightingAnnotation.h */,
-				FA687AE115800B22000B7C85 /* SightingAnnotation.m */,
+				FA687AE015800B22000B7C85 /* UFOSightingAnnotation.h */,
+				FA687AE115800B22000B7C85 /* UFOSightingAnnotation.m */,
 			);
 			name = SightingAnnotation;
 			sourceTree = "<group>";
@@ -1067,10 +1067,10 @@
 				FA687ADE15800B07000B7C85 /* SightingAnnotation */,
 				FA7338FF15687A1B00BCA82F /* Heat Map */,
 				FA73390415687A1B00BCA82F /* MapModalView */,
-				FA73391215687A1B00BCA82F /* MapViewController.h */,
-				FA73391315687A1B00BCA82F /* MapViewController.m */,
-				FA73391415687A1B00BCA82F /* MapViewController~ipad.xib */,
-				FA73391515687A1C00BCA82F /* MapViewController~iphone.xib */,
+				FA73391215687A1B00BCA82F /* UFOMapViewController.h */,
+				FA73391315687A1B00BCA82F /* UFOMapViewController.m */,
+				FA73391415687A1B00BCA82F /* UFOMapViewController~ipad.xib */,
+				FA73391515687A1C00BCA82F /* UFOMapViewController~iphone.xib */,
 			);
 			name = MapViewController;
 			path = "MapView Controller";
@@ -1079,10 +1079,10 @@
 		FA7338FF15687A1B00BCA82F /* Heat Map */ = {
 			isa = PBXGroup;
 			children = (
-				FA73390015687A1B00BCA82F /* HeatMap.h */,
-				FA73390115687A1B00BCA82F /* HeatMap.m */,
-				FA73390215687A1B00BCA82F /* HeatMapOverlayView.h */,
-				FA73390315687A1B00BCA82F /* HeatMapOverlayView.m */,
+				FA73390015687A1B00BCA82F /* UFOHeatMap.h */,
+				FA73390115687A1B00BCA82F /* UFOHeatMap.m */,
+				FA73390215687A1B00BCA82F /* UFOHeatMapOverlayView.h */,
+				FA73390315687A1B00BCA82F /* UFOHeatMapOverlayView.m */,
 			);
 			path = "Heat Map";
 			sourceTree = "<group>";
@@ -1460,8 +1460,8 @@
 		FA733B9915687D0200BCA82F /* Sightings */ = {
 			isa = PBXGroup;
 			children = (
-				FA733B9A15687D0200BCA82F /* Sighting.h */,
-				FA733B9B15687D0200BCA82F /* Sighting.m */,
+				FA733B9A15687D0200BCA82F /* UFOSighting.h */,
+				FA733B9B15687D0200BCA82F /* UFOSighting.m */,
 				FA733B9C15687D0200BCA82F /* SightingLocation.h */,
 				FA733B9D15687D0200BCA82F /* SightingLocation.m */,
 				FA733BA215687EEA00BCA82F /* SightingsParser.h */,
@@ -1512,10 +1512,10 @@
 				FA733B9815687D0200BCA82F /* Models */,
 				FA7338FE15687A1B00BCA82F /* MapViewController */,
 				FA1CFAEC15609C05001CD96F /* DBExplorer */,
-				FAEEC08F156DA7D800D138FD /* RootController.h */,
-				FAEEC090156DA7D800D138FD /* RootController.m */,
-				FAA0FF7A154CB826009897E9 /* AppDelegate.h */,
-				FAA0FF7B154CB826009897E9 /* AppDelegate.m */,
+				FAEEC08F156DA7D800D138FD /* UFORootController.h */,
+				FAEEC090156DA7D800D138FD /* UFORootController.m */,
+				FAA0FF7A154CB826009897E9 /* UFOAppDelegate.h */,
+				FAA0FF7B154CB826009897E9 /* UFOAppDelegate.m */,
 				FA73393115687C7A00BCA82F /* Resources */,
 				FA733BB4156880A400BCA82F /* UfoSightings-Info.plist */,
 				FA733BBC15688D9F00BCA82F /* UfoSightings.xcdatamodeld */,
@@ -1596,7 +1596,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FA1A969E1557075700BD447F /* InfoPlist.strings in Resources */,
-				FA7338B8156875C700BCA82F /* DatabaseExplorerViewController.xib in Resources */,
+				FA7338B8156875C700BCA82F /* UFODatabaseExplorerViewController.xib in Resources */,
 				FA7338C01568765300BCA82F /* ReportCell.xib in Resources */,
 				FA7338E31568789700BCA82F /* DatePickerTableViewController.xib in Resources */,
 				FA7338E71568789700BCA82F /* SliderValueViewController.xib in Resources */,
@@ -1607,8 +1607,8 @@
 				FA73391D15687A1C00BCA82F /* MapModalCell.xib in Resources */,
 				FA73392115687A1C00BCA82F /* MapModalView.xib in Resources */,
 				FA73392515687A1C00BCA82F /* PaperView.xib in Resources */,
-				FA73392B15687A1C00BCA82F /* MapViewController~ipad.xib in Resources */,
-				FA73392D15687A1C00BCA82F /* MapViewController~iphone.xib in Resources */,
+				FA73392B15687A1C00BCA82F /* UFOMapViewController~ipad.xib in Resources */,
+				FA73392D15687A1C00BCA82F /* UFOMapViewController~iphone.xib in Resources */,
 				FA733A0815687C7A00BCA82F /* sample.txt in Resources */,
 				FA733A0C15687C7A00BCA82F /* UfoSightings.sqlite in Resources */,
 				FA733A0E15687C7A00BCA82F /* blueStrechyBox.png in Resources */,
@@ -1819,7 +1819,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				FAABF42F15854FBB001FE4C7 /* alien in Resources */,
-				FA7338B7156875C700BCA82F /* DatabaseExplorerViewController.xib in Resources */,
+				FA7338B7156875C700BCA82F /* UFODatabaseExplorerViewController.xib in Resources */,
 				FA7338BF1568765300BCA82F /* ReportCell.xib in Resources */,
 				FA7338E21568789700BCA82F /* DatePickerTableViewController.xib in Resources */,
 				FA7338E61568789700BCA82F /* SliderValueViewController.xib in Resources */,
@@ -1830,8 +1830,8 @@
 				FA73391C15687A1C00BCA82F /* MapModalCell.xib in Resources */,
 				FA73392015687A1C00BCA82F /* MapModalView.xib in Resources */,
 				FA73392415687A1C00BCA82F /* PaperView.xib in Resources */,
-				FA73392A15687A1C00BCA82F /* MapViewController~ipad.xib in Resources */,
-				FA73392C15687A1C00BCA82F /* MapViewController~iphone.xib in Resources */,
+				FA73392A15687A1C00BCA82F /* UFOMapViewController~ipad.xib in Resources */,
+				FA73392C15687A1C00BCA82F /* UFOMapViewController~iphone.xib in Resources */,
 				FA733A0715687C7A00BCA82F /* sample.txt in Resources */,
 				FA733A0B15687C7A00BCA82F /* UfoSightings.sqlite in Resources */,
 				FA733A0D15687C7A00BCA82F /* blueStrechyBox.png in Resources */,
@@ -2093,7 +2093,7 @@
 				FA1A96A11557075700BD447F /* UfoSightingsTests.m in Sources */,
 				FA1A96AD15570FCC00BD447F /* HeatMapTests.m in Sources */,
 				FA86C0AB1558524800A2655D /* SightingTests.m in Sources */,
-				FA7338B6156875C700BCA82F /* DatabaseExplorerViewController.m in Sources */,
+				FA7338B6156875C700BCA82F /* UFODatabaseExplorerViewController.m in Sources */,
 				FA7338BE1568765300BCA82F /* ReportCell.m in Sources */,
 				FA7338E11568789700BCA82F /* DatePickerTableViewController.m in Sources */,
 				FA7338E51568789700BCA82F /* SliderValueViewController.m in Sources */,
@@ -2104,21 +2104,21 @@
 				FA7338F51568789700BCA82F /* ReportLengthSelectorController.m in Sources */,
 				FA7338F91568789700BCA82F /* ShapeButton.m in Sources */,
 				FA7338FB1568789700BCA82F /* ShapeSelectorViewController.m in Sources */,
-				FA73391715687A1C00BCA82F /* HeatMap.m in Sources */,
-				FA73391915687A1C00BCA82F /* HeatMapOverlayView.m in Sources */,
+				FA73391715687A1C00BCA82F /* UFOHeatMap.m in Sources */,
+				FA73391915687A1C00BCA82F /* UFOHeatMapOverlayView.m in Sources */,
 				FA73391B15687A1C00BCA82F /* MapModalCell.m in Sources */,
 				FA73391F15687A1C00BCA82F /* MapModalView.m in Sources */,
 				FA73392315687A1C00BCA82F /* PaperView.m in Sources */,
 				FA73392715687A1C00BCA82F /* SliderPageControl.m in Sources */,
-				FA73392915687A1C00BCA82F /* MapViewController.m in Sources */,
+				FA73392915687A1C00BCA82F /* UFOMapViewController.m in Sources */,
 				FA733A0615687C7A00BCA82F /* NSString+HTML.m in Sources */,
-				FA733B9F15687D0200BCA82F /* Sighting.m in Sources */,
+				FA733B9F15687D0200BCA82F /* UFOSighting.m in Sources */,
 				FA733BA115687D0200BCA82F /* SightingLocation.m in Sources */,
 				FA733BA515687EEA00BCA82F /* SightingsParser.m in Sources */,
 				FA733BAC15687F9E00BCA82F /* main.m in Sources */,
 				FA733BBF15688D9F00BCA82F /* UfoSightings.xcdatamodeld in Sources */,
 				FA4531BB1569DFC5005CA658 /* UIColor+RKColor.m in Sources */,
-				FAEEC092156DA7D900D138FD /* RootController.m in Sources */,
+				FAEEC092156DA7D900D138FD /* UFORootController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2126,8 +2126,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				FAA0FF7C154CB826009897E9 /* AppDelegate.m in Sources */,
-				FA7338B5156875C700BCA82F /* DatabaseExplorerViewController.m in Sources */,
+				FAA0FF7C154CB826009897E9 /* UFOAppDelegate.m in Sources */,
+				FA7338B5156875C700BCA82F /* UFODatabaseExplorerViewController.m in Sources */,
 				FA7338BD1568765300BCA82F /* ReportCell.m in Sources */,
 				FA7338E01568789700BCA82F /* DatePickerTableViewController.m in Sources */,
 				FA7338E41568789700BCA82F /* SliderValueViewController.m in Sources */,
@@ -2138,23 +2138,23 @@
 				FA7338F41568789700BCA82F /* ReportLengthSelectorController.m in Sources */,
 				FA7338F81568789700BCA82F /* ShapeButton.m in Sources */,
 				FA7338FA1568789700BCA82F /* ShapeSelectorViewController.m in Sources */,
-				FA73391615687A1C00BCA82F /* HeatMap.m in Sources */,
-				FA73391815687A1C00BCA82F /* HeatMapOverlayView.m in Sources */,
+				FA73391615687A1C00BCA82F /* UFOHeatMap.m in Sources */,
+				FA73391815687A1C00BCA82F /* UFOHeatMapOverlayView.m in Sources */,
 				FA73391A15687A1C00BCA82F /* MapModalCell.m in Sources */,
 				FA73391E15687A1C00BCA82F /* MapModalView.m in Sources */,
 				FA73392215687A1C00BCA82F /* PaperView.m in Sources */,
 				FA73392615687A1C00BCA82F /* SliderPageControl.m in Sources */,
-				FA73392815687A1C00BCA82F /* MapViewController.m in Sources */,
+				FA73392815687A1C00BCA82F /* UFOMapViewController.m in Sources */,
 				FA733A0515687C7A00BCA82F /* NSString+HTML.m in Sources */,
-				FA733B9E15687D0200BCA82F /* Sighting.m in Sources */,
+				FA733B9E15687D0200BCA82F /* UFOSighting.m in Sources */,
 				FA733BA015687D0200BCA82F /* SightingLocation.m in Sources */,
 				FA733BA415687EEA00BCA82F /* SightingsParser.m in Sources */,
 				FA733BAB15687F9E00BCA82F /* main.m in Sources */,
 				FA733BBE15688D9F00BCA82F /* UfoSightings.xcdatamodeld in Sources */,
 				FA4531BA1569DFC5005CA658 /* UIColor+RKColor.m in Sources */,
-				FAEEC091156DA7D900D138FD /* RootController.m in Sources */,
+				FAEEC091156DA7D900D138FD /* UFORootController.m in Sources */,
 				FA154A6B1572DE1100497B5F /* ConsoleDocumentView.m in Sources */,
-				FA687AE215800B22000B7C85 /* SightingAnnotation.m in Sources */,
+				FA687AE215800B22000B7C85 /* UFOSightingAnnotation.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -7,8 +7,8 @@
 //
 
 #import "SightingsParser.h"
-#import "Sighting.h"
-#import "AppDelegate.h"
+#import "UFOSighting.h"
+#import "UFOAppDelegate.h"
 #import "NSString+HTML.h"
 
 
@@ -40,7 +40,7 @@
     {
         [report appendFormat:@"%d: ", i];
         
-        Sighting*           newSighting = [NSEntityDescription insertNewObjectForEntityForName:@"Sighting" 
+        UFOSighting*           newSighting = [NSEntityDescription insertNewObjectForEntityForName:@"Sighting" 
                                                                         inManagedObjectContext:self.managedObjectContext];
         [newSighting setSightingId:[NSNumber numberWithUnsignedInteger:i]];
         [newSighting setReport:[[sighting objectForKey:@"description"] kv_decodeHTMLCharacterEntities]];

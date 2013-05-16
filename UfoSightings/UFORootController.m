@@ -6,9 +6,10 @@
 //  Copyright (c) 2012 Home. All rights reserved.
 //
 
-#import "RootController.h"
+#import "UFORootController.h"
+#import <CoreData/CoreData.h>
 
-@interface RootController ()
+@interface UFORootController ()
 {
     UIViewController* _currentViewController;
     NSManagedObjectContext*     _mapContext;
@@ -16,11 +17,11 @@
 }
 @property (strong, nonatomic) NSManagedObjectContext* mapContext;
 @property (strong, nonatomic) NSManagedObjectContext* databaseContext;
-@property (strong, nonatomic) MapViewController* mapViewController;
-@property (strong, nonatomic) DatabaseExplorerViewController* databaseViewController;
+@property (strong, nonatomic) UFOMapViewController* mapViewController;
+@property (strong, nonatomic) UFODatabaseExplorerViewController* databaseViewController;
 @end
 
-@implementation RootController
+@implementation UFORootController
 @synthesize persistentStoreCoordinator;
 @synthesize mapContext = _mapContext, databaseContext = _databaseContext;
 @synthesize mapViewController = _mapViewController, databaseViewController = _databaseViewController;
@@ -60,12 +61,12 @@
 }
 
 
--(MapViewController*)mapViewController
+-(UFOMapViewController*)mapViewController
 {
     if(_mapViewController)
         return _mapViewController;
    
-    _mapViewController = [[MapViewController alloc]init];
+    _mapViewController = [[UFOMapViewController alloc]init];
     _mapViewController.managedObjectContext = _mapContext;
     _mapViewController.rootController = self;
     _mapViewController.view.frame = self.view.bounds;
@@ -74,12 +75,12 @@
 }
 
 
--(DatabaseExplorerViewController*)databaseViewController
+-(UFODatabaseExplorerViewController*)databaseViewController
 {
     if(_databaseViewController)
         return _databaseViewController;
     
-    _databaseViewController = [[DatabaseExplorerViewController alloc]init];
+    _databaseViewController = [[UFODatabaseExplorerViewController alloc]init];
     _databaseViewController.managedObjectContext = _databaseContext;
     _databaseViewController.rootController = self;
     _databaseViewController.view.frame = self.view.bounds;
@@ -90,7 +91,7 @@
 - (void)viewDidUnload
 {
     [super viewDidUnload];
-    if([_currentViewController isKindOfClass:[DatabaseExplorerViewController class]])
+    if([_currentViewController isKindOfClass:[UFODatabaseExplorerViewController class]])
     {
         [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"CurrentControllerShowing"];
     }
@@ -112,7 +113,7 @@
      UIDeviceOrientation deviceOrientation = [[UIApplication sharedApplication]statusBarOrientation];
     UIViewController* nextViewController;
     UIViewAnimationOptions animationOption;
-    if([_currentViewController isKindOfClass:[DatabaseExplorerViewController class]])
+    if([_currentViewController isKindOfClass:[UFODatabaseExplorerViewController class]])
     {
      
         if (UIInterfaceOrientationIsLandscape(deviceOrientation )) 

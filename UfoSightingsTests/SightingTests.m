@@ -7,9 +7,9 @@
 //
 
 #import "SightingTests.h"
-#import "Sighting.h"
+#import "UFOSighting.h"
 #import "SightingLocation.h"
-#import "AppDelegate.h"
+#import "UFOAppDelegate.h"
 
 @implementation SightingTests
 - (void)setUp
@@ -17,7 +17,7 @@
     //NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"UfoSightings" withExtension:@"momd"];
   
    // model = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
-    AppDelegate* ad = [[AppDelegate alloc]init];
+    UFOAppDelegate* ad = [[UFOAppDelegate alloc]init];
     
     model = [ad managedObjectModel];
  
@@ -33,7 +33,7 @@
     [context setPersistentStoreCoordinator: coord];
 
     
-    Sighting* sighting = [NSEntityDescription insertNewObjectForEntityForName:@"Sighting" inManagedObjectContext:context];
+    UFOSighting* sighting = [NSEntityDescription insertNewObjectForEntityForName:@"Sighting" inManagedObjectContext:context];
     sighting.report = @"";
     sighting.duration = @"";
     sighting.reportedAt = [NSDate date];

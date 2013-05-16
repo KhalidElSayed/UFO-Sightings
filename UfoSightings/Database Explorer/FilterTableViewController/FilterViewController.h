@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "DatabaseExplorerViewController.h"
+#import "UFODatabaseExplorerViewController.h"
 #import "UIColor+RKColor.h"
 
 @interface FilterViewController : UITableViewController <UINavigationControllerDelegate, PredicateCreation>

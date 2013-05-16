@@ -10,13 +10,13 @@
 
 
 @class FilterViewController;
-@class RootController;
-@interface DatabaseExplorerViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate>
+@class UFORootController;
+@interface UFODatabaseExplorerViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate>
 {
     UINavigationController* _filterNavController;
 }
 @property (strong, nonatomic) NSManagedObjectContext* managedObjectContext;
-@property (weak) RootController* rootController;
+@property (weak) UFORootController* rootController;
 @property (strong, nonatomic) NSArray* reports;
 @property (strong, atomic) NSMutableDictionary* filterOptions;
 @property (strong, nonatomic) IBOutlet UIView *masterView;

@@ -10,7 +10,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/Mapkit.h>
 
-@interface SightingAnnotation : NSObject <MKAnnotation>
+@interface UFOSightingAnnotation : NSObject <MKAnnotation>
 
 @property (nonatomic) CLLocationCoordinate2D coordinate;
 @property (nonatomic, readonly, copy) NSString *title;

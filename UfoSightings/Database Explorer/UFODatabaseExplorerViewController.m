@@ -7,10 +7,10 @@
 
 
 #import <QuartzCore/QuartzCore.h>
-#import "DatabaseExplorerViewController.h"
-#import "RootController.h"
+#import "UFODatabaseExplorerViewController.h"
+#import "UFORootController.h"
 #import "FilterViewController.h"
-#import "Sighting.h"
+#import "UFOSighting.h"
 #import "ReportCell.h"
 #import "UIColor+RKColor.h"
 
@@ -27,7 +27,7 @@ dispatch_queue_t CDbackground_queue()
     return coredata_background_queue;
 }
 
-@interface DatabaseExplorerViewController ()
+@interface UFODatabaseExplorerViewController ()
 {
     NSDateFormatter*            _df;
     NSMutableDictionary*        _currentPredicates;
@@ -45,7 +45,7 @@ dispatch_queue_t CDbackground_queue()
 
 @end
 
-@implementation DatabaseExplorerViewController
+@implementation UFODatabaseExplorerViewController
 @synthesize addMoreButton = _addMoreButton;
 
 @synthesize rootController;
@@ -235,7 +235,7 @@ dispatch_queue_t CDbackground_queue()
     if(indexPath.section == 0)
     {
         ReportCell *cell = [tableView dequeueReusableCellWithIdentifier:reportCellIdentifier];
-        Sighting* sighting = [_reports objectAtIndex:indexPath.row];
+        UFOSighting* sighting = [_reports objectAtIndex:indexPath.row];
         
         cell.sightedLabel.text = [_df stringFromDate:sighting.sightedAt];
         cell.reportedLabel.text = [_df stringFromDate:sighting.reportedAt];

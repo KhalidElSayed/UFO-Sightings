@@ -7,7 +7,7 @@
 //
 
 #import "ConsoleDocumentView.h"
-#import "Sighting.h"
+#import "UFOSighting.h"
 @interface ConsoleDocumentView()
 -(void)setup;
 @end
@@ -41,7 +41,7 @@
 
 }
 
--(id)initWithSighting:(Sighting*)sighting
+-(id)initWithSighting:(UFOSighting*)sighting
 {
     if((self = [[[NSBundle mainBundle] loadNibNamed:@"ConsoleDocumentView" owner:self options:nil] lastObject]))
     {

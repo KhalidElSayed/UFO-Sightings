@@ -6,11 +6,11 @@
 //  Copyright (c) 2012 Home. All rights reserved.
 //
 
-#import "Sighting.h"
+#import "UFOSighting.h"
 #import "SightingLocation.h"
-#import "AppDelegate.h"
+#import "UFOAppDelegate.h"
 
-@implementation Sighting
+@implementation UFOSighting
 
 @dynamic duration;
 @dynamic report;
@@ -23,14 +23,14 @@
 
 +(NSArray*)allSightings
 {
-    return [Sighting allSightingsWithPredicate:nil];
+    return [UFOSighting allSightingsWithPredicate:nil];
 }
 
 
 +(NSArray*)allSightingsWithPredicate:(NSPredicate*)predicate
 {
-    NSManagedObjectContext* context = [(AppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
-    NSFetchRequest* fetch = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
+    NSManagedObjectContext* context = [(UFOAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
+    NSFetchRequest* fetch = [[NSFetchRequest alloc]initWithEntityName:@"UFOSighting"];
     [fetch setPredicate:predicate];
     NSError* error;
     NSArray * arr = [context executeFetchRequest:fetch error:&error];
@@ -41,11 +41,11 @@
 }
 
 
-+(Sighting*)oldestSightingBasedOn:(NSString*)attr
++(UFOSighting*)oldestSightingBasedOn:(NSString*)attr
 {
     
-    NSManagedObjectContext* context = [(AppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
-    NSFetchRequest* fetch = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
+    NSManagedObjectContext* context = [(UFOAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
+    NSFetchRequest* fetch = [[NSFetchRequest alloc]initWithEntityName:@"UFOSighting"];
     NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:attr ascending:YES];
     [fetch setSortDescriptors:[NSArray arrayWithObject:sort ]];
     [fetch setFetchLimit:1];
@@ -60,11 +60,11 @@
     
 }
 
-+(Sighting*)newestSightingBasedOn:(NSString*)attr
++(UFOSighting*)newestSightingBasedOn:(NSString*)attr
 {
     
-    NSManagedObjectContext* context = [(AppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
-    NSFetchRequest* fetch = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
+    NSManagedObjectContext* context = [(UFOAppDelegate *)[[UIApplication sharedApplication] delegate] managedObjectContext];
+    NSFetchRequest* fetch = [[NSFetchRequest alloc]initWithEntityName:@"UFOSighting"];
     NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:attr ascending:NO];
     [fetch setSortDescriptors:[NSArray arrayWithObject:sort ]];
     [fetch setFetchLimit:1];

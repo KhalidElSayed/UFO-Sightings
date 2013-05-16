@@ -10,7 +10,7 @@
 #import <CoreData/CoreData.h>
 #import "SightingLocation.h"
 
-@interface Sighting : NSManagedObject
+@interface UFOSighting : NSManagedObject
 
 @property (nonatomic, retain) NSString * duration;
 @property (nonatomic, retain) NSString * report;
@@ -23,6 +23,6 @@
 
 +(NSArray*)allSightings;
 +(NSArray*)allSightingsWithPredicate:(NSPredicate*)predicate;
-+(Sighting*)oldestSightingBasedOn:(NSString*)attr;
-+(Sighting*)newestSightingBasedOn:(NSString*)attr;
++(UFOSighting*)oldestSightingBasedOn:(NSString*)attr;
++(UFOSighting*)newestSightingBasedOn:(NSString*)attr;
 @end

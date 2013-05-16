@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 #import <MapKit/MapKit.h>
 #import <UIKit/UIKit.h>
-#import "HeatMapOverlayView.h"
+#import "UFOHeatMapOverlayView.h"
 
 
 
-@interface HeatMap : NSObject <MKOverlay, NSURLConnectionDataDelegate>
+@interface UFOHeatMap : NSObject <MKOverlay, NSURLConnectionDataDelegate>
 {
     NSOperationQueue*   _tileServerQueue;
 }

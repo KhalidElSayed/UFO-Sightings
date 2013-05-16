@@ -7,13 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "MapViewController.h"
-#import "DatabaseExplorerViewController.h"
+#import "UFOMapViewController.h"
+#import "UFODatabaseExplorerViewController.h"
 
-@interface RootController : UIViewController
+@interface UFORootController : UIViewController
 {
-    MapViewController*                  _mapViewController;
-    DatabaseExplorerViewController*     _databaseViewController;
+    UFOMapViewController*                  _mapViewController;
+    UFODatabaseExplorerViewController*     _databaseViewController;
 }
 @property ( strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 -(id)initWithPersistentStoreCoordinator:(NSPersistentStoreCoordinator*)persistentStoreCor;
