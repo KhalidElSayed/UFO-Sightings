@@ -7,7 +7,7 @@
 //
 
 #import "MapModalView.h"
-#import "UFOSighting.h"
+#import "Sighting.h"
 #import "SightingLocation.h"
 #import "MapModalCell.h"
 #import "PaperView.h"
@@ -223,8 +223,8 @@
         
 
         NSArray* sortedSightings = [[fillerSet allObjects] sortedArrayUsingComparator:^NSComparisonResult(id obj1, id obj2){
-            UFOSighting* a = (UFOSighting*)obj1;
-            UFOSighting* b = (UFOSighting*)obj2;
+            Sighting* a = (Sighting*)obj1;
+            Sighting* b = (Sighting*)obj2;
             return [a.sightedAt compare:b.sightedAt];
         }];
         _documents = [[NSMutableArray alloc] init];
@@ -259,7 +259,7 @@
 {
     static NSString* modalCellIdentifier = @"modalCell";
     
-    UFOSighting* aSighting = [_sightings objectAtIndex:indexPath.row];
+    Sighting* aSighting = [_sightings objectAtIndex:indexPath.row];
     
     UITableViewCell *cell = [_tableView dequeueReusableCellWithIdentifier:modalCellIdentifier];
     NSString *theName = [NSString stringWithFormat:@"%i.  %@", indexPath.row + 1, [_df stringFromDate:aSighting.sightedAt]];
@@ -470,7 +470,7 @@
 /* Returns the Title for the OverlayView when Choosing by SlideControl */
 - (NSString *)sliderPageController:(id)controller hintTitleForPage:(NSInteger)page
 {    
-    UFOSighting *currentSighting = [_sightings objectAtIndex:page];
+    Sighting *currentSighting = [_sightings objectAtIndex:page];
     return [_df stringFromDate:currentSighting.sightedAt];
 }
 

@@ -6,8 +6,7 @@
 //  Copyright (c) 2012 Home. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
-
+#import "UFOBaseViewController.h"
 
 @class FilterViewController;
 @class UFORootController;

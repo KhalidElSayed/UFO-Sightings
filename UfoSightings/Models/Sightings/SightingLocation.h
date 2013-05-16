@@ -11,7 +11,7 @@
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/Mapkit.h>
 
-@class UFOSighting;
+@class Sighting;
 
 @interface SightingLocation : NSManagedObject <MKAnnotation>
 
@@ -38,8 +38,8 @@
 
 @interface SightingLocation (CoreDataGeneratedAccessors)
 
-- (void)addSightingObject:(UFOSighting *)value;
-- (void)removeSightingObject:(UFOSighting *)value;
+- (void)addSightingObject:(Sighting *)value;
+- (void)removeSightingObject:(Sighting *)value;
 - (void)addSighting:(NSSet *)values;
 - (void)removeSighting:(NSSet *)values;
 

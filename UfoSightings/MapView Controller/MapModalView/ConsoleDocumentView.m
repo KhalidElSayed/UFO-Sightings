@@ -7,7 +7,7 @@
 //
 
 #import "ConsoleDocumentView.h"
-#import "UFOSighting.h"
+#import "Sighting.h"
 @interface ConsoleDocumentView()
 -(void)setup;
 @end
@@ -41,7 +41,7 @@
 
 }
 
--(id)initWithSighting:(UFOSighting*)sighting
+-(id)initWithSighting:(Sighting*)sighting
 {
     if((self = [[[NSBundle mainBundle] loadNibNamed:@"ConsoleDocumentView" owner:self options:nil] lastObject]))
     {
@@ -54,9 +54,6 @@
         _reportedAtLabel.text = [df stringFromDate:sighting.reportedAt];
         _durationLabel.text = [sighting.duration compare:@""] == 0 ? @"(empty)" : sighting.duration;
         _locationLabel.text = sighting.location.formattedAddress;
-
-
-
     }
     return self;
 }

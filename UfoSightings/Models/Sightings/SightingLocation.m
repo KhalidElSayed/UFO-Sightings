@@ -7,7 +7,7 @@
 //
 
 #import "SightingLocation.h"
-#import "UFOSighting.h"
+#import "Sighting.h"
 #import "UFOAppDelegate.h"
 
 @implementation SightingLocation

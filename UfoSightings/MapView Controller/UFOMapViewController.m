@@ -8,7 +8,7 @@
 
 #import "UFOMapViewController.h"
 #import "UFORootController.h"
-#import "UFOSighting.h"
+#import "Sighting.h"
 #import "UFOHeatMap.h"
 #import "MapModalView.h"
 
@@ -138,9 +138,11 @@ dispatch_queue_t title_backgrond_queue()
 
 - (void)viewDidUnload
 {
+    /*
     dispatch_release(annotations_background_queue());
     dispatch_release(title_backgrond_queue());
-    [self setMyMap:nil];
+    */
+     [self setMyMap:nil];
     _heatMapOverlay = nil;
     _backMap = nil;
     [self setTvOverlay:nil];

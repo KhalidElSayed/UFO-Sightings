@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B5CE16917455300002FFDE6 /* UFOCoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5CE168174552FF002FFDE6 /* UFOCoreData.m */; };
+		2B5CE16D1745571E002FFDE6 /* NSFileManager+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5CE16C1745571E002FFDE6 /* NSFileManager+Extras.m */; };
+		2B5CE170174558C9002FFDE6 /* UFOBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5CE16F174558C8002FFDE6 /* UFOBaseViewController.m */; };
+		2B5CE174174560DC002FFDE6 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5CE173174560DC002FFDE6 /* Crashlytics.framework */; };
 		FA154A6B1572DE1100497B5F /* ConsoleDocumentView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA154A6A1572DE1100497B5F /* ConsoleDocumentView.m */; };
 		FA154A6D1572DE2B00497B5F /* ConsoleDocumentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA154A6C1572DE2B00497B5F /* ConsoleDocumentView.xib */; };
 		FA154A6F1572DF7E00497B5F /* AndaleMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA154A6E1572DF7E00497B5F /* AndaleMono.ttf */; };
@@ -477,8 +481,8 @@
 		FA733B9515687CB400BCA82F /* masterCell.png in Resources */ = {isa = PBXBuildFile; fileRef = FA733B9215687CB400BCA82F /* masterCell.png */; };
 		FA733B9615687CB400BCA82F /* masterCellSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = FA733B9315687CB400BCA82F /* masterCellSelected.png */; };
 		FA733B9715687CB400BCA82F /* masterCellSelected.png in Resources */ = {isa = PBXBuildFile; fileRef = FA733B9315687CB400BCA82F /* masterCellSelected.png */; };
-		FA733B9E15687D0200BCA82F /* UFOSighting.m in Sources */ = {isa = PBXBuildFile; fileRef = FA733B9B15687D0200BCA82F /* UFOSighting.m */; };
-		FA733B9F15687D0200BCA82F /* UFOSighting.m in Sources */ = {isa = PBXBuildFile; fileRef = FA733B9B15687D0200BCA82F /* UFOSighting.m */; };
+		FA733B9E15687D0200BCA82F /* Sighting.m in Sources */ = {isa = PBXBuildFile; fileRef = FA733B9B15687D0200BCA82F /* Sighting.m */; };
+		FA733B9F15687D0200BCA82F /* Sighting.m in Sources */ = {isa = PBXBuildFile; fileRef = FA733B9B15687D0200BCA82F /* Sighting.m */; };
 		FA733BA015687D0200BCA82F /* SightingLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = FA733B9D15687D0200BCA82F /* SightingLocation.m */; };
 		FA733BA115687D0200BCA82F /* SightingLocation.m in Sources */ = {isa = PBXBuildFile; fileRef = FA733B9D15687D0200BCA82F /* SightingLocation.m */; };
 		FA733BA415687EEA00BCA82F /* SightingsParser.m in Sources */ = {isa = PBXBuildFile; fileRef = FA733BA315687EEA00BCA82F /* SightingsParser.m */; };
@@ -554,6 +558,13 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2B5CE167174552FF002FFDE6 /* UFOCoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOCoreData.h; sourceTree = "<group>"; };
+		2B5CE168174552FF002FFDE6 /* UFOCoreData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOCoreData.m; sourceTree = "<group>"; };
+		2B5CE16B1745571E002FFDE6 /* NSFileManager+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Extras.h"; sourceTree = "<group>"; };
+		2B5CE16C1745571E002FFDE6 /* NSFileManager+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Extras.m"; sourceTree = "<group>"; };
+		2B5CE16E174558C7002FFDE6 /* UFOBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOBaseViewController.h; sourceTree = "<group>"; };
+		2B5CE16F174558C8002FFDE6 /* UFOBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOBaseViewController.m; sourceTree = "<group>"; };
+		2B5CE173174560DC002FFDE6 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
 		FA154A691572DE1100497B5F /* ConsoleDocumentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsoleDocumentView.h; sourceTree = "<group>"; };
 		FA154A6A1572DE1100497B5F /* ConsoleDocumentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsoleDocumentView.m; sourceTree = "<group>"; };
 		FA154A6C1572DE2B00497B5F /* ConsoleDocumentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConsoleDocumentView.xib; sourceTree = "<group>"; };
@@ -568,8 +579,8 @@
 		FA1A96A21557075700BD447F /* UfoSightingsTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UfoSightingsTests-Prefix.pch"; sourceTree = "<group>"; };
 		FA1A96AB15570FCC00BD447F /* HeatMapTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeatMapTests.h; sourceTree = "<group>"; };
 		FA1A96AC15570FCC00BD447F /* HeatMapTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HeatMapTests.m; sourceTree = "<group>"; };
-		FA4531B81569DFC5005CA658 /* UIColor+RKColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UIColor+RKColor.h"; sourceTree = "<group>"; };
-		FA4531B91569DFC5005CA658 /* UIColor+RKColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UIColor+RKColor.m"; sourceTree = "<group>"; };
+		FA4531B81569DFC5005CA658 /* UIColor+RKColor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "UIColor+RKColor.h"; path = "Resources/Catagories/UIColor+RKColor.h"; sourceTree = "<group>"; };
+		FA4531B91569DFC5005CA658 /* UIColor+RKColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+RKColor.m"; path = "Resources/Catagories/UIColor+RKColor.m"; sourceTree = "<group>"; };
 		FA578082157039B000191B13 /* alertBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alertBackground@2x.png"; sourceTree = "<group>"; };
 		FA578083157039B000191B13 /* alertButtonSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alertButtonSelected@2x.png"; sourceTree = "<group>"; };
 		FA57808915703EA800191B13 /* filters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = filters.plist; sourceTree = "<group>"; };
@@ -624,8 +635,8 @@
 		FA73391315687A1B00BCA82F /* UFOMapViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOMapViewController.m; sourceTree = "<group>"; };
 		FA73391415687A1B00BCA82F /* UFOMapViewController~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "UFOMapViewController~ipad.xib"; sourceTree = "<group>"; };
 		FA73391515687A1C00BCA82F /* UFOMapViewController~iphone.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "UFOMapViewController~iphone.xib"; sourceTree = "<group>"; };
-		FA73393315687C7A00BCA82F /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
-		FA73393415687C7A00BCA82F /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
+		FA73393315687C7A00BCA82F /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = "NSString+HTML.h"; path = "Resources/Catagories/NSString+HTML.h"; sourceTree = "<group>"; };
+		FA73393415687C7A00BCA82F /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSString+HTML.m"; path = "Resources/Catagories/NSString+HTML.m"; sourceTree = "<group>"; };
 		FA73393615687C7A00BCA82F /* sample.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = sample.txt; sourceTree = "<group>"; };
 		FA73393815687C7A00BCA82F /* UfoSightings.sqlite */ = {isa = PBXFileReference; lastKnownFileType = file; path = UfoSightings.sqlite; sourceTree = "<group>"; };
 		FA73393A15687C7A00BCA82F /* blueStrechyBox.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = blueStrechyBox.png; path = ../blueStrechyBox.png; sourceTree = "<group>"; };
@@ -819,13 +830,13 @@
 		FA7339FC15687C7A00BCA82F /* triangleSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "triangleSelected@2x.png"; sourceTree = "<group>"; };
 		FA733B9215687CB400BCA82F /* masterCell.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = masterCell.png; sourceTree = "<group>"; };
 		FA733B9315687CB400BCA82F /* masterCellSelected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = masterCellSelected.png; sourceTree = "<group>"; };
-		FA733B9A15687D0200BCA82F /* UFOSighting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOSighting.h; sourceTree = "<group>"; };
-		FA733B9B15687D0200BCA82F /* UFOSighting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOSighting.m; sourceTree = "<group>"; };
+		FA733B9A15687D0200BCA82F /* Sighting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sighting.h; sourceTree = "<group>"; };
+		FA733B9B15687D0200BCA82F /* Sighting.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sighting.m; sourceTree = "<group>"; };
 		FA733B9C15687D0200BCA82F /* SightingLocation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SightingLocation.h; sourceTree = "<group>"; };
 		FA733B9D15687D0200BCA82F /* SightingLocation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SightingLocation.m; sourceTree = "<group>"; };
 		FA733BA215687EEA00BCA82F /* SightingsParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SightingsParser.h; sourceTree = "<group>"; };
 		FA733BA315687EEA00BCA82F /* SightingsParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SightingsParser.m; sourceTree = "<group>"; };
-		FA733BA715687F9E00BCA82F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		FA733BA715687F9E00BCA82F /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = Resources/main.m; sourceTree = "<group>"; };
 		FA733BB4156880A400BCA82F /* UfoSightings-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "UfoSightings-Info.plist"; sourceTree = "<group>"; };
 		FA733BB71568822100BCA82F /* UfoSightings-Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UfoSightings-Prefix.pch"; sourceTree = "<group>"; };
 		FA733BBD15688D9F00BCA82F /* UfoSightings.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UfoSightings.xcdatamodel; sourceTree = "<group>"; };
@@ -909,12 +920,39 @@
 				FAA0FF6C154CB826009897E9 /* Foundation.framework in Frameworks */,
 				FAA0FF6E154CB826009897E9 /* CoreGraphics.framework in Frameworks */,
 				FAA0FF70154CB826009897E9 /* CoreData.framework in Frameworks */,
+				2B5CE174174560DC002FFDE6 /* Crashlytics.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		2B5CE16A17455701002FFDE6 /* Categories */ = {
+			isa = PBXGroup;
+			children = (
+				FA4531B81569DFC5005CA658 /* UIColor+RKColor.h */,
+				FA4531B91569DFC5005CA658 /* UIColor+RKColor.m */,
+				FA73393315687C7A00BCA82F /* NSString+HTML.h */,
+				FA73393415687C7A00BCA82F /* NSString+HTML.m */,
+				2B5CE16B1745571E002FFDE6 /* NSFileManager+Extras.h */,
+				2B5CE16C1745571E002FFDE6 /* NSFileManager+Extras.m */,
+			);
+			name = Categories;
+			sourceTree = "<group>";
+		};
+		2B5CE171174558ED002FFDE6 /* Controllers */ = {
+			isa = PBXGroup;
+			children = (
+				FA7338FE15687A1B00BCA82F /* MapViewController */,
+				FA1CFAEC15609C05001CD96F /* DBExplorer */,
+				FAEEC08F156DA7D800D138FD /* UFORootController.h */,
+				FAEEC090156DA7D800D138FD /* UFORootController.m */,
+				2B5CE16E174558C7002FFDE6 /* UFOBaseViewController.h */,
+				2B5CE16F174558C8002FFDE6 /* UFOBaseViewController.m */,
+			);
+			name = Controllers;
+			sourceTree = "<group>";
+		};
 		FA154A671572DDE800497B5F /* ConsoleDocument */ = {
 			isa = PBXGroup;
 			children = (
@@ -1128,24 +1166,11 @@
 				FAABF42C15853DC4001FE4C7 /* Default-Landscape~ipad.png */,
 				FAABF42915853DA9001FE4C7 /* Default.png */,
 				FA154A6E1572DF7E00497B5F /* AndaleMono.ttf */,
-				FA73393215687C7A00BCA82F /* Catagories */,
 				FA73393515687C7A00BCA82F /* Data */,
 				FA73393915687C7A00BCA82F /* images */,
-				FA733BA715687F9E00BCA82F /* main.m */,
 				FA57808915703EA800191B13 /* filters.plist */,
 			);
 			path = Resources;
-			sourceTree = "<group>";
-		};
-		FA73393215687C7A00BCA82F /* Catagories */ = {
-			isa = PBXGroup;
-			children = (
-				FA4531B81569DFC5005CA658 /* UIColor+RKColor.h */,
-				FA4531B91569DFC5005CA658 /* UIColor+RKColor.m */,
-				FA73393315687C7A00BCA82F /* NSString+HTML.h */,
-				FA73393415687C7A00BCA82F /* NSString+HTML.m */,
-			);
-			path = Catagories;
 			sourceTree = "<group>";
 		};
 		FA73393515687C7A00BCA82F /* Data */ = {
@@ -1453,6 +1478,8 @@
 			isa = PBXGroup;
 			children = (
 				FA733B9915687D0200BCA82F /* Sightings */,
+				2B5CE167174552FF002FFDE6 /* UFOCoreData.h */,
+				2B5CE168174552FF002FFDE6 /* UFOCoreData.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1460,8 +1487,8 @@
 		FA733B9915687D0200BCA82F /* Sightings */ = {
 			isa = PBXGroup;
 			children = (
-				FA733B9A15687D0200BCA82F /* UFOSighting.h */,
-				FA733B9B15687D0200BCA82F /* UFOSighting.m */,
+				FA733B9A15687D0200BCA82F /* Sighting.h */,
+				FA733B9B15687D0200BCA82F /* Sighting.m */,
 				FA733B9C15687D0200BCA82F /* SightingLocation.h */,
 				FA733B9D15687D0200BCA82F /* SightingLocation.m */,
 				FA733BA215687EEA00BCA82F /* SightingsParser.h */,
@@ -1492,6 +1519,7 @@
 		FAA0FF68154CB826009897E9 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				2B5CE173174560DC002FFDE6 /* Crashlytics.framework */,
 				FA15B5481550BB7000896E95 /* MapKit.framework */,
 				FAC38942154DC57200923139 /* CoreLocation.framework */,
 				FAC3891C154DBC6D00923139 /* QuartzCore.framework */,
@@ -1509,17 +1537,16 @@
 		FAA0FF71154CB826009897E9 /* UfoSightings */ = {
 			isa = PBXGroup;
 			children = (
+				2B5CE171174558ED002FFDE6 /* Controllers */,
+				2B5CE16A17455701002FFDE6 /* Categories */,
 				FA733B9815687D0200BCA82F /* Models */,
-				FA7338FE15687A1B00BCA82F /* MapViewController */,
-				FA1CFAEC15609C05001CD96F /* DBExplorer */,
-				FAEEC08F156DA7D800D138FD /* UFORootController.h */,
-				FAEEC090156DA7D800D138FD /* UFORootController.m */,
 				FAA0FF7A154CB826009897E9 /* UFOAppDelegate.h */,
 				FAA0FF7B154CB826009897E9 /* UFOAppDelegate.m */,
-				FA73393115687C7A00BCA82F /* Resources */,
+				FA733BA715687F9E00BCA82F /* main.m */,
 				FA733BB4156880A400BCA82F /* UfoSightings-Info.plist */,
 				FA733BBC15688D9F00BCA82F /* UfoSightings.xcdatamodeld */,
 				FA733BB71568822100BCA82F /* UfoSightings-Prefix.pch */,
+				FA73393115687C7A00BCA82F /* Resources */,
 			);
 			path = UfoSightings;
 			sourceTree = "<group>";
@@ -1553,6 +1580,7 @@
 				FAA0FF61154CB826009897E9 /* Sources */,
 				FAA0FF62154CB826009897E9 /* Frameworks */,
 				FAA0FF63154CB826009897E9 /* Resources */,
+				2B5CE17217455B2A002FFDE6 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2070,6 +2098,19 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		2B5CE17217455B2A002FFDE6 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "./Crashlytics.framework/run 1066067e79707a9e0ab5ec2269d06f421b2c5460";
+		};
 		FA1A96921557075700BD447F /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2112,7 +2153,7 @@
 				FA73392715687A1C00BCA82F /* SliderPageControl.m in Sources */,
 				FA73392915687A1C00BCA82F /* UFOMapViewController.m in Sources */,
 				FA733A0615687C7A00BCA82F /* NSString+HTML.m in Sources */,
-				FA733B9F15687D0200BCA82F /* UFOSighting.m in Sources */,
+				FA733B9F15687D0200BCA82F /* Sighting.m in Sources */,
 				FA733BA115687D0200BCA82F /* SightingLocation.m in Sources */,
 				FA733BA515687EEA00BCA82F /* SightingsParser.m in Sources */,
 				FA733BAC15687F9E00BCA82F /* main.m in Sources */,
@@ -2146,7 +2187,7 @@
 				FA73392615687A1C00BCA82F /* SliderPageControl.m in Sources */,
 				FA73392815687A1C00BCA82F /* UFOMapViewController.m in Sources */,
 				FA733A0515687C7A00BCA82F /* NSString+HTML.m in Sources */,
-				FA733B9E15687D0200BCA82F /* UFOSighting.m in Sources */,
+				FA733B9E15687D0200BCA82F /* Sighting.m in Sources */,
 				FA733BA015687D0200BCA82F /* SightingLocation.m in Sources */,
 				FA733BA415687EEA00BCA82F /* SightingsParser.m in Sources */,
 				FA733BAB15687F9E00BCA82F /* main.m in Sources */,
@@ -2155,6 +2196,9 @@
 				FAEEC091156DA7D900D138FD /* UFORootController.m in Sources */,
 				FA154A6B1572DE1100497B5F /* ConsoleDocumentView.m in Sources */,
 				FA687AE215800B22000B7C85 /* UFOSightingAnnotation.m in Sources */,
+				2B5CE16917455300002FFDE6 /* UFOCoreData.m in Sources */,
+				2B5CE16D1745571E002FFDE6 /* NSFileManager+Extras.m in Sources */,
+				2B5CE170174558C9002FFDE6 /* UFOBaseViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2262,9 +2306,14 @@
 		FAA0FF83154CB826009897E9 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UfoSightings/UfoSightings-Prefix.pch";
 				INFOPLIST_FILE = "UfoSightings/UfoSightings-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
@@ -2274,9 +2323,14 @@
 		FAA0FF84154CB826009897E9 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(inherited)",
+					"\"$(SRCROOT)\"",
+				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UfoSightings/UfoSightings-Prefix.pch";
 				INFOPLIST_FILE = "UfoSightings/UfoSightings-Info.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 6.0;
 				OTHER_LDFLAGS = "";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;

@@ -7,7 +7,7 @@
 //
 
 #import "SightingTests.h"
-#import "UFOSighting.h"
+#import "Sighting.h"
 #import "SightingLocation.h"
 #import "UFOAppDelegate.h"
 
@@ -33,7 +33,7 @@
     [context setPersistentStoreCoordinator: coord];
 
     
-    UFOSighting* sighting = [NSEntityDescription insertNewObjectForEntityForName:@"Sighting" inManagedObjectContext:context];
+    Sighting* sighting = [NSEntityDescription insertNewObjectForEntityForName:@"Sighting" inManagedObjectContext:context];
     sighting.report = @"";
     sighting.duration = @"";
     sighting.reportedAt = [NSDate date];

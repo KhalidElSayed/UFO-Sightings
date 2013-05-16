@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-@class UFOSighting;
+@class Sighting;
 @interface ConsoleDocumentView : UIView <UIScrollViewDelegate>
 @property (strong, nonatomic) IBOutlet UILabel *sightedAtLabel;
 @property (strong, nonatomic) IBOutlet UILabel *reportedAtLabel;
@@ -19,6 +19,6 @@
 
 @property (strong, nonatomic) NSString* report;
 
--(id)initWithSighting:(UFOSighting*)sighting;
+-(id)initWithSighting:(Sighting*)sighting;
 
 @end

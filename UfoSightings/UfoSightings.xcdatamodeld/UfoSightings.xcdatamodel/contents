@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model name="" userDefinedModelVersionIdentifier="" type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="2061" systemVersion="12D78" minimumToolsVersion="Automatic" macOSVersion="Automatic" iOSVersion="Automatic">
-    <entity name="SightingLocation" representedClassName="SightingLocation" syncable="YES">
-        <attribute name="formattedAddress" optional="YES" attributeType="String" syncable="YES"/>
-        <attribute name="lat" optional="YES" attributeType="Double" defaultValueString="0.0" indexed="YES" syncable="YES"/>
-        <attribute name="lng" optional="YES" attributeType="Double" defaultValueString="0.0" indexed="YES" syncable="YES"/>
-        <relationship name="sighting" optional="YES" toMany="YES" minCount="1" deletionRule="Nullify" destinationEntity="UFOSighting" inverseName="location" inverseEntity="UFOSighting" syncable="YES"/>
-    </entity>
-    <entity name="UFOSighting" representedClassName="UFOSighting" syncable="YES">
+    <entity name="Sighting" representedClassName="UFOSighting" syncable="YES">
         <attribute name="duration" optional="YES" attributeType="String" minValueString="0" syncable="YES"/>
         <attribute name="report" optional="YES" attributeType="String" syncable="YES"/>
         <attribute name="reportedAt" optional="YES" attributeType="Date" indexed="YES" syncable="YES"/>
@@ -16,8 +10,14 @@
         <attribute name="sightingId" attributeType="Integer 32" defaultValueString="0" indexed="YES" syncable="YES"/>
         <relationship name="location" optional="YES" minCount="1" maxCount="1" deletionRule="Nullify" destinationEntity="SightingLocation" inverseName="sighting" inverseEntity="SightingLocation" syncable="YES"/>
     </entity>
+    <entity name="SightingLocation" representedClassName="SightingLocation" syncable="YES">
+        <attribute name="formattedAddress" optional="YES" attributeType="String" syncable="YES"/>
+        <attribute name="lat" optional="YES" attributeType="Double" defaultValueString="0.0" indexed="YES" syncable="YES"/>
+        <attribute name="lng" optional="YES" attributeType="Double" defaultValueString="0.0" indexed="YES" syncable="YES"/>
+        <relationship name="sighting" optional="YES" toMany="YES" minCount="1" deletionRule="Nullify" destinationEntity="Sighting" inverseName="location" inverseEntity="Sighting" syncable="YES"/>
+    </entity>
     <elements>
-        <element name="UFOSighting" positionX="0" positionY="0" width="0" height="0"/>
-        <element name="SightingLocation" positionX="0" positionY="0" width="0" height="0"/>
+        <element name="SightingLocation" positionX="0" positionY="0" width="128" height="105"/>
+        <element name="Sighting" positionX="0" positionY="0" width="128" height="165"/>
     </elements>
 </model>

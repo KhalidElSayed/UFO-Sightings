@@ -9,7 +9,7 @@
 #import <SenTestingKit/SenTestingKit.h>
 #import <CoreData/CoreData.h>
 #import <CoreLocation/CoreLocation.h>
-#import "UFOSighting.h"
+#import "Sighting.h"
 
 @interface SightingTests : SenTestCase
 {

@@ -25,16 +25,17 @@
 @synthesize persistentStoreCoordinator;
 @synthesize mapContext = _mapContext, databaseContext = _databaseContext;
 @synthesize mapViewController = _mapViewController, databaseViewController = _databaseViewController;
--(id)initWithPersistentStoreCoordinator:(NSPersistentStoreCoordinator*)persistentStoreCor
+
+-(id)init
 {
     if ((self = [super init]))
     {
-        self.persistentStoreCoordinator = persistentStoreCor;
+        self.persistentStoreCoordinator = [[UFOCoreData sharedInstance] persistentStoreCoordinator];
         
         self.mapContext = [[NSManagedObjectContext alloc]init];
-        [self.mapContext setPersistentStoreCoordinator:persistentStoreCor ];
+        [self.mapContext setPersistentStoreCoordinator:self.persistentStoreCoordinator ];
         self.databaseContext = [[NSManagedObjectContext alloc]init];
-        [self.databaseContext setPersistentStoreCoordinator:persistentStoreCor];
+        [self.databaseContext setPersistentStoreCoordinator:self.persistentStoreCoordinator];
     }
     return self;
 }
@@ -45,18 +46,8 @@
     [super viewDidLoad];
         self.view.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin| UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleBottomMargin;
 
-    switch ([[NSUserDefaults standardUserDefaults] integerForKey:@"CurrentControllerShowing"]) {
-        case 0:
-                _currentViewController = self.mapViewController;
-            break;
-        case 1:
-                _currentViewController = self.databaseViewController;
-            break;
-        default:
-            break;
-    }
     self.view.backgroundColor = [UIColor blackColor];
-
+    _currentViewController = self.mapViewController;
     [self.view addSubview:_currentViewController.view];
 }
 
@@ -88,19 +79,6 @@
     return _databaseViewController;
 }
 
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    if([_currentViewController isKindOfClass:[UFODatabaseExplorerViewController class]])
-    {
-        [[NSUserDefaults standardUserDefaults] setInteger:1 forKey:@"CurrentControllerShowing"];
-    }
-    else {
-        [[NSUserDefaults standardUserDefaults] setInteger:0 forKey:@"CurrentControllerShowing"];
-    }
-    [[NSUserDefaults standardUserDefaults] synchronize];
-    
-}
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {

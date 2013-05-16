@@ -10,7 +10,7 @@
 #import "UFODatabaseExplorerViewController.h"
 #import "UFORootController.h"
 #import "FilterViewController.h"
-#import "UFOSighting.h"
+#import "Sighting.h"
 #import "ReportCell.h"
 #import "UIColor+RKColor.h"
 
@@ -116,7 +116,7 @@ dispatch_queue_t CDbackground_queue()
 - (void)viewDidUnload
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    dispatch_release(CDbackground_queue());
+    // TODO: Find out if I should keep a reference to this queue
     _backgroundContext = nil;
     [self saveFilterOptions:_filterOptions];
     [self setMasterView:nil];
@@ -235,7 +235,7 @@ dispatch_queue_t CDbackground_queue()
     if(indexPath.section == 0)
     {
         ReportCell *cell = [tableView dequeueReusableCellWithIdentifier:reportCellIdentifier];
-        UFOSighting* sighting = [_reports objectAtIndex:indexPath.row];
+        Sighting* sighting = [_reports objectAtIndex:indexPath.row];
         
         cell.sightedLabel.text = [_df stringFromDate:sighting.sightedAt];
         cell.reportedLabel.text = [_df stringFromDate:sighting.reportedAt];

@@ -19,7 +19,7 @@
 
 -(id)init
 {
-    if((self = [super self ]))
+    if((self = [super init]))
     {
         _tileServerQueue = [[NSOperationQueue alloc]init];
         [_tileServerQueue setName:@"TileServerQueue"];
