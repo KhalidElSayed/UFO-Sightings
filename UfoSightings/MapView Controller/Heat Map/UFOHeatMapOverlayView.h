@@ -9,7 +9,4 @@
 #import <MapKit/MapKit.h>
 
 @interface UFOHeatMapOverlayView : MKOverlayView 
-{
-
-}
 @end

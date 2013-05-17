@@ -11,12 +11,10 @@
 
 @class PaperView;
 @class SightingLocation;
-@interface MapModalView : UIViewController <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, SliderPageControlDelegate>
-{
-    SliderPageControl* _sliderPageControl;
 
-}
+@interface MapModalView : UIViewController <UITableViewDelegate, UITableViewDataSource, UIScrollViewDelegate, SliderPageControlDelegate>
 @property (strong, nonatomic) SightingLocation* location;
+@property (strong, nonatomic) SliderPageControl* sliderPageControl;
 @property (strong, nonatomic) IBOutlet UITableView *tableView;
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
 @property (strong, nonatomic) IBOutlet UILabel *headerLabel;
@@ -25,7 +23,6 @@
 @property (strong, nonatomic) NSPredicate* predicate;
 
 - (IBAction)exitSelected:(id)sender;
-
 
 - (id)initWithSightingLocation:(SightingLocation*)location andPredicate:(NSPredicate*)pred;
 

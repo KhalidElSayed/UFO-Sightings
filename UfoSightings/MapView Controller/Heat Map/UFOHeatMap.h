@@ -14,11 +14,8 @@
 
 
 @interface UFOHeatMap : NSObject <MKOverlay, NSURLConnectionDataDelegate>
-{
-    NSOperationQueue*   _tileServerQueue;
-}
 
-
+@property (strong, nonatomic) NSOperationQueue* tileServerQueue;
 
 
 // *********** MKOverlay Protocols **************

@@ -9,17 +9,6 @@
 #import "MapModalCell.h"
 
 @implementation MapModalCell
-@synthesize label;
-@synthesize arrowImage;
-
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
-{
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        // Initialization code
-    }
-    return self;
-}
 
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated
 {
@@ -30,9 +19,6 @@
     else {
         [self.arrowImage setAlpha:0.0f];
     }
-
-    
-    // Configure the view for the selected state
 }
 
 @end

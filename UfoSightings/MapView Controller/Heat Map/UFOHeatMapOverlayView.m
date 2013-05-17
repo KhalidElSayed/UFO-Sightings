@@ -15,10 +15,7 @@
 #pragma mark MKOverlayView methods
 - (id)initWithOverlay:(id <MKOverlay>)overlay
 {
-    if((self = [super initWithOverlay:overlay]))
-    {
-    }
-    return self;
+    return [super initWithOverlay:overlay];
 }
 
 
@@ -36,9 +33,12 @@
  * can be forced by calling setNeedsDisplayInMapRect:zoomScale:)
 */
 - (BOOL)canDrawMapRect:(MKMapRect)mapRect zoomScale:(MKZoomScale)zoomScale {
+   
     NSURL* fileURL = [(UFOHeatMap*)self.overlay localUrlForStyle:@"alien" withMapRect:mapRect andZoomScale:zoomScale];
-    if([[NSFileManager defaultManager] fileExistsAtPath:[fileURL path]])
+    
+    if([[NSFileManager defaultManager] fileExistsAtPath:[fileURL path]]) {
         return YES;
+    }
     
     [(UFOHeatMap*)self.overlay fetchFileForStyle:@"alien" withMapRect:mapRect zoomScale:zoomScale completion:^{
         [self setNeedsDisplayInMapRect:mapRect zoomScale:zoomScale];

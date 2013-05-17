@@ -13,38 +13,26 @@
 @end
 
 @implementation ConsoleDocumentView
-@synthesize sightedAtLabel = _sightedAtLabel;
-@synthesize reportedAtLabel = _reportedAtLabel;
-@synthesize durationLabel = _durationLabel;
-@synthesize locationLabel = _locationLabel;
-@synthesize reportTextView = _reportTextView;
-@synthesize staticLabels = _staticLabels;
-@synthesize scrollView = _scrollView;
-@synthesize report = _report;
+
+- (id)init
+{
+    return [[[NSBundle mainBundle] loadNibNamed:@"ConsoleDocumentView" owner:self options:nil] lastObject];
+}
+
 
 - (id)initWithFrame:(CGRect)frame
 {
-    self = [[[NSBundle mainBundle] loadNibNamed:@"ConsoleDocumentView" owner:self options:nil] lastObject];
-    if (self) {
+    self = [self init];
+    if(self) {
         self.frame = frame;
     }
     return self;
 }
 
-- (id)init
-{
-    self = [[[NSBundle mainBundle] loadNibNamed:@"ConsoleDocumentView" owner:self options:nil] lastObject];
-    if (self) {
-
-    }
-    return self;
-
-}
-
 - (id)initWithSighting:(Sighting*)sighting
 {
-    if((self = [[[NSBundle mainBundle] loadNibNamed:@"ConsoleDocumentView" owner:self options:nil] lastObject]))
-    {
+    self = [self init];
+    if(self) {
         _scrollView.contentOffset = CGPointZero;
         [self setup];
         [self setReport:sighting.report];
@@ -57,49 +45,39 @@
     }
     return self;
 }
+
+
 - (void)setup
 {
-    
     UIFont* andale = [UIFont fontWithName:@"AndaleMono" size:18.0f];
     
-    for (UILabel* staticLabel in _staticLabels) {
+    for (UILabel* staticLabel in self.staticLabels) {
         [staticLabel setFont:andale];
     }
-    [_sightedAtLabel setFont:andale];
-    [_reportedAtLabel setFont:andale];
-    [_durationLabel setFont:andale];
-    [_reportTextView setFont:andale];
+    [self.sightedAtLabel setFont:andale];
+    [self.reportedAtLabel setFont:andale];
+    [self.durationLabel setFont:andale];
+    [self.reportTextView setFont:andale];
 
-    [_locationLabel setFont:[UIFont fontWithName:@"AndaleMono" size:22.0f]];
-
-        
-    
+    [self.locationLabel setFont:[UIFont fontWithName:@"AndaleMono" size:22.0f]];
 }
+
 
 - (void)layoutSubviews
 {
     [super layoutSubviews];
     
-    CGSize constraint = CGSizeMake(_reportTextView.bounds.size.width, 99999999.0f);
-    CGSize size = [_report sizeWithFont:[UIFont fontWithName:@"AndaleMono" size:18] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
+    CGSize constraint = CGSizeMake(self.reportTextView.bounds.size.width, 99999999.0f);
+    CGSize size = [self.report sizeWithFont:[UIFont fontWithName:@"AndaleMono" size:18] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
     
-    CGRect frame =  _reportTextView.frame;
+    CGRect frame =  self.reportTextView.frame;
     frame.size.height = size.height + 50;
-    _reportTextView.frame = frame;
-    _scrollView.contentSize = CGSizeMake(1, _reportTextView.frame.origin.y + size.height + 90);
+    self.reportTextView.frame = frame;
+    self.scrollView.contentSize = CGSizeMake(1, _reportTextView.frame.origin.y + size.height + 90);
     
-    _reportTextView.text = _report;
-    
+    self.reportTextView.text = self.report;
     
     self.scrollView.contentOffset = CGPointZero;
-    
-}
-
-
-
-- (void)setReport:(NSString *)report
-{
-         _report = report;
 }
 
 
