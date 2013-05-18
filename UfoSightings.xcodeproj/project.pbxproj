@@ -1477,6 +1477,7 @@
 		FA733B9815687D0200BCA82F /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				FA733BBC15688D9F00BCA82F /* UfoSightings.xcdatamodeld */,
 				FA733B9915687D0200BCA82F /* Sightings */,
 				2B5CE167174552FF002FFDE6 /* UFOCoreData.h */,
 				2B5CE168174552FF002FFDE6 /* UFOCoreData.m */,
@@ -1544,7 +1545,6 @@
 				FAA0FF7B154CB826009897E9 /* UFOAppDelegate.m */,
 				FA733BA715687F9E00BCA82F /* main.m */,
 				FA733BB4156880A400BCA82F /* UfoSightings-Info.plist */,
-				FA733BBC15688D9F00BCA82F /* UfoSightings.xcdatamodeld */,
 				FA733BB71568822100BCA82F /* UfoSightings-Prefix.pch */,
 				FA73393115687C7A00BCA82F /* Resources */,
 			);
@@ -2376,7 +2376,8 @@
 				FA733BBD15688D9F00BCA82F /* UfoSightings.xcdatamodel */,
 			);
 			currentVersion = FA733BBD15688D9F00BCA82F /* UfoSightings.xcdatamodel */;
-			path = UfoSightings.xcdatamodeld;
+			name = UfoSightings.xcdatamodeld;
+			path = ../UfoSightings.xcdatamodeld;
 			sourceTree = "<group>";
 			versionGroupType = wrapper.xcdatamodel;
 		};
