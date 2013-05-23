@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Shapes</key>
+	<dict>
+		<key>names</key>
+		<array>
+			<string>changing</string>
+			<string>chevron</string>
+			<string>cigar</string>
+			<string>circle</string>
+			<string>cone</string>
+			<string>cross</string>
+			<string>cylinder</string>
+			<string>diamond</string>
+			<string>disk</string>
+			<string>egg</string>
+			<string>fireball</string>
+			<string>flash</string>
+			<string>formation</string>
+			<string>oval</string>
+			<string>other</string>
+			<string>rectangle</string>
+			<string>teardrop</string>
+			<string>triangle</string>
+		</array>
+		<key>badShapeMatching</key>
+		<dict>
+			<key>unspecified</key>
+			<string>other</string>
+			<key>changed</key>
+			<string>changing</string>
+			<key>cresent</key>
+			<string>other</string>
+			<key>delta</key>
+			<string>triangle</string>
+			<key>dome</key>
+			<string>circle</string>
+			<key>flare</key>
+			<string>flash</string>
+			<key>hexagon</key>
+			<string>formation</string>
+			<key>light</key>
+			<string>flash</string>
+			<key>pyramid</key>
+			<string>triangle</string>
+			<key>round</key>
+			<string>circle</string>
+			<key>sphere</key>
+			<string>circle</string>
+			<key>unknown</key>
+			<string>other</string>
+		</dict>
+	</dict>
+</dict>
+</plist>

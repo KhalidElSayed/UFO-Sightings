@@ -17,8 +17,8 @@
         self.titleLabel.font = [UIFont fontWithName:@"HelveticaNeue-Bold" size:12];
         self.titleLabel.textColor = [UIColor whiteColor];
         self.titleLabel.adjustsFontSizeToFitWidth = YES;
-        self.titleLabel.minimumFontSize = 6;
-        self.titleLabel.textAlignment = UITextAlignmentCenter;
+        self.titleLabel.minimumScaleFactor = 0.5f;
+        self.titleLabel.textAlignment = NSTextAlignmentCenter;
         [self.imageView setContentMode:UIViewContentModeCenter];
         [self setAdjustsImageWhenHighlighted:NO];
 

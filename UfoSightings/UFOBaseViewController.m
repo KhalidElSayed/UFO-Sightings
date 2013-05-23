@@ -8,11 +8,34 @@
 
 #import "UFOBaseViewController.h"
 
+
 @implementation UFOBaseViewController
 
 - (NSManagedObjectContext*)managedObjectContext
 {
     return [[UFOCoreData sharedInstance] managedObjectContext];
+}
+
+
+- (UFOFilterManager*)filterManager
+{
+    return [UFOFilterManager sharedManager];
+}
+
+@end
+
+
+@implementation UFOBaseTableViewController
+
+- (NSManagedObjectContext*)managedObjectContext
+{
+    return [[UFOCoreData sharedInstance] managedObjectContext];
+}
+
+
+- (UFOFilterManager*)filterManager
+{
+    return [UFOFilterManager sharedManager];
 }
 
 @end

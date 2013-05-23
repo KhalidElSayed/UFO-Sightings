@@ -9,10 +9,12 @@
 #import <QuartzCore/QuartzCore.h>
 #import "UFODatabaseExplorerViewController.h"
 #import "UFORootController.h"
-#import "FilterViewController.h"
+#import "UFOFilterViewController.h"
 #import "Sighting.h"
-#import "ReportCell.h"
+#import "UFOReportCell.h"
 #import "UIColor+RKColor.h"
+#import "NSManagedObjectContext+Extras.h"
+#import "NSFileManager+Extras.h"
 
 #define FILTER_NAV_FRAME CGRectMake(20, 171, 280, 320)
 #define DEFAULT_FETCH_LIMIT 50
@@ -20,8 +22,7 @@
 static dispatch_queue_t coredata_background_queue;
 dispatch_queue_t CDbackground_queue()
 {
-    if (coredata_background_queue == NULL)
-    {
+    if (coredata_background_queue == NULL) {
         coredata_background_queue = dispatch_queue_create("com.richardKirk.coredata.backgroundfetches", DISPATCH_QUEUE_SERIAL);
     }
     return coredata_background_queue;
@@ -29,44 +30,30 @@ dispatch_queue_t CDbackground_queue()
 
 @interface UFODatabaseExplorerViewController ()
 {
-    NSDateFormatter*            _df;
-    NSMutableDictionary*        _currentPredicates;
     UIActivityIndicatorView*    _cellLoadingIndicator;
     __block bool                _cancelFetch;
     NSManagedObjectContext*     _backgroundContext;
-
+    NSDictionary*               _shapesDictionary;
 }
+@property (strong, nonatomic) NSDateFormatter* dateFormatter;
+@property (strong, nonatomic) NSMutableDictionary* currentPredicates;
+@property (strong, nonatomic) UIActivityIndicatorView* cellLoadingIndicator;
+
 - (void)getMoreReportsWithLimit:(NSUInteger)limit;
-- (NSPredicate*)fullPredicate;
 - (void)filterCanReset:(NSNotification*)notification;
-- (NSMutableDictionary*)retrieveFilterOptions;
 - (void)saveFilterOptions:(NSDictionary*)options;
 - (void)refreshReportsWithPredicate:(NSPredicate*)predicate andPredicateKey:(NSString*)predKey;
-
 @end
 
+
+
 @implementation UFODatabaseExplorerViewController
-@synthesize addMoreButton = _addMoreButton;
 
-@synthesize rootController;
-@synthesize managedObjectContext;
-@synthesize masterView = _masterView, detailView = _detailView;
-@synthesize reportsTable = _reportsTable;
-@synthesize reports = _reports;
-@synthesize filterOptions = _filterOptions;
-@synthesize backButton = _backButton, resetButton = _resetButton, viewOnMapButton = _viewOnMapButton;
-@synthesize filterLabel = _filterLabel;
-@synthesize loadingIndicator = _loadingIndicator, loadingLabel = _loadingLabel;
-
-//***************************************************************************************************
 #pragma mark - ViewController Life cycle
-//***************************************************************************************************
+
 - (id)init
 {
-    if ((self = [super init]))
-    {
-        _df = [[NSDateFormatter alloc]init];
-        [_df setDateStyle:NSDateFormatterMediumStyle];
+    if ((self = [super init])) {
         _reports = [[NSArray alloc]init];
         _cancelFetch = NO;
     }
@@ -79,32 +66,17 @@ dispatch_queue_t CDbackground_queue()
     [super viewDidLoad];
 
     self.view.backgroundColor = [UIColor colorWithPatternImage:[UIImage imageNamed:@"greyNoiseBackground.png"]];    
-    [_reportsTable registerNib:[UINib nibWithNibName:@"ReportCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"reportCell"];
+    [self.reportsTable registerNib:[UINib nibWithNibName:@"UFOReportCell" bundle:[NSBundle mainBundle]] forCellReuseIdentifier:@"reportCell"];
     
-    _filterOptions = [self retrieveFilterOptions];
-    _currentPredicates = [_filterOptions objectForKey:@"predicates"];
-    FilterViewController* fvc = [[FilterViewController alloc]init];
-    fvc.filterDict = _filterOptions;
-    fvc.title = @"Filters";
+    self.currentPredicates = [[self.filterManager predicates] mutableCopy];
     
-        
-    _filterNavController = [[UINavigationController alloc]initWithRootViewController:fvc];
-    _filterNavController.view.frame = FILTER_NAV_FRAME;
-    _filterNavController.delegate = self;
-    _filterNavController.view.layer.borderWidth = 2.0f;
-    _filterNavController.view.layer.borderColor = [UIColor blackColor].CGColor;
-    _filterNavController.view.layer.cornerRadius = 4.0f;
-    [_filterNavController setNavigationBarHidden:YES];
-    [_masterView addSubview:_filterNavController.view];
+    [self.masterView addSubview:self.filterNavController.view];
     
-    _reportsTable.layer.cornerRadius = 5.0f;
+    self.reportsTable.layer.cornerRadius = 5.0f;
     self.backButton.superview.layer.cornerRadius = 10.0f;    
     self.backButton.superview.layer.borderWidth = 7.0f;
     self.backButton.superview.layer.borderColor = [UIColor rgbColorWithRed:33 green:33 blue:33 alpha:1.0].CGColor;
-    _cellLoadingIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
-    _cellLoadingIndicator.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
-    _cellLoadingIndicator.userInteractionEnabled = NO;
-   
+    
     _backgroundContext = [[NSManagedObjectContext alloc]init];
     _backgroundContext.persistentStoreCoordinator = self.managedObjectContext.persistentStoreCoordinator;
     
@@ -113,113 +85,155 @@ dispatch_queue_t CDbackground_queue()
 }
 
 
-- (void)viewDidUnload
+- (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     // TODO: Find out if I should keep a reference to this queue
     _backgroundContext = nil;
-    [self saveFilterOptions:_filterOptions];
-    [self setMasterView:nil];
-    [self setDetailView:nil];
-    [self setReportsTable:nil];
-    [self setBackButton:nil];
-    [self setResetButton:nil];
-    [self setFilterLabel:nil];
-    [self setViewOnMapButton:nil];
-    [self setReports:nil];
-    [self setLoadingIndicator:nil];
-    [self setLoadingLabel:nil];
-    [self setAddMoreButton:nil];
-    [super viewDidUnload];
 }
 
 
 - (void)viewWillLayoutSubviews
 {
     [super viewWillLayoutSubviews];
-    
     UIDeviceOrientation deviceOrientation = [[UIApplication sharedApplication]statusBarOrientation];
-    if (UIInterfaceOrientationIsLandscape(deviceOrientation )) 
-    {   // Setup For Landscape
-        [_detailView setFrame:CGRectMake(320, 0, self.view.bounds.size.width - 320, self.view.bounds.size.height)];    
+    
+    if (UIInterfaceOrientationIsLandscape(deviceOrientation )) {   // Setup For Landscape
+        [self.detailView setFrame:CGRectMake(320, 0, self.view.bounds.size.width - 320, self.view.bounds.size.height)];
         [self.view addSubview:_masterView];
     }
-    else 
-    {   // Setup For Portrait
-        [_masterView removeFromSuperview];
-        _detailView.frame = self.view.bounds;
+    else {   // Setup For Portrait
+        [self.masterView removeFromSuperview];
+        self.detailView.frame = self.view.bounds;
     }
 }
 
 
-- (void)addMoreButtonSelected:(UIButton*)button
-{
+#pragma mark - Setters/Getters
 
-    [self getMoreReportsWithLimit:DEFAULT_FETCH_LIMIT];
-
+- (NSDateFormatter*)dateFormatter {
+    if (!_dateFormatter) {
+        _dateFormatter = [[NSDateFormatter alloc]init];
+        [_dateFormatter setDateStyle:NSDateFormatterMediumStyle];
+    }
+    return _dateFormatter;
 }
 
-//***************************************************************************************************
 
-
-
-
-
-//***************************************************************************************************
-#pragma mark - FilterOptions
-//***************************************************************************************************
-- (NSMutableDictionary*)retrieveFilterOptions
+- (UINavigationController*)filterNavController
 {
-    if(_filterOptions != nil)
-    {
-        return _filterOptions;        
+    if(!_filterNavController) {
+        UFOFilterViewController* fvc = [[UFOFilterViewController alloc]init];
+        fvc.title = @"Filters";
+        _filterNavController = [[UINavigationController alloc]initWithRootViewController:fvc];
+        
+        _filterNavController.view.frame = FILTER_NAV_FRAME;
+        _filterNavController.delegate = self;
+        _filterNavController.view.layer.borderWidth = 2.0f;
+        _filterNavController.view.layer.borderColor = [UIColor blackColor].CGColor;
+        _filterNavController.view.layer.cornerRadius = 4.0f;
+        [_filterNavController setNavigationBarHidden:YES];
     }
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *filterPlistPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"filters.plist"];
-    NSMutableDictionary* plist = [[NSMutableDictionary dictionaryWithContentsOfFile:filterPlistPath] mutableCopy];
-    _filterOptions =  [plist objectForKey:@"Filters"];
+    return _filterNavController;
+}
+
+
+- (UIActivityIndicatorView*)cellLoadingIndicator
+{
+    if(!_cellLoadingIndicator) {
+        _cellLoadingIndicator = [[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhite];
+        _cellLoadingIndicator.autoresizingMask = UIViewAutoresizingFlexibleLeftMargin | UIViewAutoresizingFlexibleRightMargin;
+        _cellLoadingIndicator.userInteractionEnabled = NO;
+    }
+    return _cellLoadingIndicator;
+}
+
+
+- (NSDictionary*)shapesDictionary
+{
+    if (!_shapesDictionary) {
+        _shapesDictionary = [NSDictionary dictionaryWithContentsOfFile:[[NSFileManager defaultManager] shapesDictionaryPath]];
+    }
+    return _shapesDictionary;
+}
+
+
+#pragma mark - IBActions
+
+- (IBAction)viewOnMapSelected:(UIButton *)sender
+{
+    [self.delegate UFODatabaseExplorerWantsToViewMap:self];
+}
+
+
+- (IBAction)backButtonPressed:(UIButton *)sender
+{
+    [(id<UFOPredicateCreation>)self.filterNavController.topViewController saveState];
+    NSPredicate* predicate = [(id<UFOPredicateCreation>)self.filterNavController.topViewController createPredicate];
+    NSString* predicateKey = [(id<UFOPredicateCreation>)self.filterNavController.topViewController predicateKey];
+    [self refreshReportsWithPredicate:predicate andPredicateKey:predicateKey];
     
-    return _filterOptions;
+    if(self.filterNavController.view.frame.size.height != 320) {
+        
+        [UIView animateWithDuration:0.5 animations:^{
+            self.filterNavController.view.frame = FILTER_NAV_FRAME;
+        } completion:^(BOOL finished){
+            if(finished) {
+                [self.filterNavController popViewControllerAnimated:YES];
+            }
+        }];
+    }
+    else {
+        [self.filterNavController popViewControllerAnimated:YES];
+    }
+
 }
 
 
-- (void)saveFilterOptions:(NSDictionary*)options
+- (IBAction)resetButtonPressed:(UIButton *)sender
 {
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *filterPlistPath = [[paths objectAtIndex:0] stringByAppendingPathComponent:@"filters.plist"];
-    NSMutableDictionary* plist = [NSMutableDictionary dictionaryWithContentsOfFile:filterPlistPath];
-    [plist setObject:options forKey:@"Filters"];
-    [plist writeToFile:filterPlistPath atomically:YES];
+    NSString* predicateKey = [(id <UFOPredicateCreation>)self.filterNavController.topViewController predicateKey];
+    [(id <UFOPredicateCreation>)self.filterNavController.topViewController reset];
+    
+    if([predicateKey compare:@"main"] == 0) {
+        [self.currentPredicates removeAllObjects];
+        [self refreshReportsWithPredicate:nil andPredicateKey:nil];
+    }
+    else if([self.currentPredicates objectForKey:predicateKey]) {
+        [self.currentPredicates removeObjectForKey:predicateKey];
+    }
+    
+    [self.resetButton setEnabled:NO];
 }
-//***************************************************************************************************
 
 
+- (IBAction)addMoreButtonSelected:(UIButton*)button
+{
+    [self getMoreReportsWithLimit:DEFAULT_FETCH_LIMIT];
+}
 
 
-
-//***************************************************************************************************
 #pragma mark - UITableView Delegate/DataSource
-//***************************************************************************************************
-/**
- One section for all of the reports and one section with one row for the "add more" button 
- */
+
+// One section for all of the reports and one section with one row for the "add more" button
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
     return 2;
 }
 
-/**
- We must ensure that if we are going to return the count of reports, it must be loaded. 
- */
+
+// We must ensure that if we are going to return the count of reports, it must be loaded.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    if(section == 0 && _reports )
-        return [_reports count];
-    else if(section == 1)
+    if(section == 0 && self.reports ) {
+        return [self.reports count];
+    }
+    else if(section == 1) {
         return 1;
-    
+    }
     return 0;
 }
+
 
 /**
  This function deals with two cell styles. The more complicated of the two being ReportCell
@@ -232,29 +246,27 @@ dispatch_queue_t CDbackground_queue()
     static NSString* reportCellIdentifier = @"reportCell";
     static NSString* moreCellIdentifier = @"moreCell";
     
-    if(indexPath.section == 0)
-    {
-        ReportCell *cell = [tableView dequeueReusableCellWithIdentifier:reportCellIdentifier];
-        Sighting* sighting = [_reports objectAtIndex:indexPath.row];
+    if(indexPath.section == 0) {
+        UFOReportCell *cell = [tableView dequeueReusableCellWithIdentifier:reportCellIdentifier];
+        Sighting* sighting = [self.reports objectAtIndex:indexPath.row];
         
-        cell.sightedLabel.text = [_df stringFromDate:sighting.sightedAt];
-        cell.reportedLabel.text = [_df stringFromDate:sighting.reportedAt];
+        cell.sightedLabel.text = [self.dateFormatter stringFromDate:sighting.sightedAt];
+        cell.reportedLabel.text = [self.dateFormatter stringFromDate:sighting.reportedAt];
         cell.reportTextView.text = sighting.report;
-        cell.locationLabel.text =  sighting.location.formattedAddress; //[_sightingLocations objectAtIndex:indexPath.row];
-        NSString* shapeString = [[_filterOptions objectForKey:@"badShapeMatching"] objectForKey:sighting.shape];
+        cell.locationLabel.text =  sighting.location.formattedAddress;
+        NSString* shapeString = [[self.shapesDictionary objectForKey:@"badShapeMatching"] objectForKey:sighting.shape];
             
-        if (!shapeString)
+        if (!shapeString) {
             shapeString = sighting.shape;
+        }
         
-        NSString* imgString = [NSString stringWithFormat:@"%@.png", shapeString]; 
-        cell.shapeImageView.image = [UIImage imageNamed:imgString];
+        cell.shapeImageView.image = [UIImage imageNamed:[NSString stringWithFormat:@"%@.png", shapeString]];
         return cell;    
     }
-    else if (indexPath.section == 1)
-    {
+    else if (indexPath.section == 1) {
         UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:moreCellIdentifier];
-        if(!cell)
-        {
+        
+        if(!cell) {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:moreCellIdentifier];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
 
@@ -264,20 +276,17 @@ dispatch_queue_t CDbackground_queue()
             [cell setBackgroundView:imgView];
             [cell setSelectionStyle:UITableViewCellSelectionStyleNone];
             
-            
-            [cell.contentView addSubview:_cellLoadingIndicator];
-            [cell.contentView addSubview:_addMoreButton];
-            _cellLoadingIndicator.center = cell.contentView.center;
-            _addMoreButton.center = cell.contentView.center;
-          
-            
+            [cell.contentView addSubview:self.cellLoadingIndicator];
+            [cell.contentView addSubview:self.addMoreButton];
+            self.cellLoadingIndicator.center = cell.contentView.center;
+            self.addMoreButton.center = cell.contentView.center;
         }
         
         return cell;            
     }
-    else 
+    else {
         return [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"junk"];
-
+    }
 }
 
 
@@ -288,45 +297,34 @@ dispatch_queue_t CDbackground_queue()
  */
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    if (indexPath.section == 0) 
-    {
-        if(indexPath.row == [_reports count])
-            return 100.0f;
+    if (indexPath.section == 0) {
+        if(indexPath.row == [self.reports count]) { return 100.0f; }
         
-        NSString *text = [[_reports objectAtIndex:indexPath.row] report];
-        CGSize constraint = CGSizeMake( _reportsTable.bounds.size.width - (20 * 2), 20000.0f);
-        CGSize size = [text sizeWithFont:[UIFont fontWithName:@"Helvetica-Light" size:14] constrainedToSize:constraint lineBreakMode:UILineBreakModeWordWrap];
+        NSString *text = [[self.reports objectAtIndex:indexPath.row] report];
+        CGSize constraint = CGSizeMake( self.reportsTable.bounds.size.width - (20 * 2), 20000.0f);
+        CGSize size = [text sizeWithFont:[UIFont fontWithName:@"Helvetica-Light" size:14] constrainedToSize:constraint lineBreakMode:NSLineBreakByWordWrapping];
         CGFloat height = MAX(size.height, 44.0f);
         
         return height + 120.0f;
     }
-    else if(indexPath.section == 1)
+    else if(indexPath.section == 1) {
         return 44.0f;
+    }
     
     return 0.0f;
 }
-//***************************************************************************************************
 
 
-
-
-
-//***************************************************************************************************
 #pragma mark - Filtering Functions
-//***************************************************************************************************
+
 /**
  This function gets called whenever the navigation controller will show a new view controller. 
  We will use this opportunity to determine if we should show the back button in our custom TitleView 
  */
 - (void)navigationController:(UINavigationController *)navigationController willShowViewController:(UIViewController *)viewController animated:(BOOL)animated
 {
-    if([viewController isKindOfClass:[FilterViewController class]])
-        self.backButton.alpha = 0.0f;
-    else 
-        self.backButton.alpha = 1.0f;
-    
+    self.backButton.alpha = [viewController isKindOfClass:[UFOFilterViewController class]] ? 0.0 : 1.0f;
     self.filterLabel.text = viewController.title;
-//    [navigationController setNavigationBarHidden:YES];
 }
 
 
@@ -336,7 +334,7 @@ dispatch_queue_t CDbackground_queue()
  */
 - (void)filterCanReset:(NSNotification*)notification 
 {
-    [self.resetButton setEnabled:[(id<PredicateCreation>)notification.object canReset]];
+    [self.resetButton setEnabled:[(id<UFOPredicateCreation>)notification.object canReset]];
 }
 
 
@@ -345,59 +343,47 @@ dispatch_queue_t CDbackground_queue()
  */
 - (void)navigationController:(UINavigationController *)navigationController didShowViewController:(UIViewController *)viewController animated:(BOOL)animated;
 {
-    self.resetButton.enabled = [(id<PredicateCreation>)viewController canReset];
+    self.resetButton.enabled = [(id<UFOPredicateCreation>)viewController canReset];
 }
 
 
-
-- (NSPredicate*)fullPredicate
+- (NSPredicate*)buildPredicateWithFilters:(NSDictionary*)filters;
 {
-    if([[_currentPredicates allValues] count] > 0)
-    {
-        NSMutableArray* array = [[NSMutableArray alloc]initWithCapacity:4];
-        
-        if([_currentPredicates objectForKey:@"sightedAt"])
-            [array addObject:[_currentPredicates objectForKey:@"sightedAt"]];
-        if([_currentPredicates objectForKey:@"reportLength"])
-            [array addObject:[_currentPredicates objectForKey:@"reportLength"]];
-        if([_currentPredicates objectForKey:@"shape"])
-            [array addObject:[_currentPredicates objectForKey:@"shape"]];
-        if([_currentPredicates objectForKey:@"reportedAt"])
-            [array addObject:[_currentPredicates objectForKey:@"reportedAt"]];
-        return [[NSCompoundPredicate alloc]initWithType:NSAndPredicateType subpredicates:array];        
-    }
-    else
-        return nil;
+    if([[filters allValues] count] <= 0 ) { return nil; }
+
+    NSMutableArray* subpredicates = [[filters objectsForKeys:@[@"sightedAt",@"reportLength",@"shape",@"reportedAt"] notFoundMarker:[NSNull null]] mutableCopy];
+    [subpredicates removeObjectsInArray:@[[NSNull null]]];
+    
+    return [[NSCompoundPredicate alloc]initWithType:NSAndPredicateType subpredicates:subpredicates];
 }
+
 
 - (void)refreshReportsWithPredicate:(NSPredicate*)predicate andPredicateKey:(NSString*)predKey
 {
-
-    
-    if(![predicate isEqual:[_currentPredicates objectForKey:predKey]] || (predKey == nil && predicate == nil))
+    if(![predicate isEqual:[self.currentPredicates objectForKey:predKey]] || (!predKey && !predicate))
     {
-        if (predicate != nil) 
-            [_currentPredicates setObject:predicate forKey:predKey];    
-        else if( predKey != nil)
-            [_currentPredicates removeObjectForKey:predKey];    
+        if (predicate && predKey) {
+            [self.currentPredicates setObject:predicate forKey:predKey];
+        }
+        else if(predKey) {
+            [self.currentPredicates removeObjectForKey:predKey];
+        }
         
         [self.loadingIndicator startAnimating];
         [self.loadingLabel setHidden:NO];
+        
+        NSPredicate* predicate = [self buildPredicateWithFilters:self.currentPredicates];
+        
         dispatch_async(CDbackground_queue(), ^{
             
             NSFetchRequest* fetchRequest = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
-            //NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:@"sightedAt" ascending:NO];
-            //[fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
-            NSPredicate* predicate = [self fullPredicate];
             NSUInteger limit = MAX(_reports.count, 50);
             [fetchRequest setFetchLimit:limit];
             [fetchRequest setPredicate:predicate];
             [fetchRequest setResultType:NSManagedObjectIDResultType];
             NSError* error = nil;
             NSArray* newReportIDs = [_backgroundContext executeFetchRequest:fetchRequest error:&error];
-            if(error)
-                NSLog(@"%@",error);
-            
+            if(error) { NSLog(@"%@",error); }
             
             dispatch_sync(dispatch_get_main_queue(), ^{
                 
@@ -405,13 +391,12 @@ dispatch_queue_t CDbackground_queue()
                 for (NSManagedObjectID* ObjID in newReportIDs) {
                     [newReports addObject:[self.managedObjectContext objectWithID:ObjID]];
                 }
+
                 [newReports sortUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"sightedAt" ascending:NO]]];
-                _reports = newReports;
-                [_reportsTable reloadData];
+                self.reports = newReports;
+                [self.reportsTable reloadData];
                 [self.loadingIndicator stopAnimating];
                 [self.loadingLabel setHidden:YES];
-                
-
             });
             
         });
@@ -423,31 +408,31 @@ dispatch_queue_t CDbackground_queue()
 - (void)getMoreReportsWithLimit:(NSUInteger)limit
 {       
     /* Animating the Lading indicator*/
-    if(!_addMoreButton.isSelected)
-        [_addMoreButton setSelected:YES];
-    [_cellLoadingIndicator startAnimating];
+    if(!self.addMoreButton.isSelected) {
+        [self.addMoreButton setSelected:YES];
+    }
+    [self.cellLoadingIndicator startAnimating];
 
-    
+    __block NSPredicate* predicate = [self buildPredicateWithFilters:self.currentPredicates];
     dispatch_async(CDbackground_queue(), ^{
         
         NSFetchRequest* fetchRequest = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
         NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:@"sightedAt" ascending:NO];
         [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
         [fetchRequest setFetchLimit:limit];
-        NSPredicate* predicate = [self fullPredicate];
-        if([_reports count] > 0)
-        {
+        [fetchRequest setResultType:NSManagedObjectIDResultType];
+        
+        if([_reports count] > 0) {
             NSDate* date = [[_reports lastObject] sightedAt];
             NSPredicate* datePredicate = [NSPredicate predicateWithFormat:@"sightedAt > %@", date]; 
             predicate = [[NSCompoundPredicate alloc]initWithType:NSAndPredicateType subpredicates:[NSArray arrayWithObjects:datePredicate, predicate, nil]];
         }
         [fetchRequest setPredicate:predicate];
-        [fetchRequest setResultType:NSManagedObjectIDResultType];
+
         NSArray* newReportIDs = [_backgroundContext executeFetchRequest:fetchRequest error:nil];
                 
         /* This is for smooth addition of cells */
-        
-        NSMutableArray* indexPaths = [[NSMutableArray alloc]init];
+        NSMutableArray* indexPaths = [[NSMutableArray alloc] init];
         int beginIndex = _reports ? _reports.count : 0;
         int endIndex = newReportIDs.count >= 5 ? beginIndex + 5 : beginIndex + newReportIDs.count - 1;
         for (int i = beginIndex; i < endIndex; i++) {
@@ -456,97 +441,32 @@ dispatch_queue_t CDbackground_queue()
         
         dispatch_sync(dispatch_get_main_queue(), ^{
             
-            NSMutableArray* newlyFetchedReports = [[NSMutableArray alloc]initWithCapacity:DEFAULT_FETCH_LIMIT];
-            for (NSManagedObjectID* objID in newReportIDs) {
-                [newlyFetchedReports addObject:[self.managedObjectContext objectWithID:objID]];
-            }
+            NSArray* newlyFetchedReports =  [self.managedObjectContext objectsWithIDs:newReportIDs];
             
             NSMutableArray* newArrayOfReports = [[NSMutableArray alloc]initWithArray:_reports];
             NSIndexSet *initialSetOfCellsToAdd = [[NSIndexSet alloc]initWithIndexesInRange:NSMakeRange(0, 5)];
             [newArrayOfReports addObjectsFromArray:[newlyFetchedReports objectsAtIndexes:initialSetOfCellsToAdd]];
             
-            [_reportsTable beginUpdates];
-            _reports = newArrayOfReports;
-            [_reportsTable insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
-            [_reportsTable reloadData];
-            [_reportsTable endUpdates];
+            [self.reportsTable beginUpdates];
+            self.reports = newArrayOfReports;
+            [self.reportsTable insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+            [self.reportsTable reloadData];
+            [self.reportsTable endUpdates];
             
-            if(newlyFetchedReports.count >= 5)
-            {
+            if(newlyFetchedReports.count >= 5) {
                 [newArrayOfReports removeObjectsAtIndexes:initialSetOfCellsToAdd];
                 [newArrayOfReports addObjectsFromArray:newlyFetchedReports];
-                _reports = newArrayOfReports;
-                [_reportsTable reloadData];
+                self.reports = newArrayOfReports;
+                [self.reportsTable reloadData];
             }
             
-            [_cellLoadingIndicator stopAnimating];
-            if(_addMoreButton.isSelected)
-                [_addMoreButton setSelected:NO];
+            [self.cellLoadingIndicator stopAnimating];
+            
+            if(self.addMoreButton.isSelected) {
+                [self.addMoreButton setSelected:NO];
+            }
         });
     });
 }
-//***************************************************************************************************
-
-
-
-
-
-//***************************************************************************************************
-#pragma mark - IBActions
-//***************************************************************************************************
-- (IBAction)viewOnMapSelected:(UIButton *)sender 
-{
-    [self.rootController switchViewController];
-}
-
-
-- (IBAction)backButtonPressed:(UIButton *)sender 
-{
-    
-    [(id<PredicateCreation>)_filterNavController.topViewController saveState];
-    NSPredicate* predicate = [(id<PredicateCreation>)_filterNavController.topViewController createPredicate];
-    NSString* predicateKey = [(id<PredicateCreation>)_filterNavController.topViewController predicateKey];
-    [self refreshReportsWithPredicate:predicate andPredicateKey:predicateKey];
-    
-    if(_filterNavController.view.frame.size.height != 320)
-    {
-        
-        [UIView animateWithDuration:0.5 animations:^{
-            _filterNavController.view.frame = FILTER_NAV_FRAME;
-        } completion:^(BOOL finished){
-            if(finished)
-                [_filterNavController popViewControllerAnimated:YES];
-            
-        }];
-    }
-    else 
-        [_filterNavController popViewControllerAnimated:YES];
-}
-
-
-- (IBAction)resetButtonPressed:(UIButton *)sender 
-{
-    NSString* predicateKey = [(id <PredicateCreation>)_filterNavController.topViewController predicateKey];
-    [(id <PredicateCreation>)_filterNavController.topViewController reset];
-    
-    if([predicateKey compare:@"main"] == 0)
-    {
-        [_currentPredicates removeAllObjects];
-        [self refreshReportsWithPredicate:nil andPredicateKey:nil];
-    }
-    else if([_currentPredicates objectForKey:predicateKey])
-        [_currentPredicates removeObjectForKey:predicateKey];
-    
-    [self.resetButton setEnabled:NO];    
-}
-
-
-
-
-
-
-
-
-
 
 @end

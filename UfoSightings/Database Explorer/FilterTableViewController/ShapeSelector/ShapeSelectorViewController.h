@@ -7,13 +7,14 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FilterViewController.h"
+#import "UFOFilterViewController.h"
+#import "UFOBaseViewController.h"
 
-@interface ShapeSelectorViewController : UIViewController <UIScrollViewDelegate, PredicateCreation> 
+@interface ShapeSelectorViewController : UFOBaseViewController <UIScrollViewDelegate, UFOPredicateCreation>
 
-@property (strong, nonatomic) NSArray* shapes;
+@property (strong, nonatomic) NSArray* shipShapes;
+
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (weak, atomic)NSMutableDictionary* filterDict;
 @property (strong, nonatomic) NSString* predicateKey;
 
 - (NSPredicate*)createPredicate;

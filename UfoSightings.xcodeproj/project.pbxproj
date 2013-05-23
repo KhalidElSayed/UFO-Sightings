@@ -11,6 +11,12 @@
 		2B5CE16D1745571E002FFDE6 /* NSFileManager+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5CE16C1745571E002FFDE6 /* NSFileManager+Extras.m */; };
 		2B5CE170174558C9002FFDE6 /* UFOBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5CE16F174558C8002FFDE6 /* UFOBaseViewController.m */; };
 		2B5CE174174560DC002FFDE6 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5CE173174560DC002FFDE6 /* Crashlytics.framework */; };
+		2BA99603174D7049005605C3 /* NSManagedObjectContext+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA99602174D7049005605C3 /* NSManagedObjectContext+Extras.m */; };
+		2BA99604174D7049005605C3 /* NSManagedObjectContext+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA99602174D7049005605C3 /* NSManagedObjectContext+Extras.m */; };
+		2BA99607174D7AFB005605C3 /* UFOFilterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA99606174D7AFB005605C3 /* UFOFilterManager.m */; };
+		2BA99608174D7AFB005605C3 /* UFOFilterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA99606174D7AFB005605C3 /* UFOFilterManager.m */; };
+		2BA9960A174D818E005605C3 /* shapes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2BA99609174D818E005605C3 /* shapes.plist */; };
+		2BA9960B174D818E005605C3 /* shapes.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2BA99609174D818E005605C3 /* shapes.plist */; };
 		FA154A6B1572DE1100497B5F /* ConsoleDocumentView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA154A6A1572DE1100497B5F /* ConsoleDocumentView.m */; };
 		FA154A6D1572DE2B00497B5F /* ConsoleDocumentView.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA154A6C1572DE2B00497B5F /* ConsoleDocumentView.xib */; };
 		FA154A6F1572DF7E00497B5F /* AndaleMono.ttf in Resources */ = {isa = PBXBuildFile; fileRef = FA154A6E1572DF7E00497B5F /* AndaleMono.ttf */; };
@@ -35,10 +41,10 @@
 		FA7338B6156875C700BCA82F /* UFODatabaseExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338B3156875C700BCA82F /* UFODatabaseExplorerViewController.m */; };
 		FA7338B7156875C700BCA82F /* UFODatabaseExplorerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338B4156875C700BCA82F /* UFODatabaseExplorerViewController.xib */; };
 		FA7338B8156875C700BCA82F /* UFODatabaseExplorerViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338B4156875C700BCA82F /* UFODatabaseExplorerViewController.xib */; };
-		FA7338BD1568765300BCA82F /* ReportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338BB1568765300BCA82F /* ReportCell.m */; };
-		FA7338BE1568765300BCA82F /* ReportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338BB1568765300BCA82F /* ReportCell.m */; };
-		FA7338BF1568765300BCA82F /* ReportCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338BC1568765300BCA82F /* ReportCell.xib */; };
-		FA7338C01568765300BCA82F /* ReportCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338BC1568765300BCA82F /* ReportCell.xib */; };
+		FA7338BD1568765300BCA82F /* UFOReportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338BB1568765300BCA82F /* UFOReportCell.m */; };
+		FA7338BE1568765300BCA82F /* UFOReportCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338BB1568765300BCA82F /* UFOReportCell.m */; };
+		FA7338BF1568765300BCA82F /* UFOReportCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338BC1568765300BCA82F /* UFOReportCell.xib */; };
+		FA7338C01568765300BCA82F /* UFOReportCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338BC1568765300BCA82F /* UFOReportCell.xib */; };
 		FA7338E01568789700BCA82F /* DatePickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338C41568789700BCA82F /* DatePickerTableViewController.m */; };
 		FA7338E11568789700BCA82F /* DatePickerTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338C41568789700BCA82F /* DatePickerTableViewController.m */; };
 		FA7338E21568789700BCA82F /* DatePickerTableViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338C51568789700BCA82F /* DatePickerTableViewController.xib */; };
@@ -53,12 +59,12 @@
 		FA7338EB1568789700BCA82F /* RangeCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338CD1568789700BCA82F /* RangeCell.xib */; };
 		FA7338EC1568789700BCA82F /* RangeSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338CF1568789700BCA82F /* RangeSlider.m */; };
 		FA7338ED1568789700BCA82F /* RangeSlider.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338CF1568789700BCA82F /* RangeSlider.m */; };
-		FA7338EE1568789700BCA82F /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338D11568789700BCA82F /* FilterViewController.m */; };
-		FA7338EF1568789700BCA82F /* FilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338D11568789700BCA82F /* FilterViewController.m */; };
-		FA7338F01568789700BCA82F /* MasterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338D41568789700BCA82F /* MasterCell.m */; };
-		FA7338F11568789700BCA82F /* MasterCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338D41568789700BCA82F /* MasterCell.m */; };
-		FA7338F21568789700BCA82F /* MasterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338D51568789700BCA82F /* MasterCell.xib */; };
-		FA7338F31568789700BCA82F /* MasterCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338D51568789700BCA82F /* MasterCell.xib */; };
+		FA7338EE1568789700BCA82F /* UFOFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338D11568789700BCA82F /* UFOFilterViewController.m */; };
+		FA7338EF1568789700BCA82F /* UFOFilterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338D11568789700BCA82F /* UFOFilterViewController.m */; };
+		FA7338F01568789700BCA82F /* UFOFilterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338D41568789700BCA82F /* UFOFilterTableViewCell.m */; };
+		FA7338F11568789700BCA82F /* UFOFilterTableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338D41568789700BCA82F /* UFOFilterTableViewCell.m */; };
+		FA7338F21568789700BCA82F /* UFOFilterTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338D51568789700BCA82F /* UFOFilterTableViewCell.xib */; };
+		FA7338F31568789700BCA82F /* UFOFilterTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338D51568789700BCA82F /* UFOFilterTableViewCell.xib */; };
 		FA7338F41568789700BCA82F /* ReportLengthSelectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338D81568789700BCA82F /* ReportLengthSelectorController.m */; };
 		FA7338F51568789700BCA82F /* ReportLengthSelectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338D81568789700BCA82F /* ReportLengthSelectorController.m */; };
 		FA7338F61568789700BCA82F /* ReportLengthSelector~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA7338D91568789700BCA82F /* ReportLengthSelector~ipad.xib */; };
@@ -93,7 +99,7 @@
 		FA73392B15687A1C00BCA82F /* UFOMapViewController~ipad.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA73391415687A1B00BCA82F /* UFOMapViewController~ipad.xib */; };
 		FA73392C15687A1C00BCA82F /* UFOMapViewController~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA73391515687A1C00BCA82F /* UFOMapViewController~iphone.xib */; };
 		FA73392D15687A1C00BCA82F /* UFOMapViewController~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA73391515687A1C00BCA82F /* UFOMapViewController~iphone.xib */; };
-		FA733A0515687C7A00BCA82F /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73393415687C7A00BCA82F /* NSString+HTML.m */; };
+		FA733A0515687C7A00BCA82F /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73393415687C7A00BCA82F /* NSString+HTML.m */; settings = {COMPILER_FLAGS = "-Wno-format"; }; };
 		FA733A0615687C7A00BCA82F /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73393415687C7A00BCA82F /* NSString+HTML.m */; };
 		FA733A0715687C7A00BCA82F /* sample.txt in Resources */ = {isa = PBXBuildFile; fileRef = FA73393615687C7A00BCA82F /* sample.txt */; };
 		FA733A0815687C7A00BCA82F /* sample.txt in Resources */ = {isa = PBXBuildFile; fileRef = FA73393615687C7A00BCA82F /* sample.txt */; };
@@ -565,6 +571,11 @@
 		2B5CE16E174558C7002FFDE6 /* UFOBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOBaseViewController.h; sourceTree = "<group>"; };
 		2B5CE16F174558C8002FFDE6 /* UFOBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOBaseViewController.m; sourceTree = "<group>"; };
 		2B5CE173174560DC002FFDE6 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		2BA99601174D7049005605C3 /* NSManagedObjectContext+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+Extras.h"; sourceTree = "<group>"; };
+		2BA99602174D7049005605C3 /* NSManagedObjectContext+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+Extras.m"; sourceTree = "<group>"; };
+		2BA99605174D7AFB005605C3 /* UFOFilterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOFilterManager.h; sourceTree = "<group>"; };
+		2BA99606174D7AFB005605C3 /* UFOFilterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOFilterManager.m; sourceTree = "<group>"; };
+		2BA99609174D818E005605C3 /* shapes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = shapes.plist; sourceTree = "<group>"; };
 		FA154A691572DE1100497B5F /* ConsoleDocumentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsoleDocumentView.h; sourceTree = "<group>"; };
 		FA154A6A1572DE1100497B5F /* ConsoleDocumentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsoleDocumentView.m; sourceTree = "<group>"; };
 		FA154A6C1572DE2B00497B5F /* ConsoleDocumentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConsoleDocumentView.xib; sourceTree = "<group>"; };
@@ -589,9 +600,9 @@
 		FA7338B2156875C600BCA82F /* UFODatabaseExplorerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UFODatabaseExplorerViewController.h; path = "Database Explorer/UFODatabaseExplorerViewController.h"; sourceTree = "<group>"; };
 		FA7338B3156875C700BCA82F /* UFODatabaseExplorerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UFODatabaseExplorerViewController.m; path = "Database Explorer/UFODatabaseExplorerViewController.m"; sourceTree = "<group>"; };
 		FA7338B4156875C700BCA82F /* UFODatabaseExplorerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UFODatabaseExplorerViewController.xib; path = "Database Explorer/UFODatabaseExplorerViewController.xib"; sourceTree = "<group>"; };
-		FA7338BA1568765300BCA82F /* ReportCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportCell.h; sourceTree = "<group>"; };
-		FA7338BB1568765300BCA82F /* ReportCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportCell.m; sourceTree = "<group>"; };
-		FA7338BC1568765300BCA82F /* ReportCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ReportCell.xib; sourceTree = "<group>"; };
+		FA7338BA1568765300BCA82F /* UFOReportCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOReportCell.h; sourceTree = "<group>"; };
+		FA7338BB1568765300BCA82F /* UFOReportCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOReportCell.m; sourceTree = "<group>"; };
+		FA7338BC1568765300BCA82F /* UFOReportCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UFOReportCell.xib; sourceTree = "<group>"; };
 		FA7338C31568789700BCA82F /* DatePickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerTableViewController.h; sourceTree = "<group>"; };
 		FA7338C41568789700BCA82F /* DatePickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerTableViewController.m; sourceTree = "<group>"; };
 		FA7338C51568789700BCA82F /* DatePickerTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerTableViewController.xib; sourceTree = "<group>"; };
@@ -603,11 +614,11 @@
 		FA7338CD1568789700BCA82F /* RangeCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = RangeCell.xib; sourceTree = "<group>"; };
 		FA7338CE1568789700BCA82F /* RangeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RangeSlider.h; sourceTree = "<group>"; };
 		FA7338CF1568789700BCA82F /* RangeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RangeSlider.m; sourceTree = "<group>"; };
-		FA7338D01568789700BCA82F /* FilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FilterViewController.h; sourceTree = "<group>"; };
-		FA7338D11568789700BCA82F /* FilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FilterViewController.m; sourceTree = "<group>"; };
-		FA7338D31568789700BCA82F /* MasterCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MasterCell.h; sourceTree = "<group>"; };
-		FA7338D41568789700BCA82F /* MasterCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MasterCell.m; sourceTree = "<group>"; };
-		FA7338D51568789700BCA82F /* MasterCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MasterCell.xib; sourceTree = "<group>"; };
+		FA7338D01568789700BCA82F /* UFOFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOFilterViewController.h; sourceTree = "<group>"; };
+		FA7338D11568789700BCA82F /* UFOFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOFilterViewController.m; sourceTree = "<group>"; };
+		FA7338D31568789700BCA82F /* UFOFilterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOFilterTableViewCell.h; sourceTree = "<group>"; };
+		FA7338D41568789700BCA82F /* UFOFilterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOFilterTableViewCell.m; sourceTree = "<group>"; };
+		FA7338D51568789700BCA82F /* UFOFilterTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UFOFilterTableViewCell.xib; sourceTree = "<group>"; };
 		FA7338D71568789700BCA82F /* ReportLengthSelectorController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReportLengthSelectorController.h; sourceTree = "<group>"; };
 		FA7338D81568789700BCA82F /* ReportLengthSelectorController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ReportLengthSelectorController.m; sourceTree = "<group>"; };
 		FA7338D91568789700BCA82F /* ReportLengthSelector~ipad.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = "ReportLengthSelector~ipad.xib"; sourceTree = "<group>"; };
@@ -936,6 +947,8 @@
 				FA73393415687C7A00BCA82F /* NSString+HTML.m */,
 				2B5CE16B1745571E002FFDE6 /* NSFileManager+Extras.h */,
 				2B5CE16C1745571E002FFDE6 /* NSFileManager+Extras.m */,
+				2BA99601174D7049005605C3 /* NSManagedObjectContext+Extras.h */,
+				2BA99602174D7049005605C3 /* NSManagedObjectContext+Extras.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -1011,9 +1024,9 @@
 		FA7338B91568765300BCA82F /* reportCell */ = {
 			isa = PBXGroup;
 			children = (
-				FA7338BA1568765300BCA82F /* ReportCell.h */,
-				FA7338BB1568765300BCA82F /* ReportCell.m */,
-				FA7338BC1568765300BCA82F /* ReportCell.xib */,
+				FA7338BA1568765300BCA82F /* UFOReportCell.h */,
+				FA7338BB1568765300BCA82F /* UFOReportCell.m */,
+				FA7338BC1568765300BCA82F /* UFOReportCell.xib */,
 			);
 			name = reportCell;
 			path = "Database Explorer/reportCell";
@@ -1026,8 +1039,8 @@
 				FA7338D61568789700BCA82F /* ReportLengthSelector */,
 				FA7338DA1568789700BCA82F /* ShapeSelector */,
 				FA7338D21568789700BCA82F /* masterCell */,
-				FA7338D01568789700BCA82F /* FilterViewController.h */,
-				FA7338D11568789700BCA82F /* FilterViewController.m */,
+				FA7338D01568789700BCA82F /* UFOFilterViewController.h */,
+				FA7338D11568789700BCA82F /* UFOFilterViewController.m */,
 			);
 			name = FilterTableViewController;
 			path = "Database Explorer/FilterTableViewController";
@@ -1070,9 +1083,9 @@
 		FA7338D21568789700BCA82F /* masterCell */ = {
 			isa = PBXGroup;
 			children = (
-				FA7338D31568789700BCA82F /* MasterCell.h */,
-				FA7338D41568789700BCA82F /* MasterCell.m */,
-				FA7338D51568789700BCA82F /* MasterCell.xib */,
+				FA7338D31568789700BCA82F /* UFOFilterTableViewCell.h */,
+				FA7338D41568789700BCA82F /* UFOFilterTableViewCell.m */,
+				FA7338D51568789700BCA82F /* UFOFilterTableViewCell.xib */,
 			);
 			path = masterCell;
 			sourceTree = "<group>";
@@ -1169,6 +1182,7 @@
 				FA73393515687C7A00BCA82F /* Data */,
 				FA73393915687C7A00BCA82F /* images */,
 				FA57808915703EA800191B13 /* filters.plist */,
+				2BA99609174D818E005605C3 /* shapes.plist */,
 			);
 			path = Resources;
 			sourceTree = "<group>";
@@ -1481,6 +1495,8 @@
 				FA733B9915687D0200BCA82F /* Sightings */,
 				2B5CE167174552FF002FFDE6 /* UFOCoreData.h */,
 				2B5CE168174552FF002FFDE6 /* UFOCoreData.m */,
+				2BA99605174D7AFB005605C3 /* UFOFilterManager.h */,
+				2BA99606174D7AFB005605C3 /* UFOFilterManager.m */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1625,11 +1641,11 @@
 			files = (
 				FA1A969E1557075700BD447F /* InfoPlist.strings in Resources */,
 				FA7338B8156875C700BCA82F /* UFODatabaseExplorerViewController.xib in Resources */,
-				FA7338C01568765300BCA82F /* ReportCell.xib in Resources */,
+				FA7338C01568765300BCA82F /* UFOReportCell.xib in Resources */,
 				FA7338E31568789700BCA82F /* DatePickerTableViewController.xib in Resources */,
 				FA7338E71568789700BCA82F /* SliderValueViewController.xib in Resources */,
 				FA7338EB1568789700BCA82F /* RangeCell.xib in Resources */,
-				FA7338F31568789700BCA82F /* MasterCell.xib in Resources */,
+				FA7338F31568789700BCA82F /* UFOFilterTableViewCell.xib in Resources */,
 				FA7338F71568789700BCA82F /* ReportLengthSelector~ipad.xib in Resources */,
 				FA7338FD1568789700BCA82F /* ShapeSelectorViewController.xib in Resources */,
 				FA73391D15687A1C00BCA82F /* MapModalCell.xib in Resources */,
@@ -1839,6 +1855,7 @@
 				FA578087157039B000191B13 /* alertButtonSelected@2x.png in Resources */,
 				FA57808B15703EA800191B13 /* filters.plist in Resources */,
 				FA154A701572DF7E00497B5F /* AndaleMono.ttf in Resources */,
+				2BA9960B174D818E005605C3 /* shapes.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1848,11 +1865,11 @@
 			files = (
 				FAABF42F15854FBB001FE4C7 /* alien in Resources */,
 				FA7338B7156875C700BCA82F /* UFODatabaseExplorerViewController.xib in Resources */,
-				FA7338BF1568765300BCA82F /* ReportCell.xib in Resources */,
+				FA7338BF1568765300BCA82F /* UFOReportCell.xib in Resources */,
 				FA7338E21568789700BCA82F /* DatePickerTableViewController.xib in Resources */,
 				FA7338E61568789700BCA82F /* SliderValueViewController.xib in Resources */,
 				FA7338EA1568789700BCA82F /* RangeCell.xib in Resources */,
-				FA7338F21568789700BCA82F /* MasterCell.xib in Resources */,
+				FA7338F21568789700BCA82F /* UFOFilterTableViewCell.xib in Resources */,
 				FA7338F61568789700BCA82F /* ReportLengthSelector~ipad.xib in Resources */,
 				FA7338FC1568789700BCA82F /* ShapeSelectorViewController.xib in Resources */,
 				FA73391C15687A1C00BCA82F /* MapModalCell.xib in Resources */,
@@ -2092,6 +2109,7 @@
 				FAA4B666157A932D003902B8 /* addButtonSelected.png in Resources */,
 				FAABF42A15853DA9001FE4C7 /* Default.png in Resources */,
 				FAABF42D15853DC4001FE4C7 /* Default-Landscape~ipad.png in Resources */,
+				2BA9960A174D818E005605C3 /* shapes.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2135,13 +2153,13 @@
 				FA1A96AD15570FCC00BD447F /* HeatMapTests.m in Sources */,
 				FA86C0AB1558524800A2655D /* SightingTests.m in Sources */,
 				FA7338B6156875C700BCA82F /* UFODatabaseExplorerViewController.m in Sources */,
-				FA7338BE1568765300BCA82F /* ReportCell.m in Sources */,
+				FA7338BE1568765300BCA82F /* UFOReportCell.m in Sources */,
 				FA7338E11568789700BCA82F /* DatePickerTableViewController.m in Sources */,
 				FA7338E51568789700BCA82F /* SliderValueViewController.m in Sources */,
 				FA7338E91568789700BCA82F /* RangeCell.m in Sources */,
 				FA7338ED1568789700BCA82F /* RangeSlider.m in Sources */,
-				FA7338EF1568789700BCA82F /* FilterViewController.m in Sources */,
-				FA7338F11568789700BCA82F /* MasterCell.m in Sources */,
+				FA7338EF1568789700BCA82F /* UFOFilterViewController.m in Sources */,
+				FA7338F11568789700BCA82F /* UFOFilterTableViewCell.m in Sources */,
 				FA7338F51568789700BCA82F /* ReportLengthSelectorController.m in Sources */,
 				FA7338F91568789700BCA82F /* ShapeButton.m in Sources */,
 				FA7338FB1568789700BCA82F /* ShapeSelectorViewController.m in Sources */,
@@ -2160,6 +2178,8 @@
 				FA733BBF15688D9F00BCA82F /* UfoSightings.xcdatamodeld in Sources */,
 				FA4531BB1569DFC5005CA658 /* UIColor+RKColor.m in Sources */,
 				FAEEC092156DA7D900D138FD /* UFORootController.m in Sources */,
+				2BA99604174D7049005605C3 /* NSManagedObjectContext+Extras.m in Sources */,
+				2BA99608174D7AFB005605C3 /* UFOFilterManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2169,13 +2189,13 @@
 			files = (
 				FAA0FF7C154CB826009897E9 /* UFOAppDelegate.m in Sources */,
 				FA7338B5156875C700BCA82F /* UFODatabaseExplorerViewController.m in Sources */,
-				FA7338BD1568765300BCA82F /* ReportCell.m in Sources */,
+				FA7338BD1568765300BCA82F /* UFOReportCell.m in Sources */,
 				FA7338E01568789700BCA82F /* DatePickerTableViewController.m in Sources */,
 				FA7338E41568789700BCA82F /* SliderValueViewController.m in Sources */,
 				FA7338E81568789700BCA82F /* RangeCell.m in Sources */,
 				FA7338EC1568789700BCA82F /* RangeSlider.m in Sources */,
-				FA7338EE1568789700BCA82F /* FilterViewController.m in Sources */,
-				FA7338F01568789700BCA82F /* MasterCell.m in Sources */,
+				FA7338EE1568789700BCA82F /* UFOFilterViewController.m in Sources */,
+				FA7338F01568789700BCA82F /* UFOFilterTableViewCell.m in Sources */,
 				FA7338F41568789700BCA82F /* ReportLengthSelectorController.m in Sources */,
 				FA7338F81568789700BCA82F /* ShapeButton.m in Sources */,
 				FA7338FA1568789700BCA82F /* ShapeSelectorViewController.m in Sources */,
@@ -2199,6 +2219,8 @@
 				2B5CE16917455300002FFDE6 /* UFOCoreData.m in Sources */,
 				2B5CE16D1745571E002FFDE6 /* NSFileManager+Extras.m in Sources */,
 				2B5CE170174558C9002FFDE6 /* UFOBaseViewController.m in Sources */,
+				2BA99603174D7049005605C3 /* NSManagedObjectContext+Extras.m in Sources */,
+				2BA99607174D7AFB005605C3 /* UFOFilterManager.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

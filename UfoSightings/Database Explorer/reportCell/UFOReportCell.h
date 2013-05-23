@@ -8,7 +8,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface ReportCell : UITableViewCell
+@interface UFOReportCell : UITableViewCell
 @property (strong, nonatomic) IBOutlet UILabel *sightedLabel;
 @property (strong, nonatomic) IBOutlet UILabel *reportedLabel;
 @property (strong, nonatomic) IBOutlet UITextView *reportTextView;

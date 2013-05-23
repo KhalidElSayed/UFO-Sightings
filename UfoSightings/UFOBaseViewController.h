@@ -8,9 +8,15 @@
 
 #import <UIKit/UIKit.h>
 #import "UFOCoreData.h"
+#import "UFOFilterManager.h"
 
 @interface UFOBaseViewController : UIViewController
-
 - (NSManagedObjectContext*)managedObjectContext;
+- (UFOFilterManager*)filterManager;
 
+@end
+
+@interface UFOBaseTableViewController : UITableViewController
+- (NSManagedObjectContext*)managedObjectContext;
+- (UFOFilterManager*)filterManager;
 @end

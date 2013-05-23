@@ -63,7 +63,7 @@
     if(!_databaseViewController) {
         _databaseViewController = [[UFODatabaseExplorerViewController alloc]init];
         _databaseViewController.managedObjectContext = _databaseContext;
-        _databaseViewController.rootController = self;
+        _databaseViewController.delegate = self;
         _databaseViewController.view.frame = self.view.bounds;
     }
     return _databaseViewController;
@@ -108,5 +108,13 @@
 {
     [self switchViewController];
 }
-     
+
+
+#pragma mark - UFODatabaseExplorer Delegate protocols
+
+- (void)UFODatabaseExplorerWantsToViewMap:(UFODatabaseExplorerViewController *)databaseExplorer
+{
+    [self switchViewController];
+}
+
 @end

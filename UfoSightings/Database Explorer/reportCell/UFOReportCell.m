@@ -1,16 +1,19 @@
 //
-//  MasterCell.m
+//  ReportCell.m
 //  UfoSightings
 //
 //  Created by Richard Kirk on 5/14/12.
 //  Copyright (c) 2012 Home. All rights reserved.
 //
 
-#import "MasterCell.h"
+#import "UFOReportCell.h"
 
-@implementation MasterCell
-@synthesize mainLabel;
-@synthesize subtitleLabel;
+@implementation UFOReportCell
+@synthesize sightedLabel;
+@synthesize reportedLabel;
+@synthesize reportTextView;
+@synthesize shapeImageView;
+@synthesize locationLabel;
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
 {
@@ -27,5 +30,12 @@
 
     // Configure the view for the selected state
 }
+
+
+- (CGFloat)mySize
+{
+   return reportTextView.frame.origin.y + reportTextView.contentSize.height + 5.0f;
+}
+
 
 @end

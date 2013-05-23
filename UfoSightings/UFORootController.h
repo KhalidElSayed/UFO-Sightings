@@ -10,7 +10,7 @@
 #import "UFOMapViewController.h"
 #import "UFODatabaseExplorerViewController.h"
 
-@interface UFORootController : UFOBaseViewController <UFOMapViewControllerDelegate>
+@interface UFORootController : UFOBaseViewController <UFOMapViewControllerDelegate, UFODatabaseExplorerDelegate>
 
 @property ( strong, nonatomic) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 @property (strong, nonatomic) UFOMapViewController* mapViewController;

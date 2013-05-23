@@ -8,17 +8,12 @@
 
 #import "ReportLengthSelectorController.h"
 
-
 @implementation ReportLengthSelectorController
-@synthesize checkmarkButtons;
-@synthesize tileBackgroundImageViews;
 @synthesize predicateKey;
-@synthesize filterOptions;
-
 - (id)init
 {
-    if ((self = [super self]))
-    {
+    if ((self = [super self])) {
+        self.title = @"Reports";
         self.predicateKey = @"reportLength";
     }
     return self;
@@ -33,7 +28,7 @@
         imgView.image = strechyBackgroundImage;
     }
     
-    NSArray* lengthsToFilter = [filterOptions objectForKey:@"reportLengthsToFilter"];
+    NSArray* lengthsToFilter = [self.filterManager reportLengthsToFilter];
     for (UIButton* checkMarkButton in self.checkmarkButtons) {
         switch (checkMarkButton.tag) {
             case 0:
@@ -51,26 +46,18 @@
     }
 }
 
-- (void)viewDidUnload
-{
-    
-    [self setTileBackgroundImageViews:nil];
-    [self setCheckmarkButtons:nil];
-    [super viewDidUnload];
-    // Release any retained subviews of the main view.
-}
 
 - (void)saveState
 {
     
     NSMutableArray* lengthsToFilter = [[NSMutableArray alloc]initWithCapacity:3];
+    
     for (UIButton* checkmarkButton in self.checkmarkButtons) {
         
         if (checkmarkButton.isSelected)
             continue;
         
-        if(checkmarkButton.tag == 0)
-        {
+        if(checkmarkButton.tag == 0) {
             [lengthsToFilter addObject:@"short"];
         }
         else if (checkmarkButton.tag == 1) {
@@ -81,15 +68,6 @@
         }
     }
     
-    NSMutableArray* filterCells = [filterOptions objectForKey:@"filterCells"];
-    NSMutableDictionary* cell;
-    for (NSMutableDictionary* cellDict in filterCells) {
-        if([(NSString*)[cellDict objectForKey:@"predicateKey"] compare:self.predicateKey] == 0)
-        {
-            cell = cellDict;
-            break;
-        }
-    }
     bool filters = lengthsToFilter.count > 0;
     
     if (filters) {
@@ -100,19 +78,20 @@
         }
         
         [subtitle deleteCharactersInRange:NSMakeRange(subtitle.length -2, 2)];
-        [cell setObject:subtitle forKey:@"subtitle"];
+        
+        [self.filterManager setSubtitle:subtitle forCellWithPredicateKey:kUFOReportLengthCellPredicateKey];
     }
+    [self.filterManager setHasFilters:filters forCellWithPredicateKey:kUFOReportLengthCellPredicateKey];
     
-    [cell setObject:[NSNumber numberWithBool:filters ] forKey:@"hasFilters"];
-    
-    [self.filterOptions setObject:lengthsToFilter forKey:@"reportLengthsToFilter"];
-
+    [self.filterManager setReportLengthsToFilter:lengthsToFilter];
 }
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return (interfaceOrientation == UIInterfaceOrientationPortrait);
 }
+
 
 - (IBAction)checkmarkButtonSelected:(UIButton *)sender 
 {    
@@ -120,21 +99,17 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"FilterChoiceChanged" object:self];
 }
 
-
-
 - (BOOL)canReset
 {
     BOOL hasChosenLengths = NO;
     for (UIButton* checkmarkButton in self.checkmarkButtons) {
-        if (!checkmarkButton.isSelected)
-        {
+        if (!checkmarkButton.isSelected) {
             hasChosenLengths = YES;
             break;
         }
     }
     
     return hasChosenLengths;
-    
 }
 
 
@@ -148,7 +123,6 @@
 
 - (NSPredicate*)createPredicate
 {
-
     bool a = NO;
     bool b = NO;
     bool c = NO;
@@ -194,11 +168,6 @@
     else {
         return [NSPredicate predicateWithFormat:@"FALSEPREDICATE"];
     }
-    
-       
-    
-    
-    
 }
 
 

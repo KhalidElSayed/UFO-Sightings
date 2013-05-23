@@ -8,16 +8,18 @@
 
 #import "UFOBaseViewController.h"
 
-@class FilterViewController;
+@class UFOFilterViewController;
 @class UFORootController;
-@interface UFODatabaseExplorerViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate>
-{
-    UINavigationController* _filterNavController;
-}
+
+@protocol UFODatabaseExplorerDelegate;
+
+@interface UFODatabaseExplorerViewController : UFOBaseViewController <UITableViewDelegate, UITableViewDataSource, UINavigationControllerDelegate>
+
 @property (strong, nonatomic) NSManagedObjectContext* managedObjectContext;
-@property (weak) UFORootController* rootController;
+@property (weak, nonatomic) id<UFODatabaseExplorerDelegate> delegate;
+@property (strong, nonatomic) UINavigationController* filterNavController;
 @property (strong, nonatomic) NSArray* reports;
-@property (strong, atomic) NSMutableDictionary* filterOptions;
+@property (strong, nonatomic, readonly) NSDictionary* shapesDictionary;
 @property (strong, nonatomic) IBOutlet UIView *masterView;
 @property (strong, nonatomic) IBOutlet UIView *detailView;
 @property (strong, nonatomic) IBOutlet UITableView *reportsTable;
@@ -34,13 +36,17 @@
 - (IBAction)backButtonPressed:(UIButton *)sender;
 - (IBAction)resetButtonPressed:(UIButton *)sender;
 - (IBAction)addMoreButtonSelected:(UIButton*)button;
-- (NSPredicate*)fullPredicate;
+- (NSPredicate*)buildPredicateWithFilters:(NSDictionary*)filters;
 
 @end
 
 
+@protocol UFODatabaseExplorerDelegate <NSObject>
+- (void)UFODatabaseExplorerWantsToViewMap:(UFODatabaseExplorerViewController*)databaseExplorer;
+@end
 
-@protocol PredicateCreation <NSObject>
+
+@protocol UFOPredicateCreation <NSObject>
 @property (strong, nonatomic)NSString* predicateKey;
 - (BOOL)canReset;
 - (void)reset;

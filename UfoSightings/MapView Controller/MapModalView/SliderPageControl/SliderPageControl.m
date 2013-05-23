@@ -149,7 +149,7 @@
 			[hintLabel setBackgroundColor:[UIColor clearColor]];
 			[hintLabel setFont:[UIFont boldSystemFontOfSize:30]];
 			[hintLabel setNumberOfLines:10];
-			[hintLabel setTextAlignment:UITextAlignmentCenter];
+			[hintLabel setTextAlignment:NSTextAlignmentCenter];
 			[hintLabel setTextColor:[UIColor whiteColor]];
 			[hintLabel setShadowColor:[UIColor blackColor]];
 			[hintLabel setShadowOffset:CGSizeMake(0,-1)];

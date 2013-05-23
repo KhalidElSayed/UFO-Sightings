@@ -8,7 +8,7 @@
 
 #import "ShapeSelectorViewController.h"
 #import "ShapeButton.h"
-
+#import "NSFileManager+Extras.h"
 
 @interface ShapeSelectorViewController ()
 - (void)loadShapeButtons;
@@ -16,17 +16,12 @@
 @end
 
 @implementation ShapeSelectorViewController
-@synthesize scrollView = _scrollView;
-@synthesize shapes = _shapes;
-@synthesize predicateKey;
-@synthesize filterDict;
 
 
 - (id)init
 {
-    if ((self = [super self]))
-    {
-        self.predicateKey = @"shape";
+    if ((self = [super self])) {
+        self.title = @"Shapes";
     }
     return self;
 }
@@ -35,7 +30,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.shapes =  [self.filterDict objectForKey:@"shapes"];
+    [self loadShapeButtons];
 }
 
 
@@ -59,32 +54,31 @@
 }
 
 
+- (NSArray*)shipShapes
+{
+    if(!_shipShapes) {
+        NSString* plistPath = [[NSFileManager defaultManager] shapesDictionaryPath];
+        _shipShapes = [[NSDictionary dictionaryWithContentsOfFile:plistPath] objectForKey:@"Shapes"];
+    }
+    return _shipShapes;
+}
+
+
 - (void)saveState
 {
     NSMutableArray* shapesToFilter = [[NSMutableArray alloc]init];
     
     for (UIButton* button in self.scrollView.subviews) {
-        if(!button.isSelected)
-            [shapesToFilter addObject:[_shapes objectAtIndex:button.tag]];
-    }
-    
-    NSMutableArray* filterCells = [self.filterDict objectForKey:@"filterCells"];
-    NSMutableDictionary* cell;
-    for (NSMutableDictionary* cellDict in filterCells) 
-    {
-        if([(NSString*)[cellDict objectForKey:@"predicateKey"] compare:self.predicateKey] == 0)
-        {
-            cell = cellDict;
-            break;
+        if(!button.isSelected){
+            [shapesToFilter addObject:[self.shipShapes objectAtIndex:button.tag]];
         }
     }
     
-    
     bool filters = shapesToFilter.count > 0;
-    [cell setObject:[NSNumber numberWithBool:filters] forKey:@"hasFilters"];
-    
+
     if (filters) {
-        NSDictionary* badShapeNamesDict = [self.filterDict objectForKey:@"badShapeMatching"];
+        NSString* plistPath = [[NSFileManager defaultManager] shapesDictionaryPath];
+        NSDictionary* badShapeNamesDict = [[NSDictionary dictionaryWithContentsOfFile:plistPath] objectForKey:@"badShapeMatching"];
         NSMutableString* subtitle = [[NSMutableString alloc]init];
         
         for (NSString* string in shapesToFilter) {
@@ -101,10 +95,11 @@
         }
         
         [subtitle deleteCharactersInRange:NSMakeRange(subtitle.length -2, 2)];
-        [cell setObject:subtitle forKey:@"subtitle"];
+        [self.filterManager setSubtitle:subtitle forCellWithPredicateKey:kUFOShapeCellPredicateKey];
     }
-    
-    [self.filterDict setObject:shapesToFilter forKey:@"shapesToFilter"];
+   
+    [self.filterManager setHasFilters:filters forCellWithPredicateKey:kUFOShapeCellPredicateKey];
+    [self.filterManager setShapesToFilter:shapesToFilter];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
@@ -115,22 +110,14 @@
 
 - (void)shapeButtonTapped:(UIButton*)button
 {
-  
     [button setSelected:!button.isSelected];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"FilterChoiceChanged" object:self];
 }
 
-- (void)setShapes:(NSArray *)shapes
-{
-    _shapes = shapes;
-    [self loadShapeButtons];
-}
 
 - (void)loadShapeButtons
 {
-    
-    NSArray* selectedShapes = [self.filterDict objectForKey:@"shapesToFilter"];
-  //  CGRect buttonFrame = CGRectMake(0, 0, 80, 80);
+    NSArray* selectedShapes = [self.filterManager shapesToFilter];
     
     NSArray* subviews = [self.scrollView subviews];
     if (subviews.count > 0) {
@@ -139,17 +126,17 @@
         }
     }
     
-    int rows = [_shapes count] / 3;
-    if([_shapes count] % 3 != 0)
+    int rows = [self.shipShapes count] / 3;
+    if([self.shipShapes count] % 3 != 0) {
         rows++;
-    
+    }
     
     _scrollView.contentSize = CGSizeMake(280, rows * 85);
     
     __block CGFloat padding = 0;
     __block int row = -1;
     __block int column = 0;
-    [self.shapes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
+    [self.shipShapes enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop){
         
         if (idx  % 3 == 0) {
             padding = 0;
@@ -168,9 +155,7 @@
         
         [shapeButton addTarget:self action:@selector(shapeButtonTapped:) forControlEvents:UIControlEventTouchUpInside];
         [shapeButton setTag:idx];
-        
-        
-        
+    
         [shapeButton setShape:shapeString];
         
         for (UIGestureRecognizer* gest in shapeButton.gestureRecognizers) {
@@ -179,15 +164,9 @@
         [self.scrollView addSubview:shapeButton];
         
         column++;
-    
-
     } ];
     
     [self.view setNeedsLayout];
-    
-    
-    
-    
 }
 
 
@@ -195,8 +174,7 @@
 {
     BOOL hasChosenShapes = NO;
     for (UIButton* shapeButton in _scrollView.subviews) {
-        if (!shapeButton.isSelected)
-        {
+        if (!shapeButton.isSelected) {
             hasChosenShapes = YES;
             break;
         }
@@ -213,11 +191,9 @@
 }
 
 
-
 - (NSPredicate*)createPredicate
 {
-    
-    NSMutableArray* selectedButtonPredicates = [[NSMutableArray alloc]initWithCapacity:_shapes.count];
+    NSMutableArray* selectedButtonPredicates = [[NSMutableArray alloc]initWithCapacity:self.shipShapes.count];
     
     for (UIView* view in _scrollView.subviews) {
         if([view isKindOfClass:[ShapeButton class]] && ![(ShapeButton*)view isSelected])
@@ -241,7 +217,7 @@
                 predicate = [NSPredicate predicateWithFormat:@"shape != \"triangle\" AND shape != \"other\" AND shape != \"pyramid\""];
             }
             else {
-                predicate = [NSPredicate predicateWithFormat:@"shape != %@", [NSString stringWithFormat:@"%@",[_shapes objectAtIndex:view.tag]]];
+                predicate = [NSPredicate predicateWithFormat:@"shape != %@", [NSString stringWithFormat:@"%@",[self.shipShapes objectAtIndex:view.tag]]];
             }
             [selectedButtonPredicates addObject:predicate];
             
@@ -255,8 +231,5 @@
     return  nil;
     
 }
-
-
-
 
 @end

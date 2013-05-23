@@ -7,33 +7,30 @@
 //
 
 #import "DatePickerTableViewController.h"
-#import "FilterViewController.h"
+#import "UFOFilterViewController.h"
 #import "RangeCell.h"
 
 @interface DatePickerTableViewController ()
 {
     bool                _hasChosenRange;
     NSDateFormatter*    _df;
-    UILabel*            _rangeLabel;
+
 }
+@property (strong, nonatomic) UILabel* rangeLabel;
 - (void)sliderDidUpdate;
 @end
 
 @implementation DatePickerTableViewController
-@synthesize slider = _slider;
-@synthesize  predicateKey;
-@synthesize filterDict;
 
-
-- (id)init
+- (id)initWithType:(UFODatePickerType)type
 {
-    if((self = [super init]))
-    {
+    if((self = [super init])) {
+        self.pickerType = type;
         _slider = [[RangeSlider alloc]initWithFrame:CGRectMake(0, 0, 210, 80)];
         [_slider addTarget:self action:@selector(sliderDidUpdate) forControlEvents:UIControlEventValueChanged];
         [_slider setMinimumRange:1];
-        _df = [[NSDateFormatter alloc]init];      
-     
+        _df = [[NSDateFormatter alloc]init];
+        self.title = type == UFODatePickerTypeReportedAt ? @"Reported" : @"Sighted";     
     }
     return self;
 }
@@ -50,17 +47,6 @@
 }
 
 
-
-
-
-- (void)viewDidUnload
-{
-    [super viewDidUnload];
-    _df = nil;
-}
-
-
-
 - (void)saveState
 {
     [_df setDateFormat:@"yyyy"];
@@ -68,23 +54,24 @@
     NSDate *minDate = [_df dateFromString:[NSString stringWithFormat:@"%i",(int)_slider.selectedMinimumValue]];
     NSDate *maxDate = [_df dateFromString:[NSString stringWithFormat:@"%i",(int)_slider.selectedMaximumValue]];
     
-    [filterDict setObject:minDate forKey:[NSString stringWithFormat:@"%@SelectedMinimumDate", predicateKey]];
-    [filterDict setObject:maxDate forKey:[NSString stringWithFormat:@"%@SelectedMaximumDate",predicateKey]];
-    NSMutableArray* filterCells = [filterDict objectForKey:@"filterCells"];
-    NSMutableDictionary* cell;
-    for (NSMutableDictionary* cellDict in filterCells) {
-        if([(NSString*)[cellDict objectForKey:@"predicateKey"] compare:self.predicateKey] == 0)
-        {
-            cell = cellDict;
+    switch (self.pickerType) {
+        case UFODatePickerTypeReportedAt:
+            [self.filterManager setSelectedReportedAtMinimumDate:minDate];
+            [self.filterManager setSelectedReportedAtMaximumDate:maxDate];
+            [self.filterManager setHasFilters:_hasChosenRange forCellWithPredicateKey:kUFOReportedAtCellPredicateKey];
             break;
-        }
+        case UFODatePickerTypeSightedAt:
+            [self.filterManager setSelectedSightedAtMinimumDate:minDate];
+            [self.filterManager setSelectedSightedAtMaximumDate:maxDate];
+            [self.filterManager setHasFilters:_hasChosenRange forCellWithPredicateKey:kUFOSightedAtCellPredicateKey];
+        default:
+            break;
     }
     
-    [cell setObject:[NSNumber numberWithBool:_hasChosenRange ] forKey:@"hasFilters"];
-    
-    if(_hasChosenRange)
-        [cell setObject:_rangeLabel.text forKey:@"subtitle"];
-
+    if(_hasChosenRange){
+        NSString* key = self.pickerType == UFODatePickerTypeSightedAt ? kUFOSightedAtCellPredicateKey : kUFOReportedAtCellPredicateKey;
+        [self.filterManager setSubtitle:self.rangeLabel.text forCellWithPredicateKey:key];
+    }
 }
 
 
@@ -123,14 +110,41 @@
 
         
         [_df setDateFormat:@"yyyy"];
-        NSDate* minimumDate = [filterDict objectForKey:[NSString stringWithFormat:@"%@MinimumDate",predicateKey]];
-        NSDate* maximumDate = [filterDict objectForKey:[NSString stringWithFormat:@"%@MaximumDate",predicateKey]];
+        NSDate* minimumDate;
+        NSDate* maximumDate;
+        switch (self.pickerType) {
+            case UFODatePickerTypeReportedAt:
+                minimumDate = [self.filterManager defaultReportedAtMinimumDate];
+                maximumDate = [self.filterManager defaultReportedAtMaximumDate];
+                break;
+            case UFODatePickerTypeSightedAt:
+                minimumDate = [self.filterManager defaultSightedAtMinimumDate];
+                maximumDate = [self.filterManager defaultSightedAtMaximumDate];
+                break;
+            default:
+                break;
+        }
+        
         cell.minLabel.text = [_df stringFromDate:minimumDate];
         cell.maxLabel.text = [_df stringFromDate:maximumDate];
-        if([predicateKey isEqualToString:@"reportedAt"] || [predicateKey isEqualToString:@"sightedAt"])
-        {
-            NSDate* selectedMaximumDate = [filterDict objectForKey:[NSString stringWithFormat:@"%@SelectedMaximumDate", predicateKey]];
-            NSDate* selectedMinimumDate = [filterDict objectForKey:[NSString stringWithFormat:@"%@SelectedMinimumDate",predicateKey]];
+        if([self.predicateKey isEqualToString:@"reportedAt"] || [self.predicateKey isEqualToString:@"sightedAt"]) {
+            
+            NSDate* selectedMaximumDate;
+            NSDate* selectedMinimumDate;
+            
+            switch (self.pickerType) {
+                case UFODatePickerTypeReportedAt:
+                    selectedMinimumDate = [self.filterManager selectedReportedAtMinimumDate];
+                    selectedMaximumDate = [self.filterManager selectedReportedAtMaximumDate];
+                    break;
+                case UFODatePickerTypeSightedAt:
+                    selectedMinimumDate = [self.filterManager selectedSightedAtMinimumDate];
+                    selectedMaximumDate = [self.filterManager selectedSightedAtMaximumDate];
+                    break;
+                default:
+                    break;
+            }
+            
             
             [_slider setMinimumValue:[[_df stringFromDate:minimumDate] floatValue]];
             [_slider setMaximumValue:[[_df stringFromDate:maximumDate] floatValue]];
@@ -164,7 +178,7 @@
             [label setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0f]];
             [label setTextColor:[UIColor whiteColor]];
             [label setBackgroundColor:[UIColor clearColor]];
-            [label setTextAlignment:UITextAlignmentCenter];
+            [label setTextAlignment:NSTextAlignmentCenter];
             [cell addSubview:label];
             _rangeLabel = label;
             
@@ -242,12 +256,12 @@
     if(_slider.selectedMinimumValue > _slider.minimumValue)
     {
         NSDate *minDate = [_df dateFromString:[NSString stringWithFormat:@"%i0101",(int)_slider.selectedMinimumValue]];
-        minimumDate = [NSPredicate predicateWithFormat:@"%K > %@", predicateKey, minDate];        
+        minimumDate = [NSPredicate predicateWithFormat:@"%K > %@", _predicateKey, minDate];        
     }
     if(_slider.selectedMaximumValue < _slider.maximumValue)
     {
         NSDate *maxDate = [_df dateFromString:[NSString stringWithFormat:@"%i0101",(int)_slider.selectedMaximumValue]];
-        maximumDate = [NSPredicate predicateWithFormat:@"%K < %@", predicateKey, maxDate];
+        maximumDate = [NSPredicate predicateWithFormat:@"%K < %@", _predicateKey, maxDate];
         if(minimumDate == nil)
             return maximumDate;
     }

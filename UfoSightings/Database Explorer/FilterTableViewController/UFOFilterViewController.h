@@ -9,11 +9,11 @@
 #import <UIKit/UIKit.h>
 #import "UFODatabaseExplorerViewController.h"
 #import "UIColor+RKColor.h"
+#import "UFOBaseViewController.h"
 
-@interface FilterViewController : UITableViewController <UINavigationControllerDelegate, PredicateCreation>
-
-@property (weak, atomic) NSMutableDictionary* filterDict;
+@interface UFOFilterViewController : UFOBaseTableViewController <UINavigationControllerDelegate, UFOPredicateCreation>
 @property (strong, nonatomic)NSString* predicateKey;
+@property (strong, nonatomic, readonly) NSArray* filterCells;
 - (BOOL)canReset;
 - (void)reset;
 

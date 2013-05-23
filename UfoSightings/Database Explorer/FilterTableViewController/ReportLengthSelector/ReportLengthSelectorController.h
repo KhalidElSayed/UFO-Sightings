@@ -7,14 +7,13 @@
 //
 
 #import <UIKit/UIKit.h>
-#import "FilterViewController.h"
+#import "UFOFilterViewController.h"
+#import "UFOBaseViewController.h"
 
-@interface ReportLengthSelectorController : UIViewController <PredicateCreation>
+@interface ReportLengthSelectorController : UFOBaseViewController <UFOPredicateCreation>
 
 @property (strong, nonatomic) IBOutletCollection(UIImageView) NSArray *tileBackgroundImageViews;
 @property (strong, nonatomic) IBOutletCollection(UIButton) NSArray *checkmarkButtons;
-@property (weak, atomic) NSMutableDictionary* filterOptions;
-@property (strong, nonatomic) NSString* predicateKey;
 
 - (IBAction)checkmarkButtonSelected:(UIButton *)sender;
 

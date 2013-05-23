@@ -87,14 +87,13 @@
 }
 
 
-- (void)moveDatabaseFiltersPlistIntoProject
+- (void)moveDatabaseFiltersPlistIntoProjectShouldOverwrite:(BOOL)overwrite
 {
     NSURL *filterPlistURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"filters.plist"];
     NSString* filterPlistInBundlePath = [[NSBundle mainBundle] pathForResource:@"filters" ofType:@"plist"];
     NSString* newFilterPlistPath = [filterPlistURL path];
     
-    if( ![self fileExistsAtPath:[filterPlistURL path]] && [self fileExistsAtPath:filterPlistInBundlePath] )
-    {
+    if( (![self fileExistsAtPath:[filterPlistURL path]] || overwrite) && [self fileExistsAtPath:filterPlistInBundlePath] ) {
         NSError* error = nil;
         [self copyItemAtPath:filterPlistInBundlePath toPath:newFilterPlistPath error:&error];
         NSLog(@"Copying FilterPlist intoDocuments Dir");
@@ -102,6 +101,17 @@
             NSLog(@"ERROR - COPYING PLIST TO DOCUMENTS DIRECTORY");
         }
     }
+}
+
+
+- (NSString*)shapesDictionaryPath
+{
+    return [[[self applicationDocumentsDirectory] path] stringByAppendingPathComponent:@"shapes.plist"];
+}
+
+- (NSString*)filterDictonaryPath
+{
+    return [[[self applicationDocumentsDirectory] path] stringByAppendingPathComponent:@"filters.plist"];
 }
 
 @end

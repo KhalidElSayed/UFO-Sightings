@@ -8,14 +8,20 @@
 
 #import <UIKit/UIKit.h>
 #import "RangeSlider.h"
-#import "FilterViewController.h"
+#import "UFOFilterViewController.h"
+#import "UFOBaseViewController.h"
 
-@interface DatePickerTableViewController : UITableViewController <PredicateCreation>
+typedef enum {
+    UFODatePickerTypeSightedAt,
+    UFODatePickerTypeReportedAt
+} UFODatePickerType;
 
+@interface DatePickerTableViewController : UFOBaseTableViewController <UFOPredicateCreation>
+@property (assign, nonatomic) UFODatePickerType pickerType;
 @property (strong, nonatomic) RangeSlider* slider;
 @property (strong, nonatomic) NSString* predicateKey;
-@property (weak, atomic) NSMutableDictionary* filterDict;
 
+- (id)initWithType:(UFODatePickerType)type;
 
 - (NSPredicate*)createPredicate;
 

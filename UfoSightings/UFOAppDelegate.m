@@ -21,25 +21,19 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     [Crashlytics startWithAPIKey:@"1066067e79707a9e0ab5ec2269d06f421b2c5460"];
-/*
-    SightingsParser* parser = [[SightingsParser alloc] init];
-    parser.managedObjectContext = __managedObjectContext;
-    [parser createDatabase];
- */
 
     if(![[NSUserDefaults standardUserDefaults] objectForKey:@"firstRun"]) {
         [self setupDefaults];
         [[NSFileManager defaultManager] movePopulatedDatabaseIntoProject];
         [[NSFileManager defaultManager] moveEmptyTilesIntoApplicationDirectory];
-        [[NSFileManager defaultManager] moveDatabaseFiltersPlistIntoProject];
+        [[NSFileManager defaultManager] moveDatabaseFiltersPlistIntoProjectShouldOverwrite:NO];
     }
     
     self.rootViewController = [[UFORootController alloc]init];
     
-    // I like this method of window creation more than relying
-    // on a .xib to create one.
+    // I like this method of window creation more than relying on a .xib to create one.
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.window.backgroundColor = [UIColor whiteColor];
+    self.window.backgroundColor = [UIColor blackColor];
     self.window.rootViewController = self.rootViewController;
 
     [self.window makeKeyAndVisible];

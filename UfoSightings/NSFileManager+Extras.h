@@ -16,5 +16,10 @@
 
 - (void)movePopulatedDatabaseIntoProject;
 
-- (void)moveDatabaseFiltersPlistIntoProject;
+- (void)moveDatabaseFiltersPlistIntoProjectShouldOverwrite:(BOOL)overwrite;
+
+- (void)shapeNameMappingDictionary;
+
+- (NSString*)shapesDictionaryPath;
+- (NSString*)filterDictonaryPath;
 @end

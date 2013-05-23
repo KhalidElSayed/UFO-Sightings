@@ -8,8 +8,11 @@
 
 #import <UIKit/UIKit.h>
 
-@interface MasterCell : UITableViewCell
-@property (strong, nonatomic) IBOutlet UILabel *mainLabel;
+@interface UFOFilterTableViewCell : UITableViewCell
+@property (strong, nonatomic) IBOutlet UILabel *headerLabel;
 @property (strong, nonatomic) IBOutlet UILabel *subtitleLabel;
+
+- (void)configureWithDictionary:(NSDictionary*)cellDict;
+- (void)animateLabelsHasFilters:(BOOL)filters;
 
 @end

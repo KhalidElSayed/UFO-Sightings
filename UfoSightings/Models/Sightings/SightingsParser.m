@@ -36,8 +36,7 @@
     
     NSMutableString* report = [[NSMutableString alloc]init];
     NSUInteger i = 1;
-    for (NSDictionary* sighting in reports)
-    {
+    for (NSDictionary* sighting in reports) {
         [report appendFormat:@"%d: ", i];
         
         Sighting* newSighting = [NSEntityDescription insertNewObjectForEntityForName:@"Sighting" 
