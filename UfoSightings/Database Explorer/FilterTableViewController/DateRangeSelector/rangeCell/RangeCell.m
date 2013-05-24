@@ -12,20 +12,16 @@
 @synthesize minLabel;
 @synthesize maxLabel;
 
-- (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
+- (void)awakeFromNib
 {
-    self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
-    if (self) {
-        // Initialization code
-    }
-    return self;
-}
-
-- (void)setSelected:(BOOL)selected animated:(BOOL)animated
-{
-    [super setSelected:selected animated:animated];
-
-    // Configure the view for the selected state
+    [super awakeFromNib];
+    self.slider.minimumRange = 1;
+    self.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"greyCellBackground.png"]];
+    
+    [self.slider removeFromSuperview];
+    self.slider.center = self.center;
+    [self addSubview:self.slider];
+    
 }
 
 @end

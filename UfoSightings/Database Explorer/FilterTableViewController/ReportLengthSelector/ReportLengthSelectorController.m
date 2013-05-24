@@ -9,15 +9,15 @@
 #import "ReportLengthSelectorController.h"
 
 @implementation ReportLengthSelectorController
-@synthesize predicateKey;
+
 - (id)init
 {
     if ((self = [super self])) {
         self.title = @"Reports";
-        self.predicateKey = @"reportLength";
     }
     return self;
 }
+
 
 - (void)viewDidLoad
 {
@@ -30,26 +30,22 @@
     
     NSArray* lengthsToFilter = [self.filterManager reportLengthsToFilter];
     for (UIButton* checkMarkButton in self.checkmarkButtons) {
-        switch (checkMarkButton.tag) {
-            case 0:
-                [checkMarkButton setSelected:![lengthsToFilter containsObject:@"short"]];
-                break;
-            case 1:
-                [checkMarkButton setSelected:![lengthsToFilter containsObject:@"medium"]];
-                break;
-            case 2:
-                [checkMarkButton setSelected:![lengthsToFilter containsObject:@"long"]];
-                break;
-            default:
-                break;
+        if(checkMarkButton.tag == 0) {
+            [checkMarkButton setSelected:![lengthsToFilter containsObject:@"short"]];
+        }
+        else if(checkMarkButton.tag == 1) {
+            [checkMarkButton setSelected:![lengthsToFilter containsObject:@"medium"]];
+        }
+        else if(checkMarkButton.tag == 2) {
+            [checkMarkButton setSelected:![lengthsToFilter containsObject:@"long"]];
         }
     }
+    
 }
 
 
-- (void)saveState
+- (void)saveFiltersToFilterManager
 {
-    
     NSMutableArray* lengthsToFilter = [[NSMutableArray alloc]initWithCapacity:3];
     
     for (UIButton* checkmarkButton in self.checkmarkButtons) {
@@ -67,6 +63,7 @@
             [lengthsToFilter addObject:@"long"];
         }
     }
+    [self.filterManager setReportLengthsToFilter:lengthsToFilter];
     
     bool filters = lengthsToFilter.count > 0;
     
@@ -82,14 +79,12 @@
         [self.filterManager setSubtitle:subtitle forCellWithPredicateKey:kUFOReportLengthCellPredicateKey];
     }
     [self.filterManager setHasFilters:filters forCellWithPredicateKey:kUFOReportLengthCellPredicateKey];
-    
-    [self.filterManager setReportLengthsToFilter:lengthsToFilter];
 }
 
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-    return (interfaceOrientation == UIInterfaceOrientationPortrait);
+    return UIInterfaceOrientationIsPortrait(interfaceOrientation);
 }
 
 
@@ -99,21 +94,19 @@
     [[NSNotificationCenter defaultCenter] postNotificationName:@"FilterChoiceChanged" object:self];
 }
 
+
 - (BOOL)canReset
 {
-    BOOL hasChosenLengths = NO;
     for (UIButton* checkmarkButton in self.checkmarkButtons) {
         if (!checkmarkButton.isSelected) {
-            hasChosenLengths = YES;
-            break;
+            return YES;
         }
     }
-    
-    return hasChosenLengths;
+    return NO;
 }
 
 
-- (void)reset
+- (void)resetInterface
 {
     for (UIButton* checkmarkButton in self.checkmarkButtons) {
         [checkmarkButton setSelected:YES];
@@ -123,7 +116,7 @@
 
 - (NSPredicate*)createPredicate
 {
-    [self saveState];
+    [self saveFiltersToFilterManager];
     return [self.filterManager createReportLengthPredicate];
 }
 

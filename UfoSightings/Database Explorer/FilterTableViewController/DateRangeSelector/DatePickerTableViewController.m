@@ -11,13 +11,9 @@
 #import "RangeCell.h"
 
 @interface DatePickerTableViewController ()
-{
-    bool                _hasChosenRange;
-    NSDateFormatter*    _df;
-
-}
-@property (strong, nonatomic) UILabel* rangeLabel;
+@property (assign, nonatomic) BOOL hasChosenRange;
 - (void)sliderDidUpdate;
+
 @end
 
 @implementation DatePickerTableViewController
@@ -26,10 +22,6 @@
 {
     if((self = [super init])) {
         self.pickerType = type;
-        _slider = [[RangeSlider alloc]initWithFrame:CGRectMake(0, 0, 210, 80)];
-        [_slider addTarget:self action:@selector(sliderDidUpdate) forControlEvents:UIControlEventValueChanged];
-        [_slider setMinimumRange:1];
-        _df = [[NSDateFormatter alloc]init];
         self.title = type == UFODatePickerTypeReportedAt ? @"Reported" : @"Sighted";     
     }
     return self;
@@ -47,28 +39,63 @@
 }
 
 
-- (void)saveState
+- (NSDateFormatter*)dateFormatter
 {
-    [_df setDateFormat:@"yyyy"];
-    
-    NSDate *minDate = [_df dateFromString:[NSString stringWithFormat:@"%i",(int)_slider.selectedMinimumValue]];
-    NSDate *maxDate = [_df dateFromString:[NSString stringWithFormat:@"%i",(int)_slider.selectedMaximumValue]];
+    if(!_dateFormatter) {
+        _dateFormatter = [[NSDateFormatter alloc]init];
+        [_dateFormatter setDateFormat:@"yyyy"];
+    }
+    return _dateFormatter;
+}
+
+
+- (void)setCellSlider:(RangeSlider *)cellSlider
+{
+    _cellSlider = cellSlider;
+    [_cellSlider addTarget:self action:@selector(sliderDidUpdate) forControlEvents:UIControlEventValueChanged];
+}
+
+
+- (BOOL)hasChosenRange
+{
+    if(!self.cellSlider) { return NO; }
+    return self.cellSlider.selectedMinimumValue != self.cellSlider.minimumValue || self.cellSlider.selectedMaximumValue != self.cellSlider.maximumValue;
+}
+
+
+- (UILabel*)rangeLabel
+{
+    if(!_rangeLabel) {
+        _rangeLabel = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 280, 20)];
+        [_rangeLabel setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0f]];
+        [_rangeLabel setTextColor:[UIColor whiteColor]];
+        [_rangeLabel setBackgroundColor:[UIColor clearColor]];
+        [_rangeLabel setTextAlignment:NSTextAlignmentCenter];
+    }
+    return _rangeLabel;
+}
+
+
+- (void)saveFiltersToFilterManager
+{
+    NSDate *minDate = [self.dateFormatter dateFromString:[NSString stringWithFormat:@"%i",(int)self.cellSlider.selectedMinimumValue]];
+    NSDate *maxDate = [self.dateFormatter dateFromString:[NSString stringWithFormat:@"%i",(int)self.cellSlider.selectedMaximumValue]];
     
     switch (self.pickerType) {
         case UFODatePickerTypeReportedAt:
             [self.filterManager setSelectedReportedAtMinimumDate:minDate];
             [self.filterManager setSelectedReportedAtMaximumDate:maxDate];
-            [self.filterManager setHasFilters:_hasChosenRange forCellWithPredicateKey:kUFOReportedAtCellPredicateKey];
+            [self.filterManager setHasFilters:self.hasChosenRange forCellWithPredicateKey:kUFOReportedAtCellPredicateKey];
             break;
         case UFODatePickerTypeSightedAt:
             [self.filterManager setSelectedSightedAtMinimumDate:minDate];
             [self.filterManager setSelectedSightedAtMaximumDate:maxDate];
-            [self.filterManager setHasFilters:_hasChosenRange forCellWithPredicateKey:kUFOSightedAtCellPredicateKey];
+            [self.filterManager setHasFilters:self.hasChosenRange forCellWithPredicateKey:kUFOSightedAtCellPredicateKey];
         default:
             break;
     }
     
-    if(_hasChosenRange){
+    if(self.hasChosenRange){
         NSString* key = self.pickerType == UFODatePickerTypeSightedAt ? kUFOSightedAtCellPredicateKey : kUFOReportedAtCellPredicateKey;
         [self.filterManager setSubtitle:self.rangeLabel.text forCellWithPredicateKey:key];
     }
@@ -82,91 +109,47 @@
     return 1;
 }
 
+
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {   
-    if(_hasChosenRange)
-    {
-        return 2;
-    }
-    return 1;
+    return self.hasChosenRange ? 2 : 1;
 }
+
+
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if(indexPath.section > 0 || indexPath.row > 1) { return 0; }
+    return indexPath.row == 0 ? 80 : 20;
+}
+
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    
     static NSString *CellIdentifier = @"rangeCell";
     static NSString *anotherCellIdentifier = @"aCell";
     
-        
-    if(indexPath.row == 0)
-    {
+    if(indexPath.row == 0) {
         RangeCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier];
-        cell.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"greyCellBackground.png"]];
         
-        CGRect b = cell.bounds;
-        b.size.width = 200;
-        b.origin.x = 10;
+        NSDate* minimumDate = self.pickerType == UFODatePickerTypeReportedAt ? [self.filterManager defaultReportedAtMinimumDate] : [self.filterManager defaultSightedAtMinimumDate];
+        NSDate* maximumDate = self.pickerType == UFODatePickerTypeReportedAt ? [self.filterManager defaultReportedAtMaximumDate] : [self.filterManager defaultSightedAtMaximumDate];
+        NSDate* selectedMinimumDate = self.pickerType == UFODatePickerTypeReportedAt ? [self.filterManager selectedReportedAtMinimumDate] : [self.filterManager selectedSightedAtMinimumDate];
+        NSDate* selectedMaximumDate = self.pickerType == UFODatePickerTypeReportedAt ? [self.filterManager selectedReportedAtMaximumDate] : [self.filterManager selectedSightedAtMaximumDate];;
         
-
+        cell.minLabel.text = [self.dateFormatter stringFromDate:minimumDate];
+        cell.maxLabel.text = [self.dateFormatter stringFromDate:maximumDate];
         
-        [_df setDateFormat:@"yyyy"];
-        NSDate* minimumDate;
-        NSDate* maximumDate;
-        switch (self.pickerType) {
-            case UFODatePickerTypeReportedAt:
-                minimumDate = [self.filterManager defaultReportedAtMinimumDate];
-                maximumDate = [self.filterManager defaultReportedAtMaximumDate];
-                break;
-            case UFODatePickerTypeSightedAt:
-                minimumDate = [self.filterManager defaultSightedAtMinimumDate];
-                maximumDate = [self.filterManager defaultSightedAtMaximumDate];
-                break;
-            default:
-                break;
-        }
+        self.cellSlider = cell.slider;
+        [cell.slider setMinimumValue:[[self.dateFormatter stringFromDate:minimumDate] floatValue]];
+        [cell.slider setMaximumValue:[[self.dateFormatter stringFromDate:maximumDate] floatValue]];
+        [cell.slider setSelectedMinimumValue:[[self.dateFormatter stringFromDate:selectedMinimumDate] floatValue]];
+        [cell.slider setSelectedMaximumValue:[[self.dateFormatter stringFromDate:selectedMaximumDate] floatValue]];
         
-        cell.minLabel.text = [_df stringFromDate:minimumDate];
-        cell.maxLabel.text = [_df stringFromDate:maximumDate];
-        if([self.predicateKey isEqualToString:@"reportedAt"] || [self.predicateKey isEqualToString:@"sightedAt"]) {
-            
-            NSDate* selectedMaximumDate;
-            NSDate* selectedMinimumDate;
-            
-            switch (self.pickerType) {
-                case UFODatePickerTypeReportedAt:
-                    selectedMinimumDate = [self.filterManager selectedReportedAtMinimumDate];
-                    selectedMaximumDate = [self.filterManager selectedReportedAtMaximumDate];
-                    break;
-                case UFODatePickerTypeSightedAt:
-                    selectedMinimumDate = [self.filterManager selectedSightedAtMinimumDate];
-                    selectedMaximumDate = [self.filterManager selectedSightedAtMaximumDate];
-                    break;
-                default:
-                    break;
-            }
-            
-            
-            [_slider setMinimumValue:[[_df stringFromDate:minimumDate] floatValue]];
-            [_slider setMaximumValue:[[_df stringFromDate:maximumDate] floatValue]];
-            [_slider setSelectedMinimumValue:[[_df stringFromDate:selectedMinimumDate] floatValue]];
-            [_slider setSelectedMaximumValue:[[_df stringFromDate:selectedMaximumDate] floatValue]];
-            
-            if(_slider.selectedMinimumValue == _slider.minimumValue && _slider.selectedMaximumValue == _slider.maximumValue)
-                _hasChosenRange = NO;
-            else {
-                _hasChosenRange = YES;
-
-            }
-        }
-        _slider.center = cell.center;
-
-        [cell addSubview:_slider];
         return cell;
     }
     else if(indexPath.row == 1) {
        UITableViewCell* cell = [tableView dequeueReusableCellWithIdentifier:anotherCellIdentifier];
-        if(!cell)
-        {
+        if(!cell) {
             cell = [[UITableViewCell alloc]initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:anotherCellIdentifier];
             cell.selectionStyle = UITableViewCellSelectionStyleNone;
             UIImage* strechyImage = [[UIImage imageNamed:@"blueStrechyBox.png"] stretchableImageWithLeftCapWidth:2 topCapHeight:9];
@@ -174,87 +157,54 @@
             imgView.frame = cell.bounds;
             [cell setBackgroundView:imgView];
             
-            UILabel*label = [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 280, 20)];
-            [label setFont:[UIFont fontWithName:@"Helvetica-Bold" size:12.0f]];
-            [label setTextColor:[UIColor whiteColor]];
-            [label setBackgroundColor:[UIColor clearColor]];
-            [label setTextAlignment:NSTextAlignmentCenter];
-            [cell addSubview:label];
-            _rangeLabel = label;
-            
+            [cell addSubview:self.rangeLabel];
         }
-        [_rangeLabel setText:[NSString stringWithFormat:@"%i - %i",(int)_slider.selectedMinimumValue, (int)_slider.selectedMaximumValue]];
+
         return cell;
-    }
-    else {
-        NSLog(@"BAD INDEX PATH: %i",indexPath.row);
     }
     return [[UITableViewCell alloc]initWithFrame:CGRectZero];
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    if (indexPath.row == 0)
-        return 80.0f;
-    else if (indexPath.row == 1) 
-        return 20.0f;
-    else 
-        return 0.0f;
-}
 
+#pragma mark - Slider Update Action
 
 - (void)sliderDidUpdate
 {
-    if(_slider.selectedMinimumValue != _slider.minimumValue || _slider.selectedMaximumValue != _slider.maximumValue)
-    {
-        if(![self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]])
-        {
+    if(self.hasChosenRange) {
+        
+        if(![self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]]) {
             [self.tableView beginUpdates];
-            _hasChosenRange = YES; 
             [self.tableView insertRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
             [self.tableView endUpdates];
             [[NSNotificationCenter defaultCenter] postNotificationName:@"FilterChoiceChanged" object:self];
         }
         
-        [_rangeLabel setText:[NSString stringWithFormat:@"%i - %i",(int)_slider.selectedMinimumValue, (int)_slider.selectedMaximumValue]];
+        [self.rangeLabel setText:[NSString stringWithFormat:@"%i - %i",(int)self.cellSlider.selectedMinimumValue, (int)self.cellSlider.selectedMaximumValue]];
     }
     else {
-        if([self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]])
-        {
+        
+        if([self.tableView cellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0]]) {
             [self.tableView beginUpdates];
             [self.tableView deleteRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:1 inSection:0]] withRowAnimation:UITableViewRowAnimationBottom];
-            _hasChosenRange = NO;
             [self.tableView endUpdates];
-                [[NSNotificationCenter defaultCenter] postNotificationName:@"FilterChoiceChanged" object:self];
+            [[NSNotificationCenter defaultCenter] postNotificationName:@"FilterChoiceChanged" object:self];
         }
     }
 }
 
+
 - (BOOL)canReset
 {
-    return _hasChosenRange;
+    return self.hasChosenRange;
 }
 
 
-- (void)reset
+- (void)resetInterface
 {
-    _slider.selectedMinimumValue = _slider.minimumValue;
-    _slider.selectedMaximumValue = _slider.maximumValue;
-    [_slider setNeedsLayout];
+    self.cellSlider.selectedMinimumValue = self.cellSlider.minimumValue;
+    self.cellSlider.selectedMaximumValue = self.cellSlider.maximumValue;
+    [self.cellSlider setNeedsLayout];
     [self sliderDidUpdate];
-}
-
-- (NSPredicate*)createPredicate
-{
-    [self saveState];
-    switch (self.pickerType) {
-        case UFODatePickerTypeReportedAt:
-            return [self.filterManager createReportedAtPredicate];
-        case UFODatePickerTypeSightedAt:
-            return [self.filterManager createSightedAtPredicate];
-        default:
-            return nil;
-    }
 }
 
 @end

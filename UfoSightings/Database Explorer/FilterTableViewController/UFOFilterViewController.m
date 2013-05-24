@@ -23,7 +23,6 @@
 - (id)init
 {
     if((self = [super init])) {
-        self.predicateKey = @"main";
         self.title = @"Filters";
     }
     return self;
@@ -121,7 +120,6 @@ filterCells is an array of dictionaries to configure cells
     }
     else if(indexPath.row == 2) {
         ShapeSelectorViewController* shapeSelector = [[ShapeSelectorViewController alloc]init];
-        shapeSelector.title = @"Shapes";
         viewControllerToPush = shapeSelector;
     }
     else if (indexPath.row == 3) {
@@ -134,23 +132,19 @@ filterCells is an array of dictionaries to configure cells
 
 - (BOOL)canReset
 {
-    BOOL hasFilters = NO;
-    
     for (NSDictionary* cellDict in self.filterCells) {
-        
         if ([[cellDict objectForKey:@"hasFilters"] boolValue]) {
-            hasFilters = YES;
-            break;
+            return YES;
         }
     }
-    
-    return hasFilters;
+    return NO;
 }
 
 
-- (void)reset
+- (void)resetInterface
 {
     [self.filterManager resetFilters];
+    _filterCells = nil;
     [(UITableView*)self.view reloadData];
 }
 

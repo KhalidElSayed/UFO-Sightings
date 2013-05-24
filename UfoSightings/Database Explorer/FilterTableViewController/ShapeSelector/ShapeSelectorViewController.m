@@ -12,11 +12,9 @@
 
 @interface ShapeSelectorViewController ()
 - (void)loadShapeButtons;
-- (NSPredicate*)createPredicate;
 @end
 
 @implementation ShapeSelectorViewController
-
 
 - (id)init
 {
@@ -34,19 +32,11 @@
 }
 
 
-- (void)viewDidUnload
-{
-    [self setScrollView:nil];
-    [super viewDidUnload];
-}
-
 - (void)viewDidAppear:(BOOL)animated
 {
-  
-    if(self.navigationController)
-    {
+    if(self.navigationController) {
         CGRect frame = self.navigationController.view.frame;
-        frame.size.height = _scrollView.contentSize.height;
+        frame.size.height = self.scrollView.contentSize.height;
         [UIView animateWithDuration:0.5 animations:^{
             self.navigationController.view.frame = frame;
         }];
@@ -64,7 +54,7 @@
 }
 
 
-- (void)saveState
+- (void)saveFiltersToFilterManager
 {
     NSMutableArray* shapesToFilter = [[NSMutableArray alloc]init];
     
@@ -73,6 +63,7 @@
             [shapesToFilter addObject:[self.shipShapes objectAtIndex:button.tag]];
         }
     }
+    [self.filterManager setShapesToFilter:shapesToFilter];
     
     bool filters = shapesToFilter.count > 0;
 
@@ -99,8 +90,8 @@
     }
    
     [self.filterManager setHasFilters:filters forCellWithPredicateKey:kUFOShapeCellPredicateKey];
-    [self.filterManager setShapesToFilter:shapesToFilter];
 }
+
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
@@ -131,7 +122,7 @@
         rows++;
     }
     
-    _scrollView.contentSize = CGSizeMake(280, rows * 85);
+    self.scrollView.contentSize = CGSizeMake(280, rows * 85);
     
     __block CGFloat padding = 0;
     __block int row = -1;
@@ -172,28 +163,28 @@
 
 - (BOOL)canReset
 {
-    BOOL hasChosenShapes = NO;
-    for (UIButton* shapeButton in _scrollView.subviews) {
+    for (UIButton* shapeButton in self.scrollView.subviews) {
         if (!shapeButton.isSelected) {
-            hasChosenShapes = YES;
-            break;
+            return  YES;
         }
     }
-    return hasChosenShapes;
+    return NO;
 }
 
 
-- (void)reset
+- (void)resetInterface
 {
-    for (UIButton* shapeButton in _scrollView.subviews) {
-        [shapeButton setSelected:YES];
+    for (UIView* subView in self.scrollView.subviews) {
+        if ([subView isKindOfClass:[UIButton class]]) {
+            [(UIButton*)subView setSelected:NO];
+        }
     }
 }
 
 
 - (NSPredicate*)createPredicate
 {
-    [self saveState];
+    [self saveFiltersToFilterManager];
     return [self.filterManager createShapesPredicate];
 }
 

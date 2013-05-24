@@ -13,13 +13,7 @@
 @interface ShapeSelectorViewController : UFOBaseViewController <UIScrollViewDelegate, UFOPredicateCreation>
 
 @property (strong, nonatomic) NSArray* shipShapes;
+@property (weak, nonatomic) IBOutlet UIScrollView *scrollView;
 
-@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) NSString* predicateKey;
-
-- (NSPredicate*)createPredicate;
-- (BOOL)canReset;
-- (void)reset;
-- (void)saveState;
 
 @end

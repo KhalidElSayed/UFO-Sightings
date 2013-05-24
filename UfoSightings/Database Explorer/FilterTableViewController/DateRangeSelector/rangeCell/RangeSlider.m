@@ -18,63 +18,70 @@
 
 @synthesize minimumValue, maximumValue, minimumRange, selectedMinimumValue, selectedMaximumValue;
 @synthesize  minThumb, maxThumb;
+
+- (void)setup
+{
+    _minThumbOn = false;
+    _maxThumbOn = false;
+    _padding = 20;
+    
+    leftSliderValueController = [[SliderValueViewController alloc]init];
+    rightSliderValueController = [[SliderValueViewController alloc]init];
+    
+    leftPopOver = [[UIPopoverController alloc]initWithContentViewController:leftSliderValueController];
+    rightPopOver = [[UIPopoverController alloc]initWithContentViewController:rightSliderValueController];
+    [leftPopOver setPopoverContentSize:leftSliderValueController.view.bounds.size];
+    [rightPopOver setPopoverContentSize:rightSliderValueController.view.bounds.size];
+    
+    _trackBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bar-background.png"]];
+    
+    _trackBackground.center = CGPointMake(self.center.x, self.frame.size.height/2);
+    CGRect aFrame = _trackBackground.frame;
+    aFrame.size.width = self.frame.size.width;
+    _trackBackground.frame = aFrame;
+    _trackBackground.contentMode = UIViewContentModeScaleToFill;
+    [self addSubview:_trackBackground];
+    
+    
+    _track = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bar-highlight.png"]];
+    _track.center = CGPointMake(self.center.x, self.frame.size.height/2);
+    [self addSubview:_track];
+    
+    _minThumb = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"handle.png"] highlightedImage:[UIImage imageNamed:@"handle-hover.png"]];
+    _minThumb.frame = CGRectMake(0,0, self.frame.size.height,self.frame.size.height);
+    _minThumb.contentMode = UIViewContentModeCenter;
+    [self addSubview:_minThumb];
+    
+    _maxThumb = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"handle.png"] highlightedImage:[UIImage imageNamed:@"handle-hover.png"]];
+    _maxThumb.frame = CGRectMake(0,0, self.frame.size.height,self.frame.size.height);
+    _maxThumb.contentMode = UIViewContentModeCenter;
+    [self addSubview:_maxThumb];
+
+}
+
 - (id)initWithFrame:(CGRect)frame
 {
     self = [super initWithFrame:frame];
     if (self) {
-        _minThumbOn = false;
-        _maxThumbOn = false;
-        _padding = 20;
-      
-        leftSliderValueController = [[SliderValueViewController alloc]init];
-        rightSliderValueController = [[SliderValueViewController alloc]init];
-        
-        leftPopOver = [[UIPopoverController alloc]initWithContentViewController:leftSliderValueController];
-        rightPopOver = [[UIPopoverController alloc]initWithContentViewController:rightSliderValueController];
-        [leftPopOver setPopoverContentSize:leftSliderValueController.view.bounds.size];
-        [rightPopOver setPopoverContentSize:rightSliderValueController.view.bounds.size];
-      
-        _trackBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bar-background.png"]];
-
-        _trackBackground.center = CGPointMake(self.center.x, self.frame.size.height/2);
-      //  CGRect aFrame = _trackBackground.frame;
-       // aFrame.size.width = self.frame.size.width;
-        //_trackBackground.frame = aFrame;
-        //_trackBackground.contentMode = UIViewContentModeScaleToFill;
-        [self addSubview:_trackBackground];
-        
-
-        _track = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bar-highlight.png"]];
-        _track.center = CGPointMake(self.center.x, self.frame.size.height/2);
-        [self addSubview:_track];
-        
-        _minThumb = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"handle.png"] highlightedImage:[UIImage imageNamed:@"handle-hover.png"]];
-        _minThumb.frame = CGRectMake(0,0, self.frame.size.height,self.frame.size.height);
-        _minThumb.contentMode = UIViewContentModeCenter;
-        [self addSubview:_minThumb];
-        
-        _maxThumb = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"handle.png"] highlightedImage:[UIImage imageNamed:@"handle-hover.png"]];
-        _maxThumb.frame = CGRectMake(0,0, self.frame.size.height,self.frame.size.height);
-        _maxThumb.contentMode = UIViewContentModeCenter;
-        [self addSubview:_maxThumb];
+        [self setup];
     }
     
     return self;
 }
 
 
+- (void)awakeFromNib
+{
+    [super awakeFromNib];
+    [self setup];
+}
+
 - (void)layoutSubviews
 {
     // Set the initial state
     _minThumb.center = CGPointMake([self xForValue:selectedMinimumValue], self.center.y);
-    
     _maxThumb.center = CGPointMake([self xForValue:selectedMaximumValue], self.center.y);
-    
-    
-   
     [self updateTrackHighlight];
-    
-    
 }
 
 - (float)xForValue:(float)value{

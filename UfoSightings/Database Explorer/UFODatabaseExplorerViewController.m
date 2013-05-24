@@ -42,7 +42,7 @@ dispatch_queue_t CDbackground_queue()
 - (void)getMoreReportsWithLimit:(NSUInteger)limit;
 - (void)filterCanReset:(NSNotification*)notification;
 - (void)saveFilterOptions:(NSDictionary*)options;
-- (void)refreshReportsWithPredicate:(NSPredicate*)predicate andPredicateKey:(NSString*)predKey;
+- (void)refreshReportsWithPredicate:(NSPredicate*)predicate;
 @end
 
 
@@ -81,6 +81,7 @@ dispatch_queue_t CDbackground_queue()
     _backgroundContext.persistentStoreCoordinator = self.managedObjectContext.persistentStoreCoordinator;
     
     [self getMoreReportsWithLimit:DEFAULT_FETCH_LIMIT];
+    self.lastPredicateFetched = [[NSPredicate alloc] init];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(filterCanReset:) name:@"FilterChoiceChanged" object:nil];
 }
 
@@ -100,7 +101,7 @@ dispatch_queue_t CDbackground_queue()
     
     if (UIInterfaceOrientationIsLandscape(deviceOrientation )) {   // Setup For Landscape
         [self.detailView setFrame:CGRectMake(320, 0, self.view.bounds.size.width - 320, self.view.bounds.size.height)];
-        [self.view addSubview:_masterView];
+        [self.view addSubview:self.masterView];
     }
     else {   // Setup For Portrait
         [self.masterView removeFromSuperview];
@@ -167,13 +168,16 @@ dispatch_queue_t CDbackground_queue()
 
 - (IBAction)backButtonPressed:(UIButton *)sender
 {
-    [(id<UFOPredicateCreation>)self.filterNavController.topViewController saveState];
-    NSPredicate* predicate = [(id<UFOPredicateCreation>)self.filterNavController.topViewController createPredicate];
-    NSString* predicateKey = [(id<UFOPredicateCreation>)self.filterNavController.topViewController predicateKey];
-    [self refreshReportsWithPredicate:predicate andPredicateKey:predicateKey];
+    [(id<UFOPredicateCreation>)self.filterNavController.topViewController saveFiltersToFilterManager];
     
-    if(self.filterNavController.view.frame.size.height != 320) {
-        
+    if(self.filterManager.hasNewFilters) {
+        [self refreshReportsWithPredicate:[self.filterManager buildPredicate]];
+    }
+    
+    if(self.filterNavController.view.frame.size.height == 320) {
+        [self.filterNavController popViewControllerAnimated:YES];
+    }
+    else {
         [UIView animateWithDuration:0.5 animations:^{
             self.filterNavController.view.frame = FILTER_NAV_FRAME;
         } completion:^(BOOL finished){
@@ -182,26 +186,16 @@ dispatch_queue_t CDbackground_queue()
             }
         }];
     }
-    else {
-        [self.filterNavController popViewControllerAnimated:YES];
-    }
 
 }
 
 
 - (IBAction)resetButtonPressed:(UIButton *)sender
 {
-    NSString* predicateKey = [(id <UFOPredicateCreation>)self.filterNavController.topViewController predicateKey];
-    [(id <UFOPredicateCreation>)self.filterNavController.topViewController reset];
-    
-    if([predicateKey compare:@"main"] == 0) {
-        [self.currentPredicates removeAllObjects];
-        [self refreshReportsWithPredicate:nil andPredicateKey:nil];
+    [(id <UFOPredicateCreation>)self.filterNavController.topViewController resetInterface];
+    if([self.filterNavController.topViewController isKindOfClass:[UFOFilterViewController class]]) {
+        [self refreshReportsWithPredicate:[self.filterManager buildPredicate]];
     }
-    else if([self.currentPredicates objectForKey:predicateKey]) {
-        [self.currentPredicates removeObjectForKey:predicateKey];
-    }
-    
     [self.resetButton setEnabled:NO];
 }
 
@@ -223,14 +217,9 @@ dispatch_queue_t CDbackground_queue()
 
 // We must ensure that if we are going to return the count of reports, it must be loaded.
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
-{
-    if(section == 0 && self.reports ) {
-        return [self.reports count];
-    }
-    else if(section == 1) {
-        return 1;
-    }
-    return 0;
+{    
+    if(section > 1) { return 0; }
+    return section == 0 ? [self.reports count] : 1;
 }
 
 
@@ -346,73 +335,57 @@ dispatch_queue_t CDbackground_queue()
 }
 
 
-- (NSPredicate*)buildPredicateWithFilters:(NSDictionary*)filters;
+- (void)refreshReportsWithPredicate:(NSPredicate*)predicate
 {
-    if([[filters allValues] count] <= 0 ) { return nil; }
-
-    NSMutableArray* subpredicates = [[filters objectsForKeys:@[@"sightedAt",@"reportLength",@"shape",@"reportedAt"] notFoundMarker:[NSNull null]] mutableCopy];
-    [subpredicates removeObjectsInArray:@[[NSNull null]]];
+    if (self.lastPredicateFetched == predicate) { return; }
     
-    return [[NSCompoundPredicate alloc]initWithType:NSAndPredicateType subpredicates:subpredicates];
-}
-
-
-- (void)refreshReportsWithPredicate:(NSPredicate*)predicate andPredicateKey:(NSString*)predKey
-{
-    if(![predicate isEqual:[self.currentPredicates objectForKey:predKey]] || (!predKey && !predicate))
-    {
-        if (predicate && predKey) {
-            [self.currentPredicates setObject:predicate forKey:predKey];
-        }
-        else if(predKey) {
-            [self.currentPredicates removeObjectForKey:predKey];
-        }
+    [self.loadingIndicator startAnimating];
+    [self.loadingLabel setHidden:NO];
+    
+    dispatch_async(CDbackground_queue(), ^{
         
-        [self.loadingIndicator startAnimating];
-        [self.loadingLabel setHidden:NO];
+        NSFetchRequest* fetchRequest = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
+        NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:@"sightedAt" ascending:NO];
         
-        NSPredicate* predicate = [self buildPredicateWithFilters:self.currentPredicates];
+        [fetchRequest setFetchLimit:MAX(_reports.count, 50)];
+        [fetchRequest setSortDescriptors:@[sort]];
+        [fetchRequest setResultType:NSManagedObjectIDResultType];
         
-        dispatch_async(CDbackground_queue(), ^{
-            
-            NSFetchRequest* fetchRequest = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
-            NSUInteger limit = MAX(_reports.count, 50);
-            [fetchRequest setFetchLimit:limit];
+        if(predicate) {
             [fetchRequest setPredicate:predicate];
-            [fetchRequest setResultType:NSManagedObjectIDResultType];
-            NSError* error = nil;
-            NSArray* newReportIDs = [_backgroundContext executeFetchRequest:fetchRequest error:&error];
-            if(error) { NSLog(@"%@",error); }
+        }
+        
+        NSError* error = nil;
+        NSArray* newReportIDs = [_backgroundContext executeFetchRequest:fetchRequest error:&error];
+        if(error) { NSLog(@"%@",error); }
+        
+        dispatch_sync(dispatch_get_main_queue(), ^{
             
-            dispatch_sync(dispatch_get_main_queue(), ^{
-                
-                NSMutableArray* newReports = [[NSMutableArray alloc]initWithCapacity:DEFAULT_FETCH_LIMIT];
-                for (NSManagedObjectID* ObjID in newReportIDs) {
-                    [newReports addObject:[self.managedObjectContext objectWithID:ObjID]];
-                }
-
-                [newReports sortUsingDescriptors:[NSArray arrayWithObject:[NSSortDescriptor sortDescriptorWithKey:@"sightedAt" ascending:NO]]];
-                self.reports = newReports;
-                [self.reportsTable reloadData];
-                [self.loadingIndicator stopAnimating];
-                [self.loadingLabel setHidden:YES];
-            });
+            NSMutableArray* newReports = [[NSMutableArray alloc]initWithCapacity:DEFAULT_FETCH_LIMIT];
+            for (NSManagedObjectID* ObjID in newReportIDs) {
+                [newReports addObject:[self.managedObjectContext objectWithID:ObjID]];
+            }
             
+            self.reports = newReports;
+            [self.reportsTable reloadData];
+            [self.loadingIndicator stopAnimating];
+            [self.loadingLabel setHidden:YES];
+            self.lastPredicateFetched = predicate;
         });
-    }
+    });
 }
 
 
 
 - (void)getMoreReportsWithLimit:(NSUInteger)limit
-{       
-    /* Animating the Lading indicator*/
+{
+    /* Animating the Loading indicator*/
     if(!self.addMoreButton.isSelected) {
         [self.addMoreButton setSelected:YES];
     }
     [self.cellLoadingIndicator startAnimating];
 
-    __block NSPredicate* predicate = [self buildPredicateWithFilters:self.currentPredicates];
+    __block NSPredicate* predicate = self.lastPredicateFetched;
     dispatch_async(CDbackground_queue(), ^{
         
         NSFetchRequest* fetchRequest = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
@@ -421,18 +394,22 @@ dispatch_queue_t CDbackground_queue()
         [fetchRequest setFetchLimit:limit];
         [fetchRequest setResultType:NSManagedObjectIDResultType];
         
-        if([_reports count] > 0) {
-            NSDate* date = [[_reports lastObject] sightedAt];
+        /* since we already have a set of reports, only load ones further below */
+        if([self.reports count] > 0) {
+            NSDate* date = [[self.reports lastObject] sightedAt];
             NSPredicate* datePredicate = [NSPredicate predicateWithFormat:@"sightedAt > %@", date]; 
-            predicate = [[NSCompoundPredicate alloc]initWithType:NSAndPredicateType subpredicates:[NSArray arrayWithObjects:datePredicate, predicate, nil]];
+            predicate = [[NSCompoundPredicate alloc]initWithType:NSAndPredicateType subpredicates: predicate == nil ? @[datePredicate] : @[datePredicate, predicate]];
         }
-        [fetchRequest setPredicate:predicate];
-
+        
+        if(predicate) {
+            [fetchRequest setPredicate:predicate];
+        }
+        
         NSArray* newReportIDs = [_backgroundContext executeFetchRequest:fetchRequest error:nil];
                 
         /* This is for smooth addition of cells */
         NSMutableArray* indexPaths = [[NSMutableArray alloc] init];
-        int beginIndex = _reports ? _reports.count : 0;
+        int beginIndex = self.reports ? self.reports.count : 0;
         int endIndex = newReportIDs.count >= 5 ? beginIndex + 5 : beginIndex + newReportIDs.count - 1;
         for (int i = beginIndex; i < endIndex; i++) {
             [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
@@ -442,7 +419,7 @@ dispatch_queue_t CDbackground_queue()
             
             NSArray* newlyFetchedReports =  [self.managedObjectContext objectsWithIDs:newReportIDs];
             
-            NSMutableArray* newArrayOfReports = [[NSMutableArray alloc]initWithArray:_reports];
+            NSMutableArray* newArrayOfReports = [[NSMutableArray alloc]initWithArray:self.reports];
             NSIndexSet *initialSetOfCellsToAdd = [[NSIndexSet alloc]initWithIndexesInRange:NSMakeRange(0, 5)];
             [newArrayOfReports addObjectsFromArray:[newlyFetchedReports objectsAtIndexes:initialSetOfCellsToAdd]];
             

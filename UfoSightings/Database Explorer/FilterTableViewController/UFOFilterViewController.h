@@ -12,10 +12,8 @@
 #import "UFOBaseViewController.h"
 
 @interface UFOFilterViewController : UFOBaseTableViewController <UINavigationControllerDelegate, UFOPredicateCreation>
-@property (strong, nonatomic)NSString* predicateKey;
+
 @property (strong, nonatomic, readonly) NSArray* filterCells;
-- (BOOL)canReset;
-- (void)reset;
 
 @end
 

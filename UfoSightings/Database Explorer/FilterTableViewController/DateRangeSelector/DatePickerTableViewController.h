@@ -18,15 +18,10 @@ typedef enum {
 
 @interface DatePickerTableViewController : UFOBaseTableViewController <UFOPredicateCreation>
 @property (assign, nonatomic) UFODatePickerType pickerType;
-@property (strong, nonatomic) RangeSlider* slider;
-@property (strong, nonatomic) NSString* predicateKey;
+@property (strong, nonatomic) NSDateFormatter* dateFormatter;
+@property (strong, nonatomic) UILabel* rangeLabel;
+@property (weak, nonatomic) RangeSlider* cellSlider;
 
 - (id)initWithType:(UFODatePickerType)type;
-
-- (NSPredicate*)createPredicate;
-
-- (BOOL)canReset;
-- (void)reset;
-- (void)saveState;
 
 @end

@@ -7,9 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "RangeSlider.h"
 
 @interface RangeCell : UITableViewCell
-@property (strong, nonatomic) IBOutlet UILabel *minLabel;
-@property (strong, nonatomic) IBOutlet UILabel *maxLabel;
+@property (weak, nonatomic) IBOutlet UILabel *minLabel;
+@property (weak, nonatomic) IBOutlet UILabel *maxLabel;
+@property (weak, nonatomic) IBOutlet RangeSlider *slider;
 
 @end

@@ -20,17 +20,17 @@
 @property (strong, nonatomic) UINavigationController* filterNavController;
 @property (strong, nonatomic) NSArray* reports;
 @property (strong, nonatomic, readonly) NSDictionary* shapesDictionary;
-@property (strong, nonatomic) IBOutlet UIView *masterView;
-@property (strong, nonatomic) IBOutlet UIView *detailView;
-@property (strong, nonatomic) IBOutlet UITableView *reportsTable;
-@property (strong, nonatomic) IBOutlet UIButton *backButton;
-@property (strong, nonatomic) IBOutlet UIButton *resetButton;
-@property (strong, nonatomic) IBOutlet UILabel *filterLabel;
-@property (strong, nonatomic) IBOutlet UIButton *viewOnMapButton;
-@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
-@property (strong, nonatomic) IBOutlet UILabel *loadingLabel;
-@property (strong, nonatomic) IBOutlet UIButton *addMoreButton;
-
+@property (strong, nonatomic) NSPredicate* lastPredicateFetched;
+@property (weak, nonatomic) IBOutlet UITableView *reportsTable;
+@property (weak, nonatomic) IBOutlet UIView *masterView;
+@property (weak, nonatomic) IBOutlet UIView *detailView;
+@property (weak, nonatomic) IBOutlet UIButton *backButton;
+@property (weak, nonatomic) IBOutlet UIButton *resetButton;
+@property (weak, nonatomic) IBOutlet UIButton *addMoreButton;
+@property (weak, nonatomic) IBOutlet UIButton *viewOnMapButton;
+@property (weak, nonatomic) IBOutlet UILabel *loadingLabel;
+@property (weak, nonatomic) IBOutlet UILabel *filterLabel;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
 
 - (IBAction)viewOnMapSelected:(UIButton *)sender;
 - (IBAction)backButtonPressed:(UIButton *)sender;
@@ -47,12 +47,10 @@
 
 
 @protocol UFOPredicateCreation <NSObject>
-@property (strong, nonatomic)NSString* predicateKey;
 - (BOOL)canReset;
-- (void)reset;
+- (void)resetInterface;
 
 
 @optional
-- (NSPredicate*)createPredicate;
-- (void)saveState;
+- (void)saveFiltersToFilterManager;
 @end
