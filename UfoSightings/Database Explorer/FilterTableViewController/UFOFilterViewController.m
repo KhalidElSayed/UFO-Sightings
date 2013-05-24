@@ -24,6 +24,7 @@
 {
     if((self = [super init])) {
         self.predicateKey = @"main";
+        self.title = @"Filters";
     }
     return self;
 }

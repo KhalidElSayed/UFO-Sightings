@@ -15,6 +15,9 @@ static NSString * const kUFOSightedAtCellPredicateKey = @"sightedAt";
 
 @interface UFOFilterManager : NSObject
 
+@property (strong, nonatomic) NSDateFormatter* dateFormatter;
+@property (assign, nonatomic) bool hasNewFilters;
+
 + (UFOFilterManager*)sharedManager;
 
 - (NSDictionary*)predicates;
@@ -46,5 +49,12 @@ static NSString * const kUFOSightedAtCellPredicateKey = @"sightedAt";
 
 - (NSArray*)shapesToFilter;
 - (void)setShapesToFilter:(NSArray*)shapes;
+
+
+- (NSPredicate*)createReportedAtPredicate;
+- (NSPredicate*)createSightedAtPredicate;
+- (NSPredicate*)createShapesPredicate;
+- (NSPredicate*)createReportLengthPredicate;
+- (NSPredicate*)buildPredicate;
 
 @end

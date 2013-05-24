@@ -40,6 +40,14 @@ static NSString * const kUFOShapesFilterKey = @"shapesToFilter";
     return singleton;
 }
 
+- (NSDateFormatter*)dateFormatter
+{
+    if (!_dateFormatter) {
+        _dateFormatter = [[NSDateFormatter alloc]init];
+        [_dateFormatter setDateFormat:@"yyyyMMdd"];
+    }
+    return _dateFormatter;
+}
 
 - (NSMutableDictionary*)filterDictionary
 {
@@ -79,22 +87,30 @@ static NSString * const kUFOShapesFilterKey = @"shapesToFilter";
 
 - (void)setSelectedReportedAtMinimumDate:(NSDate*)date
 {
+    if([date isEqualToDate:self.filterDictionary[kUFOSelectedReportedAtMinimumDate]]) { return; }
     [self.filterDictionary setObject:date forKey:kUFOSelectedReportedAtMinimumDate];
+    self.hasNewFilters = YES;
 }
 
 - (void)setSelectedReportedAtMaximumDate:(NSDate *)date
 {
+    if([date isEqualToDate:self.filterDictionary[kUFOSelectedReportedAtMaximumDate]]) { return; }
     [self.filterDictionary setObject:date forKey:kUFOSelectedReportedAtMaximumDate];
+    self.hasNewFilters = YES;
 }
 
 - (void)setSelectedSightedAtMinimumDate:(NSDate*)date
 {
+    if([date isEqualToDate:self.filterDictionary[kUFOSelectedSightedAtMinimumDate]]) { return; }
     [self.filterDictionary setObject:date forKey:kUFOSelectedSightedAtMinimumDate];
+    self.hasNewFilters = YES;
 }
 
 - (void)setSelectedSightedAtMaximumDate:(NSDate*)date
 {
+    if([date isEqualToDate:self.filterDictionary[kUFOSelectedSightedAtMaximumDate]]) { return; }
     [self.filterDictionary setObject:date forKey:kUFOSelectedSightedAtMinimumDate];
+    self.hasNewFilters = YES;
 }
 
 - (NSDate*)selectedReportedAtMinimumDate
@@ -182,7 +198,9 @@ static NSString * const kUFOShapesFilterKey = @"shapesToFilter";
 
 - (void)setReportLengthsToFilter:(NSArray *)reportLengths
 {
+    if([reportLengths isEqualToArray:self.filterDictionary[kUFOReportLengthsFilterKey]]) { return; }
     [self.filterDictionary setObject:reportLengths forKey:kUFOReportLengthsFilterKey];
+    self.hasNewFilters = YES;
 }
 
 #pragma mark - Shapes Filtering
@@ -194,7 +212,146 @@ static NSString * const kUFOShapesFilterKey = @"shapesToFilter";
 
 - (void)setShapesToFilter:(NSArray*)shapes
 {
+    if([shapes isEqualToArray:self.filterDictionary[kUFOShapesFilterKey]]) { return; }
     [self.filterDictionary setObject:shapes forKey:kUFOShapesFilterKey];
+    self.hasNewFilters = YES;
+}
+
+
+#pragma mark - predicate creation
+
+- (NSPredicate*)createReportedAtPredicate
+{
+    NSMutableArray* predicates = [[NSMutableArray alloc]initWithCapacity:2];
+    
+    if([[self selectedReportedAtMinimumDate] compare:[self defaultReportedAtMinimumDate]] != NSOrderedSame) {
+        NSPredicate* minimumDatePredicate = [NSPredicate predicateWithFormat:@"%K > %@", kUFOReportedAtCellPredicateKey, [self selectedReportedAtMinimumDate]];
+        [predicates addObject:minimumDatePredicate];
+    }
+    if([[self selectedReportedAtMaximumDate] compare:[self defaultReportedAtMaximumDate]] != NSOrderedSame) {
+        NSPredicate* maximumDatePredicate = [NSPredicate predicateWithFormat:@"%K > %@", kUFOReportedAtCellPredicateKey, [self selectedReportedAtMaximumDate]];
+        [predicates addObject:maximumDatePredicate];
+    }
+    
+    if([predicates count] == 1) {
+        return predicates[0];
+    }
+    else if([predicates count] == 2) {
+        return [[NSCompoundPredicate alloc]initWithType:NSAndPredicateType subpredicates:predicates];
+    }
+    
+    return nil;
+}
+
+
+- (NSPredicate*)createSightedAtPredicate
+{
+    NSMutableArray* predicates = [[NSMutableArray alloc]initWithCapacity:2];
+    
+    if([[self selectedSightedAtMinimumDate] compare:[self defaultSightedAtMinimumDate]] != NSOrderedSame) {
+        NSPredicate* minimumDatePredicate = [NSPredicate predicateWithFormat:@"%K > %@", kUFOSightedAtCellPredicateKey, [self selectedSightedAtMinimumDate]];
+        [predicates addObject:minimumDatePredicate];
+    }
+    if([[self selectedSightedAtMaximumDate] compare:[self defaultSightedAtMaximumDate]] != NSOrderedSame) {
+        NSPredicate* maximumDatePredicate = [NSPredicate predicateWithFormat:@"%K > %@", kUFOSightedAtCellPredicateKey, [self selectedReportedAtMaximumDate]];
+        [predicates addObject:maximumDatePredicate];
+    }
+    
+    if([predicates count] == 1) {
+        return predicates[0];
+    }
+    else if([predicates count] == 2) {
+        return [[NSCompoundPredicate alloc]initWithType:NSAndPredicateType subpredicates:predicates];
+    }
+    
+    return nil;
+}
+
+
+- (NSPredicate*)createShapesPredicate
+{
+    
+    NSMutableArray* predicates = [[NSMutableArray alloc]init];
+    NSDictionary* badShapeMapping = [[NSFileManager defaultManager] shapeNameMappingDictionary];
+    
+    for (NSString* shapeToFilter in [self shapesToFilter]) {
+        
+        NSPredicate* predicate = [NSPredicate predicateWithFormat:@"shape != %@", shapeToFilter];
+        [predicates addObject:predicate];
+        for (NSString* shapeMatchedString in [badShapeMapping allKeysForObject:shapeToFilter]) {
+            NSPredicate* badShapePredicate = [NSPredicate predicateWithFormat:@"shape != %@", shapeMatchedString];
+            [predicates addObject:badShapePredicate];
+        }
+        
+    }
+    
+    if ([predicates count] == 1) {
+        return predicates[0];
+    }
+    else if ([predicates count] > 1) {
+        return [[NSCompoundPredicate alloc]initWithType:NSAndPredicateType subpredicates:predicates];
+    }
+    
+    return  nil;
+}
+
+
+- (NSPredicate*)createReportLengthPredicate
+{
+    bool a = [[self reportLengthsToFilter] containsObject:@"short"];
+    bool b = [[self reportLengthsToFilter] containsObject:@"medium"];
+    bool c = [[self reportLengthsToFilter] containsObject:@"long"];
+    
+    if( !a && !b && !c)
+        return nil;
+    else if (a && !b && !c) {
+        return [NSPredicate predicateWithFormat:@"reportLength > 50"];
+    }
+    else if (a && b && !c) {
+        return [NSPredicate predicateWithFormat:@"reportLength > 200"];
+    }
+    else if (!a && b && c) {
+        return [NSPredicate predicateWithFormat:@"reportLength < 50"];
+    }
+    else if (!a && !b && c)
+    {
+        return [NSPredicate predicateWithFormat:@"reportLength < 200"];
+    }
+    else if (!a && b && !c) {
+        return  [NSPredicate predicateWithFormat:@"reportLength < 50 OR reportLength > 200"];
+    }
+    else if (a && !b && c)
+    {
+        return  [NSPredicate predicateWithFormat:@"reportLength BETWEEN { 50 , 200 }"];
+    }
+    else {
+        return [NSPredicate predicateWithFormat:@"FALSEPREDICATE"];
+    }
+}
+
+
+
+- (NSPredicate*)buildPredicate
+{
+    NSMutableArray* predicates = [[NSMutableArray alloc]initWithCapacity:4];
+    NSPredicate* sightedAtPredicate = [self createSightedAtPredicate];
+    NSPredicate* reportedAtPredicate = [self createReportedAtPredicate];
+    NSPredicate* shapesPredicate = [self createShapesPredicate];
+    NSPredicate* reportLengthPredicate = [self createReportLengthPredicate];
+    
+    if(sightedAtPredicate)      { [predicates addObject:sightedAtPredicate]; }
+    if(reportedAtPredicate)     { [predicates addObject:reportedAtPredicate]; }
+    if( shapesPredicate)        { [predicates addObject:shapesPredicate]; }
+    if(reportLengthPredicate)   { [predicates addObject:reportLengthPredicate]; }
+
+    if ([predicates count] == 1) {
+        return predicates[0];
+    }
+    else if ([predicates count] > 1){
+        return [[NSCompoundPredicate alloc]initWithType:NSAndPredicateType subpredicates:predicates];
+    }
+
+    return nil;
 }
 
 @end

@@ -246,29 +246,15 @@
 
 - (NSPredicate*)createPredicate
 {
-    [_df setDateFormat:@"yyyyMMdd"];
-    NSPredicate* minimumDate = nil;
-    NSPredicate* maximumDate = nil;
-    if(_slider.selectedMinimumValue == _slider.minimumValue && _slider.selectedMaximumValue == _slider.maximumValue)
-        return nil;
-    
-    
-    if(_slider.selectedMinimumValue > _slider.minimumValue)
-    {
-        NSDate *minDate = [_df dateFromString:[NSString stringWithFormat:@"%i0101",(int)_slider.selectedMinimumValue]];
-        minimumDate = [NSPredicate predicateWithFormat:@"%K > %@", _predicateKey, minDate];        
+    [self saveState];
+    switch (self.pickerType) {
+        case UFODatePickerTypeReportedAt:
+            return [self.filterManager createReportedAtPredicate];
+        case UFODatePickerTypeSightedAt:
+            return [self.filterManager createSightedAtPredicate];
+        default:
+            return nil;
     }
-    if(_slider.selectedMaximumValue < _slider.maximumValue)
-    {
-        NSDate *maxDate = [_df dateFromString:[NSString stringWithFormat:@"%i0101",(int)_slider.selectedMaximumValue]];
-        maximumDate = [NSPredicate predicateWithFormat:@"%K < %@", _predicateKey, maxDate];
-        if(minimumDate == nil)
-            return maximumDate;
-    }
-    if(maximumDate == nil)
-        return minimumDate;
-
-    return [[NSCompoundPredicate alloc]initWithType:NSAndPredicateType subpredicates:[NSArray arrayWithObjects:maximumDate, minimumDate, nil] ];
 }
 
 @end

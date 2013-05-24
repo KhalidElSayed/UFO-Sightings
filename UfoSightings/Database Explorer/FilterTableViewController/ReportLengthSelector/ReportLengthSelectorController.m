@@ -123,55 +123,8 @@
 
 - (NSPredicate*)createPredicate
 {
-    bool a = NO;
-    bool b = NO;
-    bool c = NO;
-    
-    for (UIButton* checkmarkButton in self.checkmarkButtons) {
-        if (checkmarkButton.isSelected)
-            continue;
-        
-        if(checkmarkButton.tag == 0)
-        {
-            a = YES;
-        }
-        else if (checkmarkButton.tag == 1) {
-            b = YES;
-        }
-        else if (checkmarkButton.tag == 2) {
-            c = YES;
-        }
-    }
-    
-    if( !a && !b && !c)
-        return nil;
-    else if (a && !b && !c) {
-        return [NSPredicate predicateWithFormat:@"reportLength > 50"];
-    }
-    else if (a && b && !c) {
-        return [NSPredicate predicateWithFormat:@"reportLength > 200"];
-    }
-    else if (!a && b && c) {
-        return [NSPredicate predicateWithFormat:@"reportLength < 50"];
-    }
-    else if (!a && !b && c)
-    {
-        return [NSPredicate predicateWithFormat:@"reportLength < 200"];
-    }
-    else if (!a && b && !c) {
-        return  [NSPredicate predicateWithFormat:@"reportLength < 50 OR reportLength > 200"];
-    }
-    else if (a && !b && c)
-    {
-        return  [NSPredicate predicateWithFormat:@"reportLength BETWEEN { 50 , 200 }"];
-    }
-    else {
-        return [NSPredicate predicateWithFormat:@"FALSEPREDICATE"];
-    }
+    [self saveState];
+    return [self.filterManager createReportLengthPredicate];
 }
-
-
-
-
 
 @end

@@ -124,7 +124,6 @@ dispatch_queue_t CDbackground_queue()
 {
     if(!_filterNavController) {
         UFOFilterViewController* fvc = [[UFOFilterViewController alloc]init];
-        fvc.title = @"Filters";
         _filterNavController = [[UINavigationController alloc]initWithRootViewController:fvc];
         
         _filterNavController.view.frame = FILTER_NAV_FRAME;

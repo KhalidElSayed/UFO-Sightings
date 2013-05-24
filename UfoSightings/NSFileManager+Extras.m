@@ -109,9 +109,17 @@
     return [[[self applicationDocumentsDirectory] path] stringByAppendingPathComponent:@"shapes.plist"];
 }
 
+
 - (NSString*)filterDictonaryPath
 {
     return [[[self applicationDocumentsDirectory] path] stringByAppendingPathComponent:@"filters.plist"];
+}
+
+
+- (NSDictionary*)shapeNameMappingDictionary
+{
+    NSDictionary* shapesDict = [NSDictionary dictionaryWithContentsOfFile:[self shapesDictionaryPath]];
+    return [shapesDict objectForKey:@"badShapeMatching"];
 }
 
 @end

@@ -18,7 +18,7 @@
 
 - (void)moveDatabaseFiltersPlistIntoProjectShouldOverwrite:(BOOL)overwrite;
 
-- (void)shapeNameMappingDictionary;
+- (NSDictionary*)shapeNameMappingDictionary;
 
 - (NSString*)shapesDictionaryPath;
 - (NSString*)filterDictonaryPath;

@@ -193,43 +193,8 @@
 
 - (NSPredicate*)createPredicate
 {
-    NSMutableArray* selectedButtonPredicates = [[NSMutableArray alloc]initWithCapacity:self.shipShapes.count];
-    
-    for (UIView* view in _scrollView.subviews) {
-        if([view isKindOfClass:[ShapeButton class]] && ![(ShapeButton*)view isSelected])
-        {
-            NSPredicate* predicate = nil;
-            if(view.tag == 3)
-            {
-                predicate = [NSPredicate predicateWithFormat:@"shape != \"circle\" AND shape != \"sphere\" AND shape != \"round\" AND shape != \"dome\""];
-            }
-            else if(view.tag == 11)
-            {
-                predicate = [NSPredicate predicateWithFormat:@"shape != \"flash\" AND shape != \"light\""];
-            }
-            else if (view.tag == 12) {
-                predicate = [NSPredicate predicateWithFormat:@"shape != \"formation\" AND shape != \"hexagon\" "];
-            }
-            else if (view.tag == 14) {
-                predicate = [NSPredicate predicateWithFormat:@"shape != \"unspecified\" AND shape != \"other\" AND shape != \"unknown\" AND shape != \"cresent\""];
-            }
-            else if (view.tag == 17) {
-                predicate = [NSPredicate predicateWithFormat:@"shape != \"triangle\" AND shape != \"other\" AND shape != \"pyramid\""];
-            }
-            else {
-                predicate = [NSPredicate predicateWithFormat:@"shape != %@", [NSString stringWithFormat:@"%@",[self.shipShapes objectAtIndex:view.tag]]];
-            }
-            [selectedButtonPredicates addObject:predicate];
-            
-        }
-    }
-        
-    if (selectedButtonPredicates.count > 0) {
-        return [[NSCompoundPredicate alloc]initWithType:NSAndPredicateType subpredicates:selectedButtonPredicates];
-    }
-    
-    return  nil;
-    
+    [self saveState];
+    return [self.filterManager createShapesPredicate];
 }
 
 @end
