@@ -106,7 +106,7 @@
 
 - (NSString*)shapesDictionaryPath
 {
-    return [[[self applicationDocumentsDirectory] path] stringByAppendingPathComponent:@"shapes.plist"];
+    return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"shapes.plist"];
 }
 
 
