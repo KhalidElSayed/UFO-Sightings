@@ -134,7 +134,7 @@
         NSDate* minimumDate = self.pickerType == UFODatePickerTypeReportedAt ? [self.filterManager defaultReportedAtMinimumDate] : [self.filterManager defaultSightedAtMinimumDate];
         NSDate* maximumDate = self.pickerType == UFODatePickerTypeReportedAt ? [self.filterManager defaultReportedAtMaximumDate] : [self.filterManager defaultSightedAtMaximumDate];
         NSDate* selectedMinimumDate = self.pickerType == UFODatePickerTypeReportedAt ? [self.filterManager selectedReportedAtMinimumDate] : [self.filterManager selectedSightedAtMinimumDate];
-        NSDate* selectedMaximumDate = self.pickerType == UFODatePickerTypeReportedAt ? [self.filterManager selectedReportedAtMaximumDate] : [self.filterManager selectedSightedAtMaximumDate];;
+        NSDate* selectedMaximumDate = self.pickerType == UFODatePickerTypeReportedAt ? [self.filterManager selectedReportedAtMaximumDate] : [self.filterManager selectedSightedAtMaximumDate];
         
         cell.minLabel.text = [self.dateFormatter stringFromDate:minimumDate];
         cell.maxLabel.text = [self.dateFormatter stringFromDate:maximumDate];
