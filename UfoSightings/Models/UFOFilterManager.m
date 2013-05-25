@@ -8,6 +8,7 @@
 
 #import "UFOFilterManager.h"
 #import "NSFileManager+Extras.h"
+#import "NSDate+Extras.h"
 
 static NSString * const kUFOSightedAtMinimumDate = @"sightedAtMinimumDate";
 static NSString * const kUFOSightedAtMaximumDate = @"sightedAtMaximumDate";
@@ -59,10 +60,11 @@ static NSString * const kUFOShapesFilterKey = @"shapesToFilter";
 }
 
 
-- (void)saveFilterDictionary:(NSDictionary*)filterDict
+- (void)saveFilters
 {
+    if(!_filterDictionary) { return; }
     NSString *filterPlistPath = [[NSFileManager defaultManager] filterDictonaryPath];
-    [filterDict writeToFile:filterPlistPath atomically:YES];
+    [self.filterDictionary writeToFile:filterPlistPath atomically:YES];
 }
 
 
@@ -109,7 +111,7 @@ static NSString * const kUFOShapesFilterKey = @"shapesToFilter";
 - (void)setSelectedSightedAtMaximumDate:(NSDate*)date
 {
     if([date isEqualToDate:self.filterDictionary[kUFOSelectedSightedAtMaximumDate]]) { return; }
-    [self.filterDictionary setObject:date forKey:kUFOSelectedSightedAtMinimumDate];
+    [self.filterDictionary setObject:date forKey:kUFOSelectedSightedAtMaximumDate];
     self.hasNewFilters = YES;
 }
 
@@ -130,7 +132,7 @@ static NSString * const kUFOShapesFilterKey = @"shapesToFilter";
 
 - (NSDate*)selectedSightedAtMaximumDate
 {
-    return self.filterDictionary[kUFOSelectedSightedAtMinimumDate];
+    return self.filterDictionary[kUFOSelectedSightedAtMaximumDate];
 }
 
 - (NSDate*)defaultReportedAtMinimumDate
@@ -224,12 +226,12 @@ static NSString * const kUFOShapesFilterKey = @"shapesToFilter";
 {
     NSMutableArray* predicates = [[NSMutableArray alloc]initWithCapacity:2];
     
-    if([[self selectedReportedAtMinimumDate] compare:[self defaultReportedAtMinimumDate]] != NSOrderedSame) {
+    if(![[self selectedReportedAtMinimumDate] dateInSameYear:[self defaultReportedAtMinimumDate]]) {
         NSPredicate* minimumDatePredicate = [NSPredicate predicateWithFormat:@"%K > %@", kUFOReportedAtCellPredicateKey, [self selectedReportedAtMinimumDate]];
         [predicates addObject:minimumDatePredicate];
     }
-    if([[self selectedReportedAtMaximumDate] compare:[self defaultReportedAtMaximumDate]] != NSOrderedSame) {
-        NSPredicate* maximumDatePredicate = [NSPredicate predicateWithFormat:@"%K > %@", kUFOReportedAtCellPredicateKey, [self selectedReportedAtMaximumDate]];
+    if(![[self selectedReportedAtMaximumDate] dateInSameYear:[self defaultReportedAtMaximumDate]]) {
+        NSPredicate* maximumDatePredicate = [NSPredicate predicateWithFormat:@"%K < %@", kUFOReportedAtCellPredicateKey, [self selectedReportedAtMaximumDate]];
         [predicates addObject:maximumDatePredicate];
     }
     
@@ -248,12 +250,12 @@ static NSString * const kUFOShapesFilterKey = @"shapesToFilter";
 {
     NSMutableArray* predicates = [[NSMutableArray alloc]initWithCapacity:2];
     
-    if([[self selectedSightedAtMinimumDate] compare:[self defaultSightedAtMinimumDate]] != NSOrderedSame) {
+    if(![[self selectedSightedAtMinimumDate] dateInSameYear:[self defaultSightedAtMinimumDate]]) {
         NSPredicate* minimumDatePredicate = [NSPredicate predicateWithFormat:@"%K > %@", kUFOSightedAtCellPredicateKey, [self selectedSightedAtMinimumDate]];
         [predicates addObject:minimumDatePredicate];
     }
-    if([[self selectedSightedAtMaximumDate] compare:[self defaultSightedAtMaximumDate]] != NSOrderedSame) {
-        NSPredicate* maximumDatePredicate = [NSPredicate predicateWithFormat:@"%K > %@", kUFOSightedAtCellPredicateKey, [self selectedReportedAtMaximumDate]];
+    if(![[self selectedSightedAtMaximumDate] dateInSameYear:[self defaultSightedAtMaximumDate]]) {
+        NSPredicate* maximumDatePredicate = [NSPredicate predicateWithFormat:@"%K < %@", kUFOSightedAtCellPredicateKey, [self selectedSightedAtMaximumDate]];
         [predicates addObject:maximumDatePredicate];
     }
     
@@ -350,7 +352,7 @@ static NSString * const kUFOShapesFilterKey = @"shapesToFilter";
     else if ([predicates count] > 1){
         return [[NSCompoundPredicate alloc]initWithType:NSAndPredicateType subpredicates:predicates];
     }
-
+    self.hasNewFilters = NO;
     return nil;
 }
 

@@ -24,7 +24,7 @@ static NSString * const kUFOSightedAtCellPredicateKey = @"sightedAt";
 - (NSArray*)filterCells;
 
 - (void)resetFilters;
-
+- (void)saveFilters;
 
 - (void)setSelectedReportedAtMinimumDate:(NSDate*)date;
 - (void)setSelectedReportedAtMaximumDate:(NSDate*)date;

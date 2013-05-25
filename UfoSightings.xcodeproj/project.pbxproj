@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		2B30BADC175050BE0030DD57 /* NSDate+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B30BADB175050BE0030DD57 /* NSDate+Extras.m */; };
 		2B5CE16917455300002FFDE6 /* UFOCoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5CE168174552FF002FFDE6 /* UFOCoreData.m */; };
 		2B5CE16D1745571E002FFDE6 /* NSFileManager+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5CE16C1745571E002FFDE6 /* NSFileManager+Extras.m */; };
 		2B5CE170174558C9002FFDE6 /* UFOBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5CE16F174558C8002FFDE6 /* UFOBaseViewController.m */; };
@@ -564,6 +565,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		2B30BADA175050BE0030DD57 /* NSDate+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+Extras.h"; sourceTree = "<group>"; };
+		2B30BADB175050BE0030DD57 /* NSDate+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+Extras.m"; sourceTree = "<group>"; };
 		2B5CE167174552FF002FFDE6 /* UFOCoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOCoreData.h; sourceTree = "<group>"; };
 		2B5CE168174552FF002FFDE6 /* UFOCoreData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOCoreData.m; sourceTree = "<group>"; };
 		2B5CE16B1745571E002FFDE6 /* NSFileManager+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Extras.h"; sourceTree = "<group>"; };
@@ -949,6 +952,8 @@
 				2B5CE16C1745571E002FFDE6 /* NSFileManager+Extras.m */,
 				2BA99601174D7049005605C3 /* NSManagedObjectContext+Extras.h */,
 				2BA99602174D7049005605C3 /* NSManagedObjectContext+Extras.m */,
+				2B30BADA175050BE0030DD57 /* NSDate+Extras.h */,
+				2B30BADB175050BE0030DD57 /* NSDate+Extras.m */,
 			);
 			name = Categories;
 			sourceTree = "<group>";
@@ -2221,6 +2226,7 @@
 				2B5CE170174558C9002FFDE6 /* UFOBaseViewController.m in Sources */,
 				2BA99603174D7049005605C3 /* NSManagedObjectContext+Extras.m in Sources */,
 				2BA99607174D7AFB005605C3 /* UFOFilterManager.m in Sources */,
+				2B30BADC175050BE0030DD57 /* NSDate+Extras.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

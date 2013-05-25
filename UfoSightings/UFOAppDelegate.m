@@ -15,6 +15,7 @@
 #import "SightingsParser.h"
 #import "UFOCoreData.h"
 #import "NSFileManager+Extras.h"
+#import "UFOFilterManager.h"
 
 @implementation UFOAppDelegate
 
@@ -44,6 +45,7 @@
 - (void)applicationWillTerminate:(UIApplication *)application
 {
     // Saves changes in the application's managed object context before the application terminates.
+    [[UFOFilterManager sharedManager] saveFilters];
     [[UFOCoreData sharedInstance ] saveContext];
 }
 
