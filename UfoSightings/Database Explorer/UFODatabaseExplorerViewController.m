@@ -73,6 +73,7 @@ dispatch_queue_t CDbackground_queue()
     [self.masterView addSubview:self.filterNavController.view];
     
     self.reportsTable.layer.cornerRadius = 5.0f;
+    self.loadingView.layer.cornerRadius = 5.0f;
     self.backButton.superview.layer.cornerRadius = 10.0f;    
     self.backButton.superview.layer.borderWidth = 7.0f;
     self.backButton.superview.layer.borderColor = [UIColor rgbColorWithRed:33 green:33 blue:33 alpha:1.0].CGColor;
@@ -340,7 +341,7 @@ dispatch_queue_t CDbackground_queue()
     if (self.lastPredicateFetched == predicate) { return; }
     
     [self.loadingIndicator startAnimating];
-    [self.loadingLabel setHidden:NO];
+    self.loadingView.hidden = NO;
     
     dispatch_async(CDbackground_queue(), ^{
         
@@ -369,7 +370,7 @@ dispatch_queue_t CDbackground_queue()
             self.reports = newReports;
             [self.reportsTable reloadData];
             [self.loadingIndicator stopAnimating];
-            [self.loadingLabel setHidden:YES];
+            self.loadingView.hidden = YES;
             self.lastPredicateFetched = predicate;
         });
     });

@@ -30,13 +30,13 @@
 @property (weak, nonatomic) IBOutlet UIButton *viewOnMapButton;
 @property (weak, nonatomic) IBOutlet UILabel *loadingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *filterLabel;
+@property (weak, nonatomic) IBOutlet UIView *loadingView;
 @property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
 
 - (IBAction)viewOnMapSelected:(UIButton *)sender;
 - (IBAction)backButtonPressed:(UIButton *)sender;
 - (IBAction)resetButtonPressed:(UIButton *)sender;
 - (IBAction)addMoreButtonSelected:(UIButton*)button;
-- (NSPredicate*)buildPredicateWithFilters:(NSDictionary*)filters;
 
 @end
 
@@ -49,8 +49,6 @@
 @protocol UFOPredicateCreation <NSObject>
 - (BOOL)canReset;
 - (void)resetInterface;
-
-
 @optional
 - (void)saveFiltersToFilterManager;
 @end
