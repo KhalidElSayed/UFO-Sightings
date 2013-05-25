@@ -15,6 +15,9 @@
 - (void)awakeFromNib
 {
     [super awakeFromNib];
+//    [self.slider removeFromSuperview];
+//    self.slider = [[RangeSlider alloc]initWithFrame:CGRectMake(0, 0, 210, 80)];
+//    [self.contentView addSubview:self.slider]
     self.slider.minimumRange = 1;
     self.backgroundView = [[UIImageView alloc]initWithImage:[UIImage imageNamed:@"greyCellBackground.png"]];
     

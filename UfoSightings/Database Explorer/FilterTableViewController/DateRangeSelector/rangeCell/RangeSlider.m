@@ -35,25 +35,27 @@
     
     _trackBackground = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bar-background.png"]];
     
-    _trackBackground.center = CGPointMake(self.center.x, self.frame.size.height/2);
     CGRect aFrame = _trackBackground.frame;
-    aFrame.size.width = self.frame.size.width;
+    aFrame.size.width = self.frame.size.width - _padding;
+    aFrame.origin.x = _padding / 2;
+    aFrame.origin.y = self.center.y - floor(aFrame.size.height / 2);
     _trackBackground.frame = aFrame;
     _trackBackground.contentMode = UIViewContentModeScaleToFill;
     [self addSubview:_trackBackground];
     
     
     _track = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"bar-highlight.png"]];
-    _track.center = CGPointMake(self.center.x, self.frame.size.height/2);
+    CGRect trackFrame = CGRectMake(_padding / 2, self.center.y - floor(aFrame.size.height / 2), self.frame.size.width - _padding, _track.frame.size.height);
+    _track.frame = trackFrame;
     [self addSubview:_track];
     
     _minThumb = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"handle.png"] highlightedImage:[UIImage imageNamed:@"handle-hover.png"]];
-    _minThumb.frame = CGRectMake(0,0, self.frame.size.height,self.frame.size.height);
+    _minThumb.frame = CGRectMake(0,self.center.y, self.frame.size.height,self.frame.size.height);
     _minThumb.contentMode = UIViewContentModeCenter;
     [self addSubview:_minThumb];
     
     _maxThumb = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"handle.png"] highlightedImage:[UIImage imageNamed:@"handle-hover.png"]];
-    _maxThumb.frame = CGRectMake(0,0, self.frame.size.height,self.frame.size.height);
+    _maxThumb.frame = CGRectMake(0,self.center.y, self.frame.size.height,self.frame.size.height);
     _maxThumb.contentMode = UIViewContentModeCenter;
     [self addSubview:_maxThumb];
 
@@ -78,6 +80,7 @@
 
 - (void)layoutSubviews
 {
+    [super layoutSubviews];
     // Set the initial state
     _minThumb.center = CGPointMake([self xForValue:selectedMinimumValue], self.center.y);
     _maxThumb.center = CGPointMake([self xForValue:selectedMaximumValue], self.center.y);
