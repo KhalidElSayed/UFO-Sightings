@@ -16,7 +16,7 @@
 
 - (id)init
 {
-    return [[[NSBundle mainBundle] loadNibNamed:@"ConsoleDocumentView" owner:self options:nil] lastObject];
+    return [[[NSBundle bundleForClass:[self class]] loadNibNamed:@"ConsoleDocumentView" owner:self options:nil] lastObject];
 }
 
 

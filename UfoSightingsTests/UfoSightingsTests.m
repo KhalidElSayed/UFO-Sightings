@@ -5,8 +5,13 @@
 //  Created by Richard Kirk on 5/6/12.
 //  Copyright (c) 2012 Home. All rights reserved.
 //
+#import <SenTestingKit/SenTestingKit.h>
 
-#import "UfoSightingsTests.h"
+@interface UfoSightingsTests : SenTestCase
+{
+    
+}
+@end
 
 @implementation UfoSightingsTests
 

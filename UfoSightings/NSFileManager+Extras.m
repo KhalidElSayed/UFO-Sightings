@@ -23,7 +23,7 @@
     NSURL* classicEmptiesURL = [[documentsDirURL URLByAppendingPathComponent:@"classic" isDirectory:YES] URLByAppendingPathComponent:@"empties" isDirectory:YES];
     NSDictionary* noProtectDict = [NSDictionary dictionaryWithObject:NSFileProtectionNone forKey:NSFileProtectionKey];
     
-    NSString *sourcePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"alien"];
+    NSString *sourcePath = [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"alien"];
     NSString *destPath = [[documentsDirURL path] stringByAppendingPathComponent:@"alien"];
     
     NSArray* resContents = [self contentsOfDirectoryAtPath:sourcePath error:NULL];
@@ -42,7 +42,7 @@
         [self createDirectoryAtURL:alienEmptiesDirURL withIntermediateDirectories:YES attributes:nil error:nil];
         for (int i = 0; i <= 31; i++)
         {
-            NSString* bundlePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"alien%i",i] ofType:@"png"];
+            NSString* bundlePath = [[NSBundle bundleForClass:[self class]] pathForResource:[NSString stringWithFormat:@"alien%i",i] ofType:@"png"];
             NSError* copyError = nil;
             [self copyItemAtPath:bundlePath toPath:[[alienEmptiesDirURL URLByAppendingPathComponent:[NSString stringWithFormat:@"alien%i.png",i]] path] error:&copyError];
             if(copyError)
@@ -57,7 +57,7 @@
         [self createDirectoryAtURL:classicEmptiesURL withIntermediateDirectories:YES attributes:nil error:nil];
         for (int i = 0; i <= 31; i++)
         {
-            NSString* cBundlePath = [[NSBundle mainBundle] pathForResource:[NSString stringWithFormat:@"classic%i",i] ofType:@"png"];
+            NSString* cBundlePath = [[NSBundle bundleForClass:[self class]] pathForResource:[NSString stringWithFormat:@"classic%i",i] ofType:@"png"];
             NSError* copyError = nil;
             [self copyItemAtPath:cBundlePath toPath:[[classicEmptiesURL URLByAppendingPathComponent:[NSString stringWithFormat:@"classic%i.png",i]] path] error:nil];
             if(copyError)
@@ -72,7 +72,7 @@
 - (void)movePopulatedDatabaseIntoProject
 {
     NSURL *storeURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"UfoSightings.sqlite"];
-    NSString* dbInBundlePath = [[NSBundle mainBundle] pathForResource:@"UfoSightings" ofType:@"sqlite"];
+    NSString* dbInBundlePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"UfoSightings" ofType:@"sqlite"];
     NSString* newDbPath = [storeURL path];
     
     if( ![self fileExistsAtPath:[storeURL path]] && [self fileExistsAtPath:dbInBundlePath] )
@@ -90,7 +90,7 @@
 - (void)moveDatabaseFiltersPlistIntoProjectShouldOverwrite:(BOOL)overwrite
 {
     NSURL *filterPlistURL = [[self applicationDocumentsDirectory] URLByAppendingPathComponent:@"filters.plist"];
-    NSString* filterPlistInBundlePath = [[NSBundle mainBundle] pathForResource:@"filters" ofType:@"plist"];
+    NSString* filterPlistInBundlePath = [[NSBundle bundleForClass:[self class]] pathForResource:@"filters" ofType:@"plist"];
     NSString* newFilterPlistPath = [filterPlistURL path];
     
     if( (![self fileExistsAtPath:[filterPlistURL path]] || overwrite) && [self fileExistsAtPath:filterPlistInBundlePath] ) {
@@ -106,7 +106,7 @@
 
 - (NSString*)shapesDictionaryPath
 {
-    return [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"shapes.plist"];
+    return [[[NSBundle bundleForClass:[self class]] resourcePath] stringByAppendingPathComponent:@"shapes.plist"];
 }
 
 

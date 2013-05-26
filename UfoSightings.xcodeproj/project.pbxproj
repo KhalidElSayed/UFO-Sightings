@@ -12,6 +12,22 @@
 		2B5CE16D1745571E002FFDE6 /* NSFileManager+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5CE16C1745571E002FFDE6 /* NSFileManager+Extras.m */; };
 		2B5CE170174558C9002FFDE6 /* UFOBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5CE16F174558C8002FFDE6 /* UFOBaseViewController.m */; };
 		2B5CE174174560DC002FFDE6 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5CE173174560DC002FFDE6 /* Crashlytics.framework */; };
+		2B82F9631752B35200115FB2 /* UFOFilterManagerTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B82F9621752B35200115FB2 /* UFOFilterManagerTest.m */; };
+		2B82F9641752B5B900115FB2 /* MapKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FA15B5481550BB7000896E95 /* MapKit.framework */; };
+		2B82F9651752B5BF00115FB2 /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAA0FF6D154CB826009897E9 /* CoreGraphics.framework */; };
+		2B82F9661752B5C500115FB2 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FAC3891C154DBC6D00923139 /* QuartzCore.framework */; };
+		2B82F9671752B5E800115FB2 /* UFOSightingAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = FA687AE115800B22000B7C85 /* UFOSightingAnnotation.m */; };
+		2B82F9681752B5E800115FB2 /* ConsoleDocumentView.m in Sources */ = {isa = PBXBuildFile; fileRef = FA154A6A1572DE1100497B5F /* ConsoleDocumentView.m */; };
+		2B82F9691752B5E800115FB2 /* UFOBaseViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5CE16F174558C8002FFDE6 /* UFOBaseViewController.m */; };
+		2B82F96A1752B5E800115FB2 /* NSFileManager+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5CE16C1745571E002FFDE6 /* NSFileManager+Extras.m */; };
+		2B82F96B1752B5E800115FB2 /* NSDate+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B30BADB175050BE0030DD57 /* NSDate+Extras.m */; };
+		2B82F96C1752B5E800115FB2 /* UFOCoreData.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B5CE168174552FF002FFDE6 /* UFOCoreData.m */; };
+		2B82F96D1752B5E800115FB2 /* UFOAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = FAA0FF7B154CB826009897E9 /* UFOAppDelegate.m */; };
+		2B82F96E1752B61A00115FB2 /* Crashlytics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2B5CE173174560DC002FFDE6 /* Crashlytics.framework */; };
+		2B82F96F1752B68400115FB2 /* UfoSightings.xcdatamodeld in Resources */ = {isa = PBXBuildFile; fileRef = FA733BBC15688D9F00BCA82F /* UfoSightings.xcdatamodeld */; };
+		2B82F9731752B6DB00115FB2 /* UFOBaseTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B82F9721752B6DB00115FB2 /* UFOBaseTestCase.m */; };
+		2B82F97A1752C2D400115FB2 /* UFOCoreData+UnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B82F9791752C2D400115FB2 /* UFOCoreData+UnitTests.m */; settings = {COMPILER_FLAGS = "-Wno-objc-protocol-method-implementation"; }; };
+		2B82F97D1752C58000115FB2 /* NSFileManager+UnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B82F97C1752C58000115FB2 /* NSFileManager+UnitTests.m */; };
 		2BA99603174D7049005605C3 /* NSManagedObjectContext+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA99602174D7049005605C3 /* NSManagedObjectContext+Extras.m */; };
 		2BA99604174D7049005605C3 /* NSManagedObjectContext+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA99602174D7049005605C3 /* NSManagedObjectContext+Extras.m */; };
 		2BA99607174D7AFB005605C3 /* UFOFilterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA99606174D7AFB005605C3 /* UFOFilterManager.m */; };
@@ -101,7 +117,7 @@
 		FA73392C15687A1C00BCA82F /* UFOMapViewController~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA73391515687A1C00BCA82F /* UFOMapViewController~iphone.xib */; };
 		FA73392D15687A1C00BCA82F /* UFOMapViewController~iphone.xib in Resources */ = {isa = PBXBuildFile; fileRef = FA73391515687A1C00BCA82F /* UFOMapViewController~iphone.xib */; };
 		FA733A0515687C7A00BCA82F /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73393415687C7A00BCA82F /* NSString+HTML.m */; settings = {COMPILER_FLAGS = "-Wno-format"; }; };
-		FA733A0615687C7A00BCA82F /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73393415687C7A00BCA82F /* NSString+HTML.m */; };
+		FA733A0615687C7A00BCA82F /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = FA73393415687C7A00BCA82F /* NSString+HTML.m */; settings = {COMPILER_FLAGS = "-Wno-format"; }; };
 		FA733A0715687C7A00BCA82F /* sample.txt in Resources */ = {isa = PBXBuildFile; fileRef = FA73393615687C7A00BCA82F /* sample.txt */; };
 		FA733A0815687C7A00BCA82F /* sample.txt in Resources */ = {isa = PBXBuildFile; fileRef = FA73393615687C7A00BCA82F /* sample.txt */; };
 		FA733A0B15687C7A00BCA82F /* UfoSightings.sqlite in Resources */ = {isa = PBXBuildFile; fileRef = FA73393815687C7A00BCA82F /* UfoSightings.sqlite */; };
@@ -570,17 +586,24 @@
 		2B5CE167174552FF002FFDE6 /* UFOCoreData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOCoreData.h; sourceTree = "<group>"; };
 		2B5CE168174552FF002FFDE6 /* UFOCoreData.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOCoreData.m; sourceTree = "<group>"; };
 		2B5CE16B1745571E002FFDE6 /* NSFileManager+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+Extras.h"; sourceTree = "<group>"; };
-		2B5CE16C1745571E002FFDE6 /* NSFileManager+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+Extras.m"; sourceTree = "<group>"; };
+		2B5CE16C1745571E002FFDE6 /* NSFileManager+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = "NSFileManager+Extras.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		2B5CE16E174558C7002FFDE6 /* UFOBaseViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOBaseViewController.h; sourceTree = "<group>"; };
 		2B5CE16F174558C8002FFDE6 /* UFOBaseViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOBaseViewController.m; sourceTree = "<group>"; };
 		2B5CE173174560DC002FFDE6 /* Crashlytics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Crashlytics.framework; sourceTree = "<group>"; };
+		2B82F9621752B35200115FB2 /* UFOFilterManagerTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOFilterManagerTest.m; sourceTree = "<group>"; };
+		2B82F9711752B6DB00115FB2 /* UFOBaseTestCase.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOBaseTestCase.h; sourceTree = "<group>"; };
+		2B82F9721752B6DB00115FB2 /* UFOBaseTestCase.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOBaseTestCase.m; sourceTree = "<group>"; };
+		2B82F9781752C2D400115FB2 /* UFOCoreData+UnitTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UFOCoreData+UnitTests.h"; sourceTree = "<group>"; };
+		2B82F9791752C2D400115FB2 /* UFOCoreData+UnitTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UFOCoreData+UnitTests.m"; sourceTree = "<group>"; };
+		2B82F97B1752C58000115FB2 /* NSFileManager+UnitTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+UnitTests.h"; sourceTree = "<group>"; };
+		2B82F97C1752C58000115FB2 /* NSFileManager+UnitTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+UnitTests.m"; sourceTree = "<group>"; };
 		2BA99601174D7049005605C3 /* NSManagedObjectContext+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+Extras.h"; sourceTree = "<group>"; };
 		2BA99602174D7049005605C3 /* NSManagedObjectContext+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+Extras.m"; sourceTree = "<group>"; };
 		2BA99605174D7AFB005605C3 /* UFOFilterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOFilterManager.h; sourceTree = "<group>"; };
 		2BA99606174D7AFB005605C3 /* UFOFilterManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOFilterManager.m; sourceTree = "<group>"; };
 		2BA99609174D818E005605C3 /* shapes.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = shapes.plist; sourceTree = "<group>"; };
 		FA154A691572DE1100497B5F /* ConsoleDocumentView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConsoleDocumentView.h; sourceTree = "<group>"; };
-		FA154A6A1572DE1100497B5F /* ConsoleDocumentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConsoleDocumentView.m; sourceTree = "<group>"; };
+		FA154A6A1572DE1100497B5F /* ConsoleDocumentView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = ConsoleDocumentView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FA154A6C1572DE2B00497B5F /* ConsoleDocumentView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ConsoleDocumentView.xib; sourceTree = "<group>"; };
 		FA154A6E1572DF7E00497B5F /* AndaleMono.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = AndaleMono.ttf; sourceTree = "<group>"; };
 		FA15B5481550BB7000896E95 /* MapKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = MapKit.framework; path = System/Library/Frameworks/MapKit.framework; sourceTree = SDKROOT; };
@@ -588,7 +611,6 @@
 		FA1A96951557075700BD447F /* SenTestingKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SenTestingKit.framework; path = Library/Frameworks/SenTestingKit.framework; sourceTree = DEVELOPER_DIR; };
 		FA1A969B1557075700BD447F /* UfoSightingsTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "UfoSightingsTests-Info.plist"; sourceTree = "<group>"; };
 		FA1A969D1557075700BD447F /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		FA1A969F1557075700BD447F /* UfoSightingsTests.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = UfoSightingsTests.h; sourceTree = "<group>"; };
 		FA1A96A01557075700BD447F /* UfoSightingsTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = UfoSightingsTests.m; sourceTree = "<group>"; };
 		FA1A96A21557075700BD447F /* UfoSightingsTests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "UfoSightingsTests-Prefix.pch"; sourceTree = "<group>"; };
 		FA1A96AB15570FCC00BD447F /* HeatMapTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HeatMapTests.h; sourceTree = "<group>"; };
@@ -601,13 +623,13 @@
 		FA687AE015800B22000B7C85 /* UFOSightingAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOSightingAnnotation.h; sourceTree = "<group>"; };
 		FA687AE115800B22000B7C85 /* UFOSightingAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOSightingAnnotation.m; sourceTree = "<group>"; };
 		FA7338B2156875C600BCA82F /* UFODatabaseExplorerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UFODatabaseExplorerViewController.h; path = "Database Explorer/UFODatabaseExplorerViewController.h"; sourceTree = "<group>"; };
-		FA7338B3156875C700BCA82F /* UFODatabaseExplorerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UFODatabaseExplorerViewController.m; path = "Database Explorer/UFODatabaseExplorerViewController.m"; sourceTree = "<group>"; };
+		FA7338B3156875C700BCA82F /* UFODatabaseExplorerViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = UFODatabaseExplorerViewController.m; path = "Database Explorer/UFODatabaseExplorerViewController.m"; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FA7338B4156875C700BCA82F /* UFODatabaseExplorerViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = UFODatabaseExplorerViewController.xib; path = "Database Explorer/UFODatabaseExplorerViewController.xib"; sourceTree = "<group>"; };
 		FA7338BA1568765300BCA82F /* UFOReportCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOReportCell.h; sourceTree = "<group>"; };
 		FA7338BB1568765300BCA82F /* UFOReportCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOReportCell.m; sourceTree = "<group>"; };
 		FA7338BC1568765300BCA82F /* UFOReportCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UFOReportCell.xib; sourceTree = "<group>"; };
 		FA7338C31568789700BCA82F /* DatePickerTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DatePickerTableViewController.h; sourceTree = "<group>"; };
-		FA7338C41568789700BCA82F /* DatePickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DatePickerTableViewController.m; sourceTree = "<group>"; };
+		FA7338C41568789700BCA82F /* DatePickerTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = DatePickerTableViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FA7338C51568789700BCA82F /* DatePickerTableViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DatePickerTableViewController.xib; sourceTree = "<group>"; };
 		FA7338C71568789700BCA82F /* SliderValueViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderValueViewController.h; sourceTree = "<group>"; };
 		FA7338C81568789700BCA82F /* SliderValueViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SliderValueViewController.m; sourceTree = "<group>"; };
@@ -618,7 +640,7 @@
 		FA7338CE1568789700BCA82F /* RangeSlider.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RangeSlider.h; sourceTree = "<group>"; };
 		FA7338CF1568789700BCA82F /* RangeSlider.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RangeSlider.m; sourceTree = "<group>"; };
 		FA7338D01568789700BCA82F /* UFOFilterViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOFilterViewController.h; sourceTree = "<group>"; };
-		FA7338D11568789700BCA82F /* UFOFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOFilterViewController.m; sourceTree = "<group>"; };
+		FA7338D11568789700BCA82F /* UFOFilterViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = UFOFilterViewController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FA7338D31568789700BCA82F /* UFOFilterTableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOFilterTableViewCell.h; sourceTree = "<group>"; };
 		FA7338D41568789700BCA82F /* UFOFilterTableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOFilterTableViewCell.m; sourceTree = "<group>"; };
 		FA7338D51568789700BCA82F /* UFOFilterTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = UFOFilterTableViewCell.xib; sourceTree = "<group>"; };
@@ -631,17 +653,17 @@
 		FA7338DE1568789700BCA82F /* ShapeSelectorViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ShapeSelectorViewController.m; sourceTree = "<group>"; };
 		FA7338DF1568789700BCA82F /* ShapeSelectorViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ShapeSelectorViewController.xib; sourceTree = "<group>"; };
 		FA73390015687A1B00BCA82F /* UFOHeatMap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOHeatMap.h; sourceTree = "<group>"; };
-		FA73390115687A1B00BCA82F /* UFOHeatMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOHeatMap.m; sourceTree = "<group>"; };
+		FA73390115687A1B00BCA82F /* UFOHeatMap.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = UFOHeatMap.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FA73390215687A1B00BCA82F /* UFOHeatMapOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOHeatMapOverlayView.h; sourceTree = "<group>"; };
 		FA73390315687A1B00BCA82F /* UFOHeatMapOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOHeatMapOverlayView.m; sourceTree = "<group>"; };
 		FA73390515687A1B00BCA82F /* MapModalCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapModalCell.h; sourceTree = "<group>"; };
 		FA73390615687A1B00BCA82F /* MapModalCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapModalCell.m; sourceTree = "<group>"; };
 		FA73390715687A1B00BCA82F /* MapModalCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapModalCell.xib; sourceTree = "<group>"; };
 		FA73390815687A1B00BCA82F /* MapModalView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MapModalView.h; sourceTree = "<group>"; };
-		FA73390915687A1B00BCA82F /* MapModalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MapModalView.m; sourceTree = "<group>"; };
+		FA73390915687A1B00BCA82F /* MapModalView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = MapModalView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FA73390A15687A1B00BCA82F /* MapModalView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = MapModalView.xib; sourceTree = "<group>"; };
 		FA73390C15687A1B00BCA82F /* PaperView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PaperView.h; sourceTree = "<group>"; };
-		FA73390D15687A1B00BCA82F /* PaperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PaperView.m; sourceTree = "<group>"; };
+		FA73390D15687A1B00BCA82F /* PaperView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PaperView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		FA73390E15687A1B00BCA82F /* PaperView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PaperView.xib; sourceTree = "<group>"; };
 		FA73391015687A1B00BCA82F /* SliderPageControl.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SliderPageControl.h; sourceTree = "<group>"; };
 		FA73391115687A1B00BCA82F /* SliderPageControl.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SliderPageControl.m; sourceTree = "<group>"; };
@@ -856,7 +878,6 @@
 		FA733BBD15688D9F00BCA82F /* UfoSightings.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = UfoSightings.xcdatamodel; sourceTree = "<group>"; };
 		FA7534221576D9E000D18D9A /* ufo@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ufo@2x.png"; sourceTree = "<group>"; };
 		FA7534231576D9E000D18D9A /* ufo.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = ufo.png; sourceTree = "<group>"; };
-		FA86C0A91558524800A2655D /* SightingTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SightingTests.h; sourceTree = "<group>"; };
 		FA86C0AA1558524800A2655D /* SightingTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SightingTests.m; sourceTree = "<group>"; };
 		FAA0FF65154CB826009897E9 /* UfoSightings.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = UfoSightings.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FAA0FF69154CB826009897E9 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
@@ -913,10 +934,14 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B82F9661752B5C500115FB2 /* QuartzCore.framework in Frameworks */,
+				2B82F9651752B5BF00115FB2 /* CoreGraphics.framework in Frameworks */,
+				2B82F9641752B5B900115FB2 /* MapKit.framework in Frameworks */,
 				FA3FB1FE15585FD7002DF730 /* CoreLocation.framework in Frameworks */,
 				FA3FB1FD15585FC5002DF730 /* CoreData.framework in Frameworks */,
 				FA1A96961557075700BD447F /* SenTestingKit.framework in Frameworks */,
 				FA1A96971557075700BD447F /* UIKit.framework in Frameworks */,
+				2B82F96E1752B61A00115FB2 /* Crashlytics.framework in Frameworks */,
 				FA1A96981557075700BD447F /* Foundation.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -971,6 +996,33 @@
 			name = Controllers;
 			sourceTree = "<group>";
 		};
+		2B82F9601752B33B00115FB2 /* UFODatabaseExplorer */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = UFODatabaseExplorer;
+			sourceTree = "<group>";
+		};
+		2B82F9701752B6AC00115FB2 /* UFOMapViewer */ = {
+			isa = PBXGroup;
+			children = (
+				FA1A96AB15570FCC00BD447F /* HeatMapTests.h */,
+				FA1A96AC15570FCC00BD447F /* HeatMapTests.m */,
+			);
+			name = UFOMapViewer;
+			sourceTree = "<group>";
+		};
+		2B82F9741752BA5400115FB2 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				2B82F9781752C2D400115FB2 /* UFOCoreData+UnitTests.h */,
+				2B82F9791752C2D400115FB2 /* UFOCoreData+UnitTests.m */,
+				2B82F97B1752C58000115FB2 /* NSFileManager+UnitTests.h */,
+				2B82F97C1752C58000115FB2 /* NSFileManager+UnitTests.m */,
+			);
+			name = Helpers;
+			sourceTree = "<group>";
+		};
 		FA154A671572DDE800497B5F /* ConsoleDocument */ = {
 			isa = PBXGroup;
 			children = (
@@ -984,13 +1036,15 @@
 		FA1A96991557075700BD447F /* UfoSightingsTests */ = {
 			isa = PBXGroup;
 			children = (
-				FA1A969F1557075700BD447F /* UfoSightingsTests.h */,
-				FA1A96A01557075700BD447F /* UfoSightingsTests.m */,
-				FA1A96AB15570FCC00BD447F /* HeatMapTests.h */,
-				FA1A96AC15570FCC00BD447F /* HeatMapTests.m */,
+				2B82F9741752BA5400115FB2 /* Helpers */,
+				2B82F9701752B6AC00115FB2 /* UFOMapViewer */,
+				2B82F9601752B33B00115FB2 /* UFODatabaseExplorer */,
 				FA1A969A1557075700BD447F /* Supporting Files */,
-				FA86C0A91558524800A2655D /* SightingTests.h */,
+				FA1A96A01557075700BD447F /* UfoSightingsTests.m */,
 				FA86C0AA1558524800A2655D /* SightingTests.m */,
+				2B82F9621752B35200115FB2 /* UFOFilterManagerTest.m */,
+				2B82F9711752B6DB00115FB2 /* UFOBaseTestCase.h */,
+				2B82F9721752B6DB00115FB2 /* UFOBaseTestCase.m */,
 			);
 			path = UfoSightingsTests;
 			sourceTree = "<group>";
@@ -1644,6 +1698,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B82F96F1752B68400115FB2 /* UfoSightings.xcdatamodeld in Resources */,
 				FA1A969E1557075700BD447F /* InfoPlist.strings in Resources */,
 				FA7338B8156875C700BCA82F /* UFODatabaseExplorerViewController.xib in Resources */,
 				FA7338C01568765300BCA82F /* UFOReportCell.xib in Resources */,
@@ -2154,6 +2209,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2B82F9671752B5E800115FB2 /* UFOSightingAnnotation.m in Sources */,
+				2B82F9681752B5E800115FB2 /* ConsoleDocumentView.m in Sources */,
+				2B82F9691752B5E800115FB2 /* UFOBaseViewController.m in Sources */,
+				2B82F96A1752B5E800115FB2 /* NSFileManager+Extras.m in Sources */,
+				2B82F96B1752B5E800115FB2 /* NSDate+Extras.m in Sources */,
+				2B82F96C1752B5E800115FB2 /* UFOCoreData.m in Sources */,
+				2B82F96D1752B5E800115FB2 /* UFOAppDelegate.m in Sources */,
 				FA1A96A11557075700BD447F /* UfoSightingsTests.m in Sources */,
 				FA1A96AD15570FCC00BD447F /* HeatMapTests.m in Sources */,
 				FA86C0AB1558524800A2655D /* SightingTests.m in Sources */,
@@ -2185,6 +2247,10 @@
 				FAEEC092156DA7D900D138FD /* UFORootController.m in Sources */,
 				2BA99604174D7049005605C3 /* NSManagedObjectContext+Extras.m in Sources */,
 				2BA99608174D7AFB005605C3 /* UFOFilterManager.m in Sources */,
+				2B82F9631752B35200115FB2 /* UFOFilterManagerTest.m in Sources */,
+				2B82F9731752B6DB00115FB2 /* UFOBaseTestCase.m in Sources */,
+				2B82F97A1752C2D400115FB2 /* UFOCoreData+UnitTests.m in Sources */,
+				2B82F97D1752C58000115FB2 /* NSFileManager+UnitTests.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2258,6 +2324,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UfoSightingsTests/UfoSightingsTests-Prefix.pch";
@@ -2274,6 +2341,7 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(SDKROOT)/Developer/Library/Frameworks",
 					"$(DEVELOPER_LIBRARY_DIR)/Frameworks",
+					"\"$(SRCROOT)\"",
 				);
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "UfoSightingsTests/UfoSightingsTests-Prefix.pch";

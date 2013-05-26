@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <CoreData/CoreData.h>
 
 @interface UFOCoreData : NSObject{
     NSManagedObjectContext * _managedObjectContext;
@@ -18,9 +19,15 @@
 @property ( nonatomic, strong, readonly ) NSManagedObjectContext *managedObjectContext;
 @property ( nonatomic, strong, readonly ) NSPersistentStoreCoordinator *persistentStoreCoordinator;
 
+- (NSDate*)highestReportedAtDate;
+- (NSDate*)lowestReportedDate;
+
+- (NSDate*)highestSightedAtDate;
+- (NSDate*)lowestSightedAtDate;
 
 + ( UFOCoreData * ) sharedInstance;
 - (void)saveContext;
+- (void)resetContext;
 - (NSManagedObjectContext*)createManagedObjectContext;
 
 @end
