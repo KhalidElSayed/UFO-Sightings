@@ -14,7 +14,7 @@
 
 - (id)init
 {
-    return [[[NSBundle bundleForClass:[self class]] loadNibNamed:@"PaperView" owner:self options:nil] lastObject];
+    return [[[NSBundle mainBundle] loadNibNamed:@"PaperView" owner:self options:nil] lastObject];
 }
 
 

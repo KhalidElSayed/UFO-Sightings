@@ -17,7 +17,7 @@
         <relationship name="sighting" optional="YES" toMany="YES" minCount="1" deletionRule="Nullify" destinationEntity="Sighting" inverseName="location" inverseEntity="Sighting" syncable="YES"/>
     </entity>
     <elements>
+        <element name="Sighting" positionX="0" positionY="0" width="128" height="180"/>
         <element name="SightingLocation" positionX="0" positionY="0" width="128" height="105"/>
-        <element name="Sighting" positionX="0" positionY="0" width="128" height="165"/>
     </elements>
 </model>

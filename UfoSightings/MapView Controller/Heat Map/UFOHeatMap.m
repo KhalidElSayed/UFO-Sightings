@@ -83,7 +83,7 @@
         {
            NSURL* URLToEmptyFolder = [[documentsDirectory URLByAppendingPathComponent:@"alien" isDirectory:YES] URLByAppendingPathComponent:@"empties" isDirectory:YES];
             NSString* pathToEmpty = [[URLToEmptyFolder URLByAppendingPathComponent:[NSString stringWithFormat:@"%@%@.png", style, zoom] isDirectory:NO] path];
-//            [[NSBundle bundleForClass:[self class]] pathForResource:[NSString stringWithFormat:@"%@%@", style, zoom] ofType:@"png"];
+
                     
             NSError* er;
             [[NSFileManager defaultManager ] linkItemAtPath:pathToEmpty toPath:pathToFile error:&er];

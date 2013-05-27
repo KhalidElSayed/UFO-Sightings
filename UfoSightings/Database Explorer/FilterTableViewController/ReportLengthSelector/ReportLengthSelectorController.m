@@ -76,9 +76,9 @@
         
         [subtitle deleteCharactersInRange:NSMakeRange(subtitle.length -2, 2)];
         
-        [self.filterManager setSubtitle:subtitle forCellWithPredicateKey:kUFOReportLengthCellPredicateKey];
+        [self.filterManager setSubtitle:subtitle forCellWithPredicateKey:kUFOReportLengthPredicateKey];
     }
-    [self.filterManager setHasFilters:filters forCellWithPredicateKey:kUFOReportLengthCellPredicateKey];
+    [self.filterManager setHasFilters:filters forCellWithPredicateKey:kUFOReportLengthPredicateKey];
 }
 
 

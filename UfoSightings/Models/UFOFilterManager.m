@@ -9,12 +9,12 @@
 #import "UFOFilterManager.h"
 #import "NSFileManager+Extras.h"
 #import "NSDate+Extras.h"
+#import "UFOCoreData.h"
 
-static NSString * const kUFOSightedAtMinimumDate = @"sightedAtMinimumDate";
-static NSString * const kUFOSightedAtMaximumDate = @"sightedAtMaximumDate";
-static NSString * const kUFOReportedAtMinimumDate = @"reportedAtMinimumDate";
-static NSString * const kUFOReportedAtMaximumDate = @"reportedAtMaximumDate";
-
+static NSString * const kUFODefaultSightedAtMinimumDate = @"sightedAtMinimumDate";
+static NSString * const kUFODefaultSightedAtMaximumDate = @"sightedAtMaximumDate";
+static NSString * const kUFODefaultReportedAtMinimumDate = @"reportedAtMinimumDate";
+static NSString * const kUFODefaultReportedAtMaximumDate = @"reportedAtMaximumDate";
 
 static NSString * const kUFOSelectedSightedAtMinimumDate = @"sightedAtSelectedMinimumDate";
 static NSString * const kUFOSelectedSightedAtMaximumDate = @"sightedAtSelectedMaximumDate";
@@ -26,7 +26,6 @@ static NSString * const kUFOShapesFilterKey = @"shapesToFilter";
 
 @interface UFOFilterManager ()
 @property (strong, nonatomic) NSMutableDictionary* filterDictionary;
-- (void)saveFilterDictionary:(NSDictionary*)filterDict;
 @end
 
 @implementation UFOFilterManager
@@ -137,27 +136,31 @@ static NSString * const kUFOShapesFilterKey = @"shapesToFilter";
 
 - (NSDate*)defaultReportedAtMinimumDate
 {
-    return [self.filterDictionary objectForKey:kUFOReportedAtMinimumDate];
+    return [self.filterDictionary objectForKey:kUFODefaultReportedAtMinimumDate];
 }
+
 
 - (NSDate*)defaultReportedAtMaximumDate
 {
-    return [self.filterDictionary objectForKey:kUFOReportedAtMaximumDate];
+    return [self.filterDictionary objectForKey:kUFODefaultReportedAtMaximumDate];
 }
+
 
 - (NSDate*)defaultSightedAtMinimumDate
 {
-    return [self.filterDictionary objectForKey:kUFOSightedAtMinimumDate];
+    return [self.filterDictionary objectForKey:kUFODefaultSightedAtMinimumDate];
 }
+
 
 - (NSDate*)defaultSightedAtMaximumDate
 {
-    return [self.filterDictionary objectForKey:kUFOSightedAtMaximumDate];
+    return [self.filterDictionary objectForKey:kUFODefaultSightedAtMaximumDate];
 }
 
 
 - (void)setHasFilters:(BOOL)filter forCellWithPredicateKey:(NSString *)predicateKey
 {
+    if(!predicateKey) {return;}
     NSMutableDictionary* cell;
     for (NSMutableDictionary* cellDict in self.filterCells) {
         
@@ -175,6 +178,7 @@ static NSString * const kUFOShapesFilterKey = @"shapesToFilter";
 
 - (void)setSubtitle:(NSString*)subtitle forCellWithPredicateKey:(NSString *)predicateKey
 {
+    if(!subtitle || !predicateKey) {return;}
     NSMutableDictionary* cell;
     for (NSMutableDictionary* cellDict in self.filterCells) {
         
@@ -227,11 +231,18 @@ static NSString * const kUFOShapesFilterKey = @"shapesToFilter";
     NSMutableArray* predicates = [[NSMutableArray alloc]initWithCapacity:2];
     
     if(![[self selectedReportedAtMinimumDate] dateInSameYear:[self defaultReportedAtMinimumDate]]) {
-        NSPredicate* minimumDatePredicate = [NSPredicate predicateWithFormat:@"%K > %@", kUFOReportedAtCellPredicateKey, [self selectedReportedAtMinimumDate]];
+        if(DEBUG_PREDICATE_CREATION) {
+            NSLog(@"%@ > %@", kUFOReportedAPredicateKey, [self selectedReportedAtMinimumDate]);
+        }
+        NSPredicate* minimumDatePredicate = [NSPredicate predicateWithFormat:@"%K > %@", kUFOReportedAPredicateKey, [self selectedReportedAtMinimumDate]];
         [predicates addObject:minimumDatePredicate];
     }
     if(![[self selectedReportedAtMaximumDate] dateInSameYear:[self defaultReportedAtMaximumDate]]) {
-        NSPredicate* maximumDatePredicate = [NSPredicate predicateWithFormat:@"%K < %@", kUFOReportedAtCellPredicateKey, [self selectedReportedAtMaximumDate]];
+        if(DEBUG_PREDICATE_CREATION) {
+            NSLog(@"%@ < %@", kUFOReportedAPredicateKey, [self selectedReportedAtMaximumDate]);
+        }
+        NSPredicate* maximumDatePredicate = [NSPredicate predicateWithFormat:@"%K < %@", kUFOReportedAPredicateKey, [self selectedReportedAtMaximumDate]];
+        
         [predicates addObject:maximumDatePredicate];
     }
     
@@ -251,11 +262,17 @@ static NSString * const kUFOShapesFilterKey = @"shapesToFilter";
     NSMutableArray* predicates = [[NSMutableArray alloc]initWithCapacity:2];
     
     if(![[self selectedSightedAtMinimumDate] dateInSameYear:[self defaultSightedAtMinimumDate]]) {
-        NSPredicate* minimumDatePredicate = [NSPredicate predicateWithFormat:@"%K > %@", kUFOSightedAtCellPredicateKey, [self selectedSightedAtMinimumDate]];
+        if(DEBUG_PREDICATE_CREATION) {
+            NSLog(@"%@ > %@", kUFOSightedAtPredicateKey, [self selectedSightedAtMinimumDate]);
+        }
+        NSPredicate* minimumDatePredicate = [NSPredicate predicateWithFormat:@"%K > %@", kUFOSightedAtPredicateKey, [self selectedSightedAtMinimumDate]];
         [predicates addObject:minimumDatePredicate];
     }
     if(![[self selectedSightedAtMaximumDate] dateInSameYear:[self defaultSightedAtMaximumDate]]) {
-        NSPredicate* maximumDatePredicate = [NSPredicate predicateWithFormat:@"%K < %@", kUFOSightedAtCellPredicateKey, [self selectedSightedAtMaximumDate]];
+        if(DEBUG_PREDICATE_CREATION) {
+            NSLog(@"%@ < %@", kUFOSightedAtPredicateKey, [self selectedSightedAtMaximumDate]);
+        }
+        NSPredicate* maximumDatePredicate = [NSPredicate predicateWithFormat:@"%K < %@", kUFOSightedAtPredicateKey, [self selectedSightedAtMaximumDate]];
         [predicates addObject:maximumDatePredicate];
     }
     
@@ -345,6 +362,10 @@ static NSString * const kUFOShapesFilterKey = @"shapesToFilter";
     if(reportedAtPredicate)     { [predicates addObject:reportedAtPredicate]; }
     if( shapesPredicate)        { [predicates addObject:shapesPredicate]; }
     if(reportLengthPredicate)   { [predicates addObject:reportLengthPredicate]; }
+
+    if (DEBUG_PREDICATE_CREATION) {
+        NSLog(@"%i filters built", predicates.count);
+    }
 
     if ([predicates count] == 1) {
         return predicates[0];

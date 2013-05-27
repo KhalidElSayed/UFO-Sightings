@@ -8,15 +8,25 @@
 
 #import <Foundation/Foundation.h>
 
-static NSString * const kUFOReportedAtCellPredicateKey = @"reportedAt";
-static NSString * const kUFOReportLengthCellPredicateKey = @"reportLength";
-static NSString * const kUFOShapeCellPredicateKey = @"shape";
-static NSString * const kUFOSightedAtCellPredicateKey = @"sightedAt";
+static NSString * const kUFOReportedAPredicateKey = @"reportedAt";
+static NSString * const kUFOReportLengthPredicateKey = @"reportLength";
+static NSString * const kUFOShapePredicateKey = @"shape";
+static NSString * const kUFOSightedAtPredicateKey = @"sightedAt";
 
 @interface UFOFilterManager : NSObject
 
 @property (strong, nonatomic) NSDateFormatter* dateFormatter;
 @property (assign, nonatomic) bool hasNewFilters;
+
+@property (nonatomic, readonly) NSDate* defaultReportedAtMaximumDate;
+@property (nonatomic, readonly) NSDate* defaultReportedAtMinimumDate;
+@property (nonatomic, readonly) NSDate* defaultSightedAtMinimumDate;
+@property (nonatomic, readonly) NSDate* defaultSightedAtMaximumDate;
+
+@property (nonatomic) NSDate* selectedReportedAtMaximumDate;
+@property (nonatomic) NSDate* selectedReportedAtMinimumDate;
+@property (nonatomic) NSDate* selectedSightedAtMaximumDate;
+@property (nonatomic) NSDate* selectedSightedAtMinimumDate;
 
 + (UFOFilterManager*)sharedManager;
 
@@ -25,21 +35,6 @@ static NSString * const kUFOSightedAtCellPredicateKey = @"sightedAt";
 
 - (void)resetFilters;
 - (void)saveFilters;
-
-- (void)setSelectedReportedAtMinimumDate:(NSDate*)date;
-- (void)setSelectedReportedAtMaximumDate:(NSDate*)date;
-- (void)setSelectedSightedAtMinimumDate:(NSDate*)date;
-- (void)setSelectedSightedAtMaximumDate:(NSDate*)date;
-
-- (NSDate*)selectedReportedAtMinimumDate;
-- (NSDate*)selectedReportedAtMaximumDate;
-- (NSDate*)selectedSightedAtMinimumDate;
-- (NSDate*)selectedSightedAtMaximumDate;
-
-- (NSDate*)defaultReportedAtMinimumDate;
-- (NSDate*)defaultReportedAtMaximumDate;
-- (NSDate*)defaultSightedAtMinimumDate;
-- (NSDate*)defaultSightedAtMaximumDate;
 
 - (void)setHasFilters:(BOOL)filter forCellWithPredicateKey:(NSString*)predicateKey;
 - (void)setSubtitle:(NSString*)subtitle forCellWithPredicateKey:(NSString *)predicateKey;

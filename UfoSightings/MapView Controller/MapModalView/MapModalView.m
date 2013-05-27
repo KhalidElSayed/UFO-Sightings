@@ -56,7 +56,7 @@
     [super viewDidLoad];
     self.scrollView.scrollEnabled = NO;
 
-    [self.tableView registerNib:[UINib nibWithNibName:@"MapModalCell" bundle:[NSBundle bundleForClass:[self class]]]  forCellReuseIdentifier:@"modalCell"];
+    [self.tableView registerNib:[UINib nibWithNibName:@"MapModalCell" bundle:[NSBundle mainBundle]]  forCellReuseIdentifier:@"modalCell"];
     self.loadingLabel.font = [UIFont fontWithName:@"AndaleMono" size:30.0f];
     self.loadingView.layer.cornerRadius = 5.0f;
 

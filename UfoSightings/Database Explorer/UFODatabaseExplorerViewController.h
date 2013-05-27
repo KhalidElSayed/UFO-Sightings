@@ -24,9 +24,9 @@
 @property (weak, nonatomic) IBOutlet UITableView *reportsTable;
 @property (weak, nonatomic) IBOutlet UIView *masterView;
 @property (weak, nonatomic) IBOutlet UIView *detailView;
+@property (strong, nonatomic) IBOutlet UIButton *addMoreButton;
 @property (weak, nonatomic) IBOutlet UIButton *backButton;
 @property (weak, nonatomic) IBOutlet UIButton *resetButton;
-@property (weak, nonatomic) IBOutlet UIButton *addMoreButton;
 @property (weak, nonatomic) IBOutlet UIButton *viewOnMapButton;
 @property (weak, nonatomic) IBOutlet UILabel *loadingLabel;
 @property (weak, nonatomic) IBOutlet UILabel *filterLabel;

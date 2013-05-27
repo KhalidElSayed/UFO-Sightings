@@ -5,40 +5,40 @@
 	<key>filterCells</key>
 	<array>
 		<dict>
-			<key>hasFilters</key>
-			<false/>
 			<key>predicateKey</key>
 			<string>reportedAt</string>
+			<key>hasFilters</key>
+			<false/>
 			<key>subtitle</key>
 			<string></string>
 			<key>title</key>
 			<string>Reported</string>
 		</dict>
 		<dict>
-			<key>hasFilters</key>
-			<false/>
 			<key>predicateKey</key>
 			<string>reportLength</string>
+			<key>hasFilters</key>
+			<false/>
 			<key>subtitle</key>
 			<string></string>
 			<key>title</key>
 			<string>Reports</string>
 		</dict>
 		<dict>
-			<key>hasFilters</key>
-			<false/>
 			<key>predicateKey</key>
 			<string>shape</string>
+			<key>hasFilters</key>
+			<false/>
 			<key>subtitle</key>
 			<string></string>
 			<key>title</key>
 			<string>Shapes</string>
 		</dict>
 		<dict>
-			<key>hasFilters</key>
-			<false/>
 			<key>predicateKey</key>
 			<string>sightedAt</string>
+			<key>hasFilters</key>
+			<false/>
 			<key>subtitle</key>
 			<string></string>
 			<key>title</key>
@@ -47,25 +47,25 @@
 	</array>
 	<key>predicates</key>
 	<dict/>
-	<key>reportLengthsToFilter</key>
-	<array/>
-	<key>reportedAtMaximumDate</key>
-	<date>2008-08-04T05:00:00Z</date>
 	<key>reportedAtMinimumDate</key>
-	<date>1905-06-23T06:00:00Z</date>
-	<key>reportedAtSelectedMaximumDate</key>
-	<date>2008-08-04T05:00:00Z</date>
+	<date>1930-01-01T18:56:55Z</date>
+	<key>reportedAtMaximumDate</key>
+	<date>2012-05-21T17:56:37Z</date>
 	<key>reportedAtSelectedMinimumDate</key>
-	<date>1905-06-23T06:00:00Z</date>
+	<date>1930-01-01T18:56:55Z</date>
+	<key>reportedAtSelectedMaximumDate</key>
+	<date>2012-05-21T17:56:37Z</date>
+	<key>sightedAtMinimumDate</key>
+	<date>1930-01-01T18:56:55Z</date>
+	<key>sightedAtMaximumDate</key>
+	<date>2012-05-21T17:56:37Z</date>
+	<key>sightedAtSelectedMinimumDate</key>
+	<date>1930-01-01T18:56:55Z</date>
+	<key>sightedAtSelectedMaximumDate</key>
+	<date>2012-05-21T17:56:37Z</date>
 	<key>shapesToFilter</key>
 	<array/>
-	<key>sightedAtMaximumDate</key>
-	<date>2008-08-03T05:00:00Z</date>
-	<key>sightedAtMinimumDate</key>
-	<date>1400-06-30T05:50:36Z</date>
-	<key>sightedAtSelectedMaximumDate</key>
-	<date>2008-08-03T05:00:00Z</date>
-	<key>sightedAtSelectedMinimumDate</key>
-	<date>1400-06-30T05:50:36Z</date>
+	<key>reportLengthsToFilter</key>
+	<array/>
 </dict>
 </plist>

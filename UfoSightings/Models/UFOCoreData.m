@@ -71,7 +71,7 @@
             return _managedObjectModel;
         }
         
-        NSURL *modelURL = [[NSBundle bundleForClass:[self class]] URLForResource:@"UfoSightings" withExtension:@"momd"];
+        NSURL *modelURL = [[NSBundle mainBundle] URLForResource:@"UfoSightings" withExtension:@"momd"];
         _managedObjectModel = [[NSManagedObjectModel alloc] initWithContentsOfURL:modelURL];
     }
     return _managedObjectModel;
@@ -123,7 +123,7 @@
     
     NSDictionary* dict = (NSDictionary*)[self.managedObjectContext executeFetchRequest:req error:nil];
     
-    return [dict valueForKey:@"maxReportedAt"];
+    return [[dict valueForKey:@"maxReportedAt"] lastObject];
 }
 
 
@@ -142,7 +142,7 @@
     
     NSDictionary* dict = (NSDictionary*)[self.managedObjectContext executeFetchRequest:req error:nil];
     
-    return [dict valueForKey:@"minReportedAt"];
+    return [[dict valueForKey:@"minReportedAt"] lastObject];
 }
 
 
@@ -154,14 +154,14 @@
     NSExpression *maxSalaryExpression = [NSExpression expressionForFunction:@"max:"
                                                                   arguments:[NSArray arrayWithObject:expression]];
     NSExpressionDescription *expressionDescription = [[NSExpressionDescription alloc] init];
-    [expressionDescription setName:@"maxSighteddAt"];
+    [expressionDescription setName:@"maxSightedAt"];
     [expressionDescription setExpression:maxSalaryExpression];
     [expressionDescription setExpressionResultType:NSDateAttributeType];
     [req setPropertiesToFetch:@[expressionDescription]];
     
     NSDictionary* dict = (NSDictionary*)[self.managedObjectContext executeFetchRequest:req error:nil];
     
-    return [dict valueForKey:@"maxSightedAt"];
+    return [[dict valueForKey:@"maxSightedAt"] lastObject];
 }
 
 
@@ -174,14 +174,14 @@
     NSExpression *maxSalaryExpression = [NSExpression expressionForFunction:@"min:"
                                                                   arguments:[NSArray arrayWithObject:expression]];
     NSExpressionDescription *expressionDescription = [[NSExpressionDescription alloc] init];
-    [expressionDescription setName:@"minSighteddAt"];
+    [expressionDescription setName:@"minSightedAt"];
     [expressionDescription setExpression:maxSalaryExpression];
     [expressionDescription setExpressionResultType:NSDateAttributeType];
     [req setPropertiesToFetch:@[expressionDescription]];
     
     NSDictionary* dict = (NSDictionary*)[self.managedObjectContext executeFetchRequest:req error:nil];
     
-    return [dict valueForKey:@"minSightedAt"];
+    return [[dict valueForKey:@"minSightedAt"] lastObject];
 }
 
 @end

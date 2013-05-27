@@ -11,7 +11,7 @@
 @implementation NSFileManager (UnitTests)
 - (NSString*)filterDictonaryPath
 {
-    return [[NSBundle bundleForClass:[self class]] pathForResource:@"filters" ofType:@"plist"];
+    return [[[NSBundle mainBundle] pathForResource:@"filters" ofType:@"plist"];
 }
 - (void)moveEmptyTilesIntoApplicationDirectory{}
 - (void)movePopulatedDatabaseIntoProject{}

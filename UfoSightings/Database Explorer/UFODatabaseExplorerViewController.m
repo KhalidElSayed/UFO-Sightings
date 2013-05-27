@@ -18,6 +18,7 @@
 
 #define FILTER_NAV_FRAME CGRectMake(20, 171, 280, 320)
 #define DEFAULT_FETCH_LIMIT 50
+#define ASCENDING_ORDER YES
 
 static dispatch_queue_t coredata_background_queue;
 dispatch_queue_t CDbackground_queue()
@@ -40,8 +41,6 @@ dispatch_queue_t CDbackground_queue()
 @property (strong, nonatomic) UIActivityIndicatorView* cellLoadingIndicator;
 
 - (void)getMoreReportsWithLimit:(NSUInteger)limit;
-- (void)filterCanReset:(NSNotification*)notification;
-- (void)saveFilterOptions:(NSDictionary*)options;
 - (void)refreshReportsWithPredicate:(NSPredicate*)predicate;
 @end
 
@@ -339,20 +338,21 @@ dispatch_queue_t CDbackground_queue()
 - (void)refreshReportsWithPredicate:(NSPredicate*)predicate
 {
     if (self.lastPredicateFetched == predicate) { return; }
-    
+
     [self.loadingIndicator startAnimating];
     self.loadingView.hidden = NO;
     
     dispatch_async(CDbackground_queue(), ^{
         
         NSFetchRequest* fetchRequest = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
-        NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:@"sightedAt" ascending:NO];
+        NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:@"sightedAt" ascending:ASCENDING_ORDER];
         
         [fetchRequest setFetchLimit:MAX(_reports.count, 50)];
         [fetchRequest setSortDescriptors:@[sort]];
         [fetchRequest setResultType:NSManagedObjectIDResultType];
         
         if(predicate) {
+            if(DEBUG_PREDICATE_CREATION) { NSLog(@"%@",predicate); }
             [fetchRequest setPredicate:predicate];
         }
         
@@ -361,8 +361,9 @@ dispatch_queue_t CDbackground_queue()
         if(error) { NSLog(@"%@",error); }
         
         dispatch_sync(dispatch_get_main_queue(), ^{
-            
+            if(DEBUG_PREDICATE_CREATION) { NSLog(@"%@", newReportIDs); }
             NSMutableArray* newReports = [[NSMutableArray alloc]initWithCapacity:DEFAULT_FETCH_LIMIT];
+
             for (NSManagedObjectID* ObjID in newReportIDs) {
                 [newReports addObject:[self.managedObjectContext objectWithID:ObjID]];
             }
@@ -390,7 +391,7 @@ dispatch_queue_t CDbackground_queue()
     dispatch_async(CDbackground_queue(), ^{
         
         NSFetchRequest* fetchRequest = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
-        NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:@"sightedAt" ascending:NO];
+        NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:@"sightedAt" ascending:ASCENDING_ORDER];
         [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
         [fetchRequest setFetchLimit:limit];
         [fetchRequest setResultType:NSManagedObjectIDResultType];

@@ -27,7 +27,7 @@
 {
     filterManager = [[UFOFilterManager alloc]init];
 
-    filterDictionary = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle bundleForClass:[self class]] pathForResource:@"filters" ofType:@"plist"]];
+    filterDictionary = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"filters" ofType:@"plist"]];
     filterManager.filterDictionary = [filterDictionary mutableCopy];
     
 }

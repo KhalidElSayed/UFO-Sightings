@@ -85,18 +85,18 @@
         case UFODatePickerTypeReportedAt:
             [self.filterManager setSelectedReportedAtMinimumDate:minDate];
             [self.filterManager setSelectedReportedAtMaximumDate:maxDate];
-            [self.filterManager setHasFilters:self.hasChosenRange forCellWithPredicateKey:kUFOReportedAtCellPredicateKey];
+            [self.filterManager setHasFilters:self.hasChosenRange forCellWithPredicateKey:kUFOReportedAPredicateKey];
             break;
         case UFODatePickerTypeSightedAt:
             [self.filterManager setSelectedSightedAtMinimumDate:minDate];
             [self.filterManager setSelectedSightedAtMaximumDate:maxDate];
-            [self.filterManager setHasFilters:self.hasChosenRange forCellWithPredicateKey:kUFOSightedAtCellPredicateKey];
+            [self.filterManager setHasFilters:self.hasChosenRange forCellWithPredicateKey:kUFOSightedAtPredicateKey];
         default:
             break;
     }
     
     if(self.hasChosenRange){
-        NSString* key = self.pickerType == UFODatePickerTypeSightedAt ? kUFOSightedAtCellPredicateKey : kUFOReportedAtCellPredicateKey;
+        NSString* key = self.pickerType == UFODatePickerTypeSightedAt ? kUFOSightedAtPredicateKey : kUFOReportedAPredicateKey;
         [self.filterManager setSubtitle:self.rangeLabel.text forCellWithPredicateKey:key];
     }
 }

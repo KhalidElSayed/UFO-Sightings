@@ -86,10 +86,10 @@
         }
         
         [subtitle deleteCharactersInRange:NSMakeRange(subtitle.length -2, 2)];
-        [self.filterManager setSubtitle:subtitle forCellWithPredicateKey:kUFOShapeCellPredicateKey];
+        [self.filterManager setSubtitle:subtitle forCellWithPredicateKey:kUFOShapePredicateKey];
     }
    
-    [self.filterManager setHasFilters:filters forCellWithPredicateKey:kUFOShapeCellPredicateKey];
+    [self.filterManager setHasFilters:filters forCellWithPredicateKey:kUFOShapePredicateKey];
 }
 
 

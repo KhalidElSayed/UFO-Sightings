@@ -28,6 +28,8 @@
 		2B82F9731752B6DB00115FB2 /* UFOBaseTestCase.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B82F9721752B6DB00115FB2 /* UFOBaseTestCase.m */; };
 		2B82F97A1752C2D400115FB2 /* UFOCoreData+UnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B82F9791752C2D400115FB2 /* UFOCoreData+UnitTests.m */; settings = {COMPILER_FLAGS = "-Wno-objc-protocol-method-implementation"; }; };
 		2B82F97D1752C58000115FB2 /* NSFileManager+UnitTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 2B82F97C1752C58000115FB2 /* NSFileManager+UnitTests.m */; };
+		2B82F97F1752D63D00115FB2 /* filters.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2B82F97E1752D63D00115FB2 /* filters.plist */; };
+		2B82F9801752D63D00115FB2 /* filters.plist in Resources */ = {isa = PBXBuildFile; fileRef = 2B82F97E1752D63D00115FB2 /* filters.plist */; };
 		2BA99603174D7049005605C3 /* NSManagedObjectContext+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA99602174D7049005605C3 /* NSManagedObjectContext+Extras.m */; };
 		2BA99604174D7049005605C3 /* NSManagedObjectContext+Extras.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA99602174D7049005605C3 /* NSManagedObjectContext+Extras.m */; };
 		2BA99607174D7AFB005605C3 /* UFOFilterManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 2BA99606174D7AFB005605C3 /* UFOFilterManager.m */; };
@@ -51,8 +53,8 @@
 		FA4531BB1569DFC5005CA658 /* UIColor+RKColor.m in Sources */ = {isa = PBXBuildFile; fileRef = FA4531B91569DFC5005CA658 /* UIColor+RKColor.m */; };
 		FA578085157039B000191B13 /* alertBackground@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA578082157039B000191B13 /* alertBackground@2x.png */; };
 		FA578087157039B000191B13 /* alertButtonSelected@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = FA578083157039B000191B13 /* alertButtonSelected@2x.png */; };
-		FA57808A15703EA800191B13 /* filters.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA57808915703EA800191B13 /* filters.plist */; };
-		FA57808B15703EA800191B13 /* filters.plist in Resources */ = {isa = PBXBuildFile; fileRef = FA57808915703EA800191B13 /* filters.plist */; };
+		FA57808A15703EA800191B13 /* filters.plist.old in Resources */ = {isa = PBXBuildFile; fileRef = FA57808915703EA800191B13 /* filters.plist.old */; };
+		FA57808B15703EA800191B13 /* filters.plist.old in Resources */ = {isa = PBXBuildFile; fileRef = FA57808915703EA800191B13 /* filters.plist.old */; };
 		FA687AE215800B22000B7C85 /* UFOSightingAnnotation.m in Sources */ = {isa = PBXBuildFile; fileRef = FA687AE115800B22000B7C85 /* UFOSightingAnnotation.m */; };
 		FA7338B5156875C700BCA82F /* UFODatabaseExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338B3156875C700BCA82F /* UFODatabaseExplorerViewController.m */; };
 		FA7338B6156875C700BCA82F /* UFODatabaseExplorerViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = FA7338B3156875C700BCA82F /* UFODatabaseExplorerViewController.m */; };
@@ -597,6 +599,7 @@
 		2B82F9791752C2D400115FB2 /* UFOCoreData+UnitTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UFOCoreData+UnitTests.m"; sourceTree = "<group>"; };
 		2B82F97B1752C58000115FB2 /* NSFileManager+UnitTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSFileManager+UnitTests.h"; sourceTree = "<group>"; };
 		2B82F97C1752C58000115FB2 /* NSFileManager+UnitTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSFileManager+UnitTests.m"; sourceTree = "<group>"; };
+		2B82F97E1752D63D00115FB2 /* filters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = filters.plist; sourceTree = "<group>"; };
 		2BA99601174D7049005605C3 /* NSManagedObjectContext+Extras.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSManagedObjectContext+Extras.h"; sourceTree = "<group>"; };
 		2BA99602174D7049005605C3 /* NSManagedObjectContext+Extras.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSManagedObjectContext+Extras.m"; sourceTree = "<group>"; };
 		2BA99605174D7AFB005605C3 /* UFOFilterManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOFilterManager.h; sourceTree = "<group>"; };
@@ -619,7 +622,7 @@
 		FA4531B91569DFC5005CA658 /* UIColor+RKColor.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "UIColor+RKColor.m"; path = "Resources/Catagories/UIColor+RKColor.m"; sourceTree = "<group>"; };
 		FA578082157039B000191B13 /* alertBackground@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alertBackground@2x.png"; sourceTree = "<group>"; };
 		FA578083157039B000191B13 /* alertButtonSelected@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "alertButtonSelected@2x.png"; sourceTree = "<group>"; };
-		FA57808915703EA800191B13 /* filters.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = filters.plist; sourceTree = "<group>"; };
+		FA57808915703EA800191B13 /* filters.plist.old */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = filters.plist.old; sourceTree = "<group>"; };
 		FA687AE015800B22000B7C85 /* UFOSightingAnnotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UFOSightingAnnotation.h; sourceTree = "<group>"; };
 		FA687AE115800B22000B7C85 /* UFOSightingAnnotation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UFOSightingAnnotation.m; sourceTree = "<group>"; };
 		FA7338B2156875C600BCA82F /* UFODatabaseExplorerViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UFODatabaseExplorerViewController.h; path = "Database Explorer/UFODatabaseExplorerViewController.h"; sourceTree = "<group>"; };
@@ -1240,7 +1243,8 @@
 				FA154A6E1572DF7E00497B5F /* AndaleMono.ttf */,
 				FA73393515687C7A00BCA82F /* Data */,
 				FA73393915687C7A00BCA82F /* images */,
-				FA57808915703EA800191B13 /* filters.plist */,
+				FA57808915703EA800191B13 /* filters.plist.old */,
+				2B82F97E1752D63D00115FB2 /* filters.plist */,
 				2BA99609174D818E005605C3 /* shapes.plist */,
 			);
 			path = Resources;
@@ -1913,9 +1917,10 @@
 				FAEEC08E156DA59600D138FD /* viewMapButtonSelected@2x.png in Resources */,
 				FA578085157039B000191B13 /* alertBackground@2x.png in Resources */,
 				FA578087157039B000191B13 /* alertButtonSelected@2x.png in Resources */,
-				FA57808B15703EA800191B13 /* filters.plist in Resources */,
+				FA57808B15703EA800191B13 /* filters.plist.old in Resources */,
 				FA154A701572DF7E00497B5F /* AndaleMono.ttf in Resources */,
 				2BA9960B174D818E005605C3 /* shapes.plist in Resources */,
+				2B82F9801752D63D00115FB2 /* filters.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2155,7 +2160,7 @@
 				FABA6984156EB8CD00692B51 /* xButton.png in Resources */,
 				FABA698A156EB97900692B51 /* filterButton@2x.png in Resources */,
 				FABA698B156EB97900692B51 /* filterButton.png in Resources */,
-				FA57808A15703EA800191B13 /* filters.plist in Resources */,
+				FA57808A15703EA800191B13 /* filters.plist.old in Resources */,
 				FA154A6D1572DE2B00497B5F /* ConsoleDocumentView.xib in Resources */,
 				FA154A6F1572DF7E00497B5F /* AndaleMono.ttf in Resources */,
 				FA7534241576D9E000D18D9A /* ufo@2x.png in Resources */,
@@ -2170,6 +2175,7 @@
 				FAABF42A15853DA9001FE4C7 /* Default.png in Resources */,
 				FAABF42D15853DC4001FE4C7 /* Default-Landscape~ipad.png in Resources */,
 				2BA9960A174D818E005605C3 /* shapes.plist in Resources */,
+				2B82F97F1752D63D00115FB2 /* filters.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
