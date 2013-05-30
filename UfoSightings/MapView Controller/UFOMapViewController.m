@@ -19,8 +19,7 @@
 static dispatch_queue_t annons_background_queue;
 dispatch_queue_t annotations_background_queue()
 {
-    if (annons_background_queue == NULL)
-    {
+    if (annons_background_queue == NULL) {
         annons_background_queue = dispatch_queue_create("com.richardKirk.annotations.backgroundfetches", DISPATCH_QUEUE_SERIAL);
     }
     return annons_background_queue;
@@ -29,8 +28,7 @@ dispatch_queue_t annotations_background_queue()
 static dispatch_queue_t title_generation_backgrond_queue;
 dispatch_queue_t title_backgrond_queue()
 {
-    if (title_generation_backgrond_queue == NULL)
-    {
+    if (title_generation_backgrond_queue == NULL) {
         title_generation_backgrond_queue = dispatch_queue_create("com.richardKirk.titles.backgroundfetches", DISPATCH_QUEUE_SERIAL);
     }
     return title_generation_backgrond_queue;
@@ -57,7 +55,6 @@ dispatch_queue_t title_backgrond_queue()
 - (void)showAlert;
 - (void)hideAlert;
 @end
-
 
 
 @implementation UFOMapViewController
@@ -93,7 +90,7 @@ dispatch_queue_t title_backgrond_queue()
     [self reloadSightingLocations];
     
     self.heatMapShowing = [[NSUserDefaults standardUserDefaults] boolForKey:@"heatMapOverlayOn"];
-    [self.mapLayerButton setSelected:_heatMapShowing];
+    [self.mapLayerButton setSelected:self.heatMapShowing];
     
     if(self.heatMapShowing) {
         [self.mapView addOverlay:self.heatMapOverlay];
@@ -121,6 +118,7 @@ dispatch_queue_t title_backgrond_queue()
     self.tvOverlay.image = UIInterfaceOrientationIsPortrait(deviceOrientation) ? [UIImage imageNamed:@"tvOverlayPortrait.png"] : [UIImage imageNamed:@"TVOverlay.png"];
 }
 
+
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
 {    
     return YES;
@@ -142,7 +140,6 @@ dispatch_queue_t title_backgrond_queue()
     [_modalView.view removeFromSuperview];
     _modalView = nil;
     [self.mapView setUserInteractionEnabled:YES];
-    
 }
 
 

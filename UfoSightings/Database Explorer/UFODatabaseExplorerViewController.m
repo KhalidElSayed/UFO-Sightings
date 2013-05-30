@@ -16,7 +16,7 @@
 #import "NSManagedObjectContext+Extras.h"
 #import "NSFileManager+Extras.h"
 
-#define FILTER_NAV_FRAME CGRectMake(20, 171, 280, 320)
+#define FILTER_NAV_FRAME CGRectMake(20, 171, 280, 240)
 #define DEFAULT_FETCH_LIMIT 50
 #define ASCENDING_ORDER YES
 

@@ -82,7 +82,7 @@ filterCells is an array of dictionaries to configure cells
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-    return [self.filterCells count];
+    return [self.filterCells count] - 1;
 }
 
 
@@ -91,7 +91,7 @@ filterCells is an array of dictionaries to configure cells
     static NSString *masterCellIdentifier = @"masterCell";
     
     UFOFilterTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:masterCellIdentifier];
-    NSDictionary* cellDict = [self.filterCells objectAtIndex:indexPath.row];
+    NSDictionary* cellDict = [self.filterCells objectAtIndex:indexPath.row + 1];
     
     [cell configureWithDictionary:cellDict];
 
@@ -110,20 +110,20 @@ filterCells is an array of dictionaries to configure cells
 {
     
     UIViewController* viewControllerToPush = nil;
-    if(indexPath.row == 0) {
-        DatePickerTableViewController* datePickerVC = [[DatePickerTableViewController alloc]initWithType:UFODatePickerTypeReportedAt];
-        viewControllerToPush = datePickerVC;
-    }
-    else if (indexPath.row == 1) {
+    if (indexPath.row == 0) {
         ReportLengthSelectorController* rls = [[ReportLengthSelectorController alloc]init];
         viewControllerToPush = rls;
     }
-    else if(indexPath.row == 2) {
+    else if(indexPath.row == 1) {
         ShapeSelectorViewController* shapeSelector = [[ShapeSelectorViewController alloc]init];
         viewControllerToPush = shapeSelector;
     }
-    else if (indexPath.row == 3) {
+    else if (indexPath.row == 2) {
         DatePickerTableViewController* datePickerVC = [[DatePickerTableViewController alloc]initWithType:UFODatePickerTypeSightedAt];
+        viewControllerToPush = datePickerVC;
+    }
+    else if(indexPath.row == 3) {
+        DatePickerTableViewController* datePickerVC = [[DatePickerTableViewController alloc]initWithType:UFODatePickerTypeReportedAt];
         viewControllerToPush = datePickerVC;
     }
     [self.navigationController pushViewController:viewControllerToPush animated:YES];
