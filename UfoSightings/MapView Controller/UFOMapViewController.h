@@ -6,7 +6,7 @@
 //  Copyright (c) 2011 Home. All rights reserved.
 //
 
-#import <UIKit/UIKit.h>
+#import "UFOBaseViewController.h"
 #import <CoreLocation/CoreLocation.h>
 #import <MapKit/Mapkit.h>
 
@@ -15,7 +15,7 @@
 
 @protocol UFOMapViewControllerDelegate;
 
-@interface UFOMapViewController : UIViewController <CLLocationManagerDelegate,MKMapViewDelegate>
+@interface UFOMapViewController : UFOBaseViewController <CLLocationManagerDelegate,MKMapViewDelegate>
 {
     CLLocationManager *locationManager;
     CLLocationCoordinate2D *userLocation;

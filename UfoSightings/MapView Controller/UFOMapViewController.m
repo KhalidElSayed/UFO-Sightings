@@ -164,42 +164,37 @@ dispatch_queue_t title_backgrond_queue()
  */
 - (void)reloadSightingLocations;
 {
-    _isFetching = YES; 
     [self.loadingIndicator startAnimating];
     [self.mapView removeAnnotations:[self.mapView annotations]]; // If there are any annotations currently showing, remove them
     [_backMap removeAnnotations:[_backMap annotations]];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0),^{
+ 
+    NSFetchRequest* fetch = [[NSFetchRequest alloc]initWithEntityName:@"SightingLocation"];
+    fetch.resultType = NSManagedObjectIDResultType;
+    
+    [[UFOCoreData sharedInstance] executeFetchRequest:fetch onBackgroundContextWithFinised:^(NSArray* objectIds){
         
-        __block NSArray* allsightings;
-        NSFetchRequest* fetch = [[NSFetchRequest alloc]initWithEntityName:@"SightingLocation"];
-        fetch.resultType = NSManagedObjectIDResultType;
-        NSError* error = nil;
-        
-        allsightings = [self.backgroundContext executeFetchRequest:fetch error:&error];
-        if(error)
-            NSLog(@"%@",error);
-        else {
+        dispatch_async(title_backgrond_queue(), ^{
+            for (NSManagedObjectID* objID in objectIds) {
+                SightingLocation* sightingLoc = (SightingLocation*)[self.managedObjectContext objectWithID:objID];
+                //*********************************
+                // This is neccesary to implement the cluster annotation
+                [sightingLoc setCoordinate:[sightingLoc actualCoordinate]];
+                //*********************************
+                [_backMap addAnnotation:sightingLoc];
+            }
             
             dispatch_sync(dispatch_get_main_queue(), ^{
-                
-                for (NSManagedObjectID* objID in allsightings) {
-                    SightingLocation* sightingLoc = (SightingLocation*)[self.backgroundContext objectWithID:objID];
-                    //*********************************
-                    // This is neccesary to implement the cluster annotation
-                    [sightingLoc setCoordinate:[sightingLoc actualCoordinate]];
-                    //*********************************
-                    [_backMap addAnnotation:sightingLoc];
-                }
-                
                 if(self.annotationsShowing) {
                     [self updateVisibleAnnotations];
                 }
                 
-                _isFetching = NO;
-                [self.loadingIndicator stopAnimating]; 
+                [self.loadingIndicator stopAnimating];
             });
-        }
-    });
+        });
+        
+
+        
+    } andFailed:nil];
 }
 
 
@@ -212,7 +207,7 @@ dispatch_queue_t title_backgrond_queue()
 /**
  We want the icon for the map to animate itself 45 degrees
  to the left on first touch. While it is rotated we slide out the 
- native map kist selections. When the user presses it again, the icon
+ native map kits selections. When the user presses it again, the icon
  rotates to it's natural position. 
  @param UIbutton
  */
@@ -418,11 +413,11 @@ dispatch_queue_t title_backgrond_queue()
     _selectedAnnotationView = view;
     UILabel* label = [view.leftCalloutAccessoryView.subviews lastObject];
 
-    [view addSubview:_annotationActivityIndicator];
-    _annotationActivityIndicator.center = view.center;
-    [_annotationActivityIndicator startAnimating];
+    [view addSubview:self.annotationActivityIndicator];
+    self.annotationActivityIndicator.center = view.center;
+    [self.annotationActivityIndicator startAnimating];
         
-    dispatch_async(annotations_background_queue(), ^{
+    dispatch_async(title_backgrond_queue(), ^{
         _stopGettingTitle = NO;
         SightingLocation* annotation =  view.annotation;
         NSString* newTitle = @"";
@@ -448,8 +443,8 @@ dispatch_queue_t title_backgrond_queue()
         }
         newTitle = [NSString stringWithFormat:@"%i sightings in %i cities", sightingsCount, citiesCount];
         dispatch_sync(dispatch_get_main_queue(), ^{
-            [_annotationActivityIndicator stopAnimating];
-            [_annotationActivityIndicator removeFromSuperview];
+            [self.annotationActivityIndicator stopAnimating];
+            [self.annotationActivityIndicator removeFromSuperview];
             
             [label setText:newTitle];
             if(_stopGettingTitle)
@@ -473,8 +468,7 @@ dispatch_queue_t title_backgrond_queue()
     // try to dequeue an existing pin view first
     static NSString* UFOAnnotationIdentifier = @"UFOAnnotationIdentifier";
     MKPinAnnotationView* pinView = (MKPinAnnotationView *)[mapView dequeueReusableAnnotationViewWithIdentifier:UFOAnnotationIdentifier];
-    if (!pinView)
-    {
+    if (!pinView) {
         MKAnnotationView *annotationView = [[MKAnnotationView alloc] initWithAnnotation:annotation reuseIdentifier:UFOAnnotationIdentifier];
         annotationView.canShowCallout = YES;
         
@@ -495,8 +489,7 @@ dispatch_queue_t title_backgrond_queue()
         annotationView.leftCalloutAccessoryView = leftCalloutView;
         return annotationView;
     }
-    else
-    {
+    else {
         pinView.annotation = annotation;
     }
     return pinView;
@@ -527,7 +520,7 @@ dispatch_queue_t title_backgrond_queue()
  */
 - (void)updateVisibleAnnotations
 {
-    dispatch_async(annotations_background_queue(), ^{        
+    dispatch_async(annotations_background_queue(), ^{
         
         /* These two sets are the goal of this function */
         NSMutableSet* setToAdd = [[NSMutableSet alloc]init];
@@ -614,8 +607,8 @@ dispatch_queue_t title_backgrond_queue()
                         annotation.coordinate = annotation.clusterAnnotation.coordinate;
                         
                     } completion:^(BOOL finished){
-                        annotation.coordinate = [annotation actualCoordinate];
                         [self.mapView removeAnnotation:annotation];
+                        annotation.coordinate = [annotation actualCoordinate];
                     }];
                 }
             }
@@ -624,9 +617,7 @@ dispatch_queue_t title_backgrond_queue()
             }
             
             [self.mapView addAnnotations:[setToAdd allObjects]];
-            
         });
-        
     }); 
 }
 
