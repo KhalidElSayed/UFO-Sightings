@@ -21,18 +21,18 @@
     CLLocationCoordinate2D *userLocation;
 }
 @property (weak, nonatomic) id <UFOMapViewControllerDelegate> delegate;
-@property (strong, nonatomic) NSManagedObjectContext *managedObjectContext;
-@property (strong, nonatomic) IBOutlet MKMapView *mapView;
+@property (strong, nonatomic) NSManagedObjectContext* backgroundContext;
 @property (strong, nonatomic) UFOHeatMap* heatMapOverlay;
-@property (strong, nonatomic) IBOutlet UIImageView *tvOverlay;
-@property (strong, nonatomic) IBOutlet UIView *modalPlaceholderView;
-@property (strong, nonatomic) IBOutlet UIView *alertView;
-@property (strong, nonatomic) IBOutlet UIButton *compassButton;
-@property (strong, nonatomic) IBOutlet UIButton *sightingAnnotationsButton;
-@property (strong, nonatomic) IBOutlet UIButton *mapLayerButton;
-@property (strong, nonatomic) IBOutlet UIButton *filterButton;
-@property (strong, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
-@property (strong, nonatomic) IBOutlet UISegmentedControl *mapTypeSegmentController;
+@property (weak, nonatomic) IBOutlet MKMapView *mapView;
+@property (weak, nonatomic) IBOutlet UIImageView *tvOverlay;
+@property (weak, nonatomic) IBOutlet UIView *modalPlaceholderView;
+@property (weak, nonatomic) IBOutlet UIView *alertView;
+@property (weak, nonatomic) IBOutlet UIButton *compassButton;
+@property (weak, nonatomic) IBOutlet UIButton *sightingAnnotationsButton;
+@property (weak, nonatomic) IBOutlet UIButton *mapLayerButton;
+@property (weak, nonatomic) IBOutlet UIButton *filterButton;
+@property (weak, nonatomic) IBOutlet UIActivityIndicatorView *loadingIndicator;
+@property (weak, nonatomic) IBOutlet UISegmentedControl *mapTypeSegmentController;
 
 - (IBAction)compassButtonSelected:(UIButton *)sender;
 - (IBAction)sightingsAnnotationsButtonSelected:(UIButton *)sender;

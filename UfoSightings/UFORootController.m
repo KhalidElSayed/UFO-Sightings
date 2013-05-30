@@ -12,27 +12,10 @@
 @interface UFORootController ()
 {
     UIViewController* _currentViewController;
-    NSManagedObjectContext*     _mapContext;
-    NSManagedObjectContext*     _databaseContext;
 }
-@property (strong, nonatomic) NSManagedObjectContext* mapContext;
-@property (strong, nonatomic) NSManagedObjectContext* databaseContext;
 @end
 
 @implementation UFORootController
-
-- (id)init
-{
-    if ((self = [super init]))
-    {
-        self.persistentStoreCoordinator = [[UFOCoreData sharedInstance] persistentStoreCoordinator];
-        self.mapContext = [[NSManagedObjectContext alloc]init];
-        [self.mapContext setPersistentStoreCoordinator:self.persistentStoreCoordinator ];
-        self.databaseContext = [[NSManagedObjectContext alloc]init];
-        [self.databaseContext setPersistentStoreCoordinator:self.persistentStoreCoordinator];
-    }
-    return self;
-}
 
 
 - (void)viewDidLoad
@@ -50,7 +33,6 @@
 {
     if(!_mapViewController) {
         _mapViewController = [[UFOMapViewController alloc]init];
-        _mapViewController.managedObjectContext = _mapContext;
         _mapViewController.delegate = self;
         _mapViewController.view.frame = self.view.bounds;
     }
@@ -62,7 +44,6 @@
 {
     if(!_databaseViewController) {
         _databaseViewController = [[UFODatabaseExplorerViewController alloc]init];
-        _databaseViewController.managedObjectContext = _databaseContext;
         _databaseViewController.delegate = self;
         _databaseViewController.view.frame = self.view.bounds;
     }

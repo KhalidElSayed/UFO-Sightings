@@ -43,7 +43,6 @@ dispatch_queue_t title_backgrond_queue()
     __block bool                _isFetching;
     __block bool                _stopGettingTitle;
     MKAnnotationView*           _selectedAnnotationView;
-    NSManagedObjectContext*     _backgroundManagedObjectContext;
 }
 @property (strong, nonatomic) UIActivityIndicatorView* annotationActivityIndicator;
 @property (assign, nonatomic) BOOL annotationsShowing;
@@ -86,7 +85,6 @@ dispatch_queue_t title_backgrond_queue()
     self.annotationsShowing = [[NSUserDefaults standardUserDefaults] boolForKey:@"annotationsOn"];
     [self.sightingAnnotationsButton setSelected:self.annotationsShowing];
     
-    _backgroundManagedObjectContext = [[UFOCoreData sharedInstance] createManagedObjectContext];
     [self reloadSightingLocations];
     
     self.heatMapShowing = [[NSUserDefaults standardUserDefaults] boolForKey:@"heatMapOverlayOn"];
@@ -135,6 +133,15 @@ dispatch_queue_t title_backgrond_queue()
 }
 
 
+- (NSManagedObjectContext*)backgroundContext
+{
+    if(!_backgroundContext) {
+        _backgroundContext = [[UFOCoreData sharedInstance] createManagedObjectContext];
+    }
+    return _backgroundContext;
+}
+
+
 - (void)modalWantsToDismiss
 {
     [_modalView.view removeFromSuperview];
@@ -168,7 +175,7 @@ dispatch_queue_t title_backgrond_queue()
         fetch.resultType = NSManagedObjectIDResultType;
         NSError* error = nil;
         
-        allsightings = [_backgroundManagedObjectContext executeFetchRequest:fetch error:&error];
+        allsightings = [self.backgroundContext executeFetchRequest:fetch error:&error];
         if(error)
             NSLog(@"%@",error);
         else {
@@ -176,7 +183,7 @@ dispatch_queue_t title_backgrond_queue()
             dispatch_sync(dispatch_get_main_queue(), ^{
                 
                 for (NSManagedObjectID* objID in allsightings) {
-                    SightingLocation* sightingLoc = (SightingLocation*)[self.managedObjectContext objectWithID:objID];
+                    SightingLocation* sightingLoc = (SightingLocation*)[self.backgroundContext objectWithID:objID];
                     //*********************************
                     // This is neccesary to implement the cluster annotation
                     [sightingLoc setCoordinate:[sightingLoc actualCoordinate]];

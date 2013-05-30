@@ -8,6 +8,16 @@
 
 #import "UFOCoreData.h"
 #import "NSFileManager+Extras.h"
+#define LOG_FETCH_ERRORS YES
+
+static dispatch_queue_t coredata_background_queue;
+dispatch_queue_t CDbackground_queue()
+{
+    if (coredata_background_queue == NULL) {
+        coredata_background_queue = dispatch_queue_create("com.richardKirk.coredata.backgroundfetches", DISPATCH_QUEUE_SERIAL);
+    }
+    return coredata_background_queue;
+}
 
 @implementation UFOCoreData
 
@@ -51,15 +61,28 @@
 
 // Returns the managed object context for the application.
 // If the context doesn't already exist, it is created and bound to the persistent store coordinator for the application.
-- ( NSManagedObjectContext * ) managedObjectContext {
-    @synchronized( self ) {
-        if ( _managedObjectContext != nil ) {
+- ( NSManagedObjectContext * ) managedObjectContext
+{
+    @synchronized(self) {
+        if(_managedObjectContext != nil) {
             return _managedObjectContext;
         }
         _managedObjectContext = [self createManagedObjectContext];
     }
     
     return _managedObjectContext;
+}
+
+
+- (NSManagedObjectContext*)backgroundContext
+{
+    @synchronized(self){
+        if(_backgroundContext != nil) {
+            return _backgroundContext;
+        }
+        _backgroundContext = [self createManagedObjectContext];
+    }
+    return _backgroundContext;
 }
 
 
@@ -107,6 +130,29 @@
     }
     return context;
 }
+
+
+- (void)executeFetchRequest:(NSFetchRequest*)request onBackgroundContextWithFinised:(UFOCoreDataSuccessBlock)success andFailed:(UFOCoreDataFailedBlock)failed
+{
+    dispatch_async(CDbackground_queue(), ^{
+        NSError* error = nil;
+        [request setResultType:NSManagedObjectIDResultType];
+        
+        NSArray* results = [self.backgroundContext executeFetchRequest:request error:&error];
+        if (error && failed) {
+            if(LOG_FETCH_ERRORS) { NSLog(@"%@",error); }
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                failed(error);
+            });
+        }
+        else if(results && success) {
+            dispatch_sync(dispatch_get_main_queue(), ^{
+                success(results);
+            });
+        }
+    });
+}
+
 
 - (NSDate*)highestReportedAtDate
 {

@@ -20,20 +20,9 @@
 #define DEFAULT_FETCH_LIMIT 50
 #define ASCENDING_ORDER YES
 
-static dispatch_queue_t coredata_background_queue;
-dispatch_queue_t CDbackground_queue()
-{
-    if (coredata_background_queue == NULL) {
-        coredata_background_queue = dispatch_queue_create("com.richardKirk.coredata.backgroundfetches", DISPATCH_QUEUE_SERIAL);
-    }
-    return coredata_background_queue;
-}
-
 @interface UFODatabaseExplorerViewController ()
 {
     UIActivityIndicatorView*    _cellLoadingIndicator;
-    __block bool                _cancelFetch;
-    NSManagedObjectContext*     _backgroundContext;
     NSDictionary*               _shapesDictionary;
 }
 @property (strong, nonatomic) NSDateFormatter* dateFormatter;
@@ -54,7 +43,6 @@ dispatch_queue_t CDbackground_queue()
 {
     if ((self = [super init])) {
         _reports = [[NSArray alloc]init];
-        _cancelFetch = NO;
     }
     return self;
 }
@@ -76,10 +64,7 @@ dispatch_queue_t CDbackground_queue()
     self.backButton.superview.layer.cornerRadius = 10.0f;    
     self.backButton.superview.layer.borderWidth = 7.0f;
     self.backButton.superview.layer.borderColor = [UIColor rgbColorWithRed:33 green:33 blue:33 alpha:1.0].CGColor;
-    
-    _backgroundContext = [[NSManagedObjectContext alloc]init];
-    _backgroundContext.persistentStoreCoordinator = self.managedObjectContext.persistentStoreCoordinator;
-    
+        
     [self getMoreReportsWithLimit:DEFAULT_FETCH_LIMIT];
     self.lastPredicateFetched = [[NSPredicate alloc] init];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(filterCanReset:) name:@"FilterChoiceChanged" object:nil];
@@ -89,8 +74,6 @@ dispatch_queue_t CDbackground_queue()
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    // TODO: Find out if I should keep a reference to this queue
-    _backgroundContext = nil;
 }
 
 
@@ -342,39 +325,25 @@ dispatch_queue_t CDbackground_queue()
     [self.loadingIndicator startAnimating];
     self.loadingView.hidden = NO;
     
-    dispatch_async(CDbackground_queue(), ^{
-        
-        NSFetchRequest* fetchRequest = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
-        NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:@"sightedAt" ascending:ASCENDING_ORDER];
-        
-        [fetchRequest setFetchLimit:MAX(_reports.count, 50)];
-        [fetchRequest setSortDescriptors:@[sort]];
-        [fetchRequest setResultType:NSManagedObjectIDResultType];
-        
-        if(predicate) {
-            if(DEBUG_PREDICATE_CREATION) { NSLog(@"%@",predicate); }
-            [fetchRequest setPredicate:predicate];
-        }
-        
-        NSError* error = nil;
-        NSArray* newReportIDs = [_backgroundContext executeFetchRequest:fetchRequest error:&error];
-        if(error) { NSLog(@"%@",error); }
-        
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            if(DEBUG_PREDICATE_CREATION) { NSLog(@"%@", newReportIDs); }
-            NSMutableArray* newReports = [[NSMutableArray alloc]initWithCapacity:DEFAULT_FETCH_LIMIT];
+    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
+    NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:@"sightedAt" ascending:ASCENDING_ORDER];
+    
+    [fetchRequest setFetchLimit:MAX(_reports.count, 50)];
+    [fetchRequest setSortDescriptors:@[sort]];
+    
+    if(predicate) {
+        if(DEBUG_PREDICATE_CREATION) { NSLog(@"%@",predicate); }
+        [fetchRequest setPredicate:predicate];
+    }
+    
+    [[UFOCoreData sharedInstance] executeFetchRequest:fetchRequest onBackgroundContextWithFinised:^(NSArray* objectIds){
 
-            for (NSManagedObjectID* ObjID in newReportIDs) {
-                [newReports addObject:[self.managedObjectContext objectWithID:ObjID]];
-            }
-            
-            self.reports = newReports;
+            self.reports = [self.managedObjectContext objectsWithIDs:objectIds];
             [self.reportsTable reloadData];
             [self.loadingIndicator stopAnimating];
             self.loadingView.hidden = YES;
             self.lastPredicateFetched = predicate;
-        });
-    });
+    } andFailed:nil];
 }
 
 
@@ -387,64 +356,63 @@ dispatch_queue_t CDbackground_queue()
     }
     [self.cellLoadingIndicator startAnimating];
 
-    __block NSPredicate* predicate = self.lastPredicateFetched;
-    dispatch_async(CDbackground_queue(), ^{
-        
-        NSFetchRequest* fetchRequest = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
-        NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:@"sightedAt" ascending:ASCENDING_ORDER];
-        [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
-        [fetchRequest setFetchLimit:limit];
-        [fetchRequest setResultType:NSManagedObjectIDResultType];
-        
-        /* since we already have a set of reports, only load ones further below */
-        if([self.reports count] > 0) {
-            NSDate* date = [[self.reports lastObject] sightedAt];
-            NSPredicate* datePredicate = [NSPredicate predicateWithFormat:@"sightedAt > %@", date]; 
-            predicate = [[NSCompoundPredicate alloc]initWithType:NSAndPredicateType subpredicates: predicate == nil ? @[datePredicate] : @[datePredicate, predicate]];
-        }
-        
-        if(predicate) {
-            [fetchRequest setPredicate:predicate];
-        }
-        
-        NSArray* newReportIDs = [_backgroundContext executeFetchRequest:fetchRequest error:nil];
-                
+
+    NSFetchRequest* fetchRequest = [[NSFetchRequest alloc]initWithEntityName:@"Sighting"];
+    NSSortDescriptor* sort = [NSSortDescriptor sortDescriptorWithKey:@"sightedAt" ascending:ASCENDING_ORDER];
+    [fetchRequest setSortDescriptors:[NSArray arrayWithObject:sort]];
+    [fetchRequest setFetchLimit:limit];
+    [fetchRequest setResultType:NSManagedObjectIDResultType];
+    
+    /* since we already have a set of reports, only load ones further below */
+    if([self.reports count] > 0) {
+        NSDate* date = [[self.reports lastObject] sightedAt];
+        NSPredicate* datePredicate = [NSPredicate predicateWithFormat:@"sightedAt > %@", date];
+        self.lastPredicateFetched = [[NSCompoundPredicate alloc]initWithType:NSAndPredicateType subpredicates: self.lastPredicateFetched == nil ? @[datePredicate] : @[datePredicate, self.lastPredicateFetched]];
+    }
+    
+    if(self.lastPredicateFetched) {
+        [fetchRequest setPredicate:self.lastPredicateFetched];
+    }
+    
+    [[UFOCoreData sharedInstance] executeFetchRequest:fetchRequest onBackgroundContextWithFinised:^(NSArray* objectIds){
+    
         /* This is for smooth addition of cells */
         NSMutableArray* indexPaths = [[NSMutableArray alloc] init];
         int beginIndex = self.reports ? self.reports.count : 0;
-        int endIndex = newReportIDs.count >= 5 ? beginIndex + 5 : beginIndex + newReportIDs.count - 1;
+        int endIndex = objectIds.count >= 5 ? beginIndex + 5 : beginIndex + objectIds.count - 1;
         for (int i = beginIndex; i < endIndex; i++) {
             [indexPaths addObject:[NSIndexPath indexPathForRow:i inSection:0]];
         }
         
-        dispatch_sync(dispatch_get_main_queue(), ^{
-            
-            NSArray* newlyFetchedReports =  [self.managedObjectContext objectsWithIDs:newReportIDs];
-            
-            NSMutableArray* newArrayOfReports = [[NSMutableArray alloc]initWithArray:self.reports];
-            NSIndexSet *initialSetOfCellsToAdd = [[NSIndexSet alloc]initWithIndexesInRange:NSMakeRange(0, 5)];
-            [newArrayOfReports addObjectsFromArray:[newlyFetchedReports objectsAtIndexes:initialSetOfCellsToAdd]];
-            
-            [self.reportsTable beginUpdates];
+        NSArray* newlyFetchedReports =  [self.managedObjectContext objectsWithIDs:objectIds];
+        
+        NSMutableArray* newArrayOfReports = [[NSMutableArray alloc]initWithArray:self.reports];
+        NSIndexSet *initialSetOfCellsToAdd = [[NSIndexSet alloc]initWithIndexesInRange:NSMakeRange(0, 5)];
+        [newArrayOfReports addObjectsFromArray:[newlyFetchedReports objectsAtIndexes:initialSetOfCellsToAdd]];
+        
+        [self.reportsTable beginUpdates];
+        self.reports = newArrayOfReports;
+        [self.reportsTable insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+        [self.reportsTable reloadData];
+        [self.reportsTable endUpdates];
+        
+        if(newlyFetchedReports.count >= 5) {
+            [newArrayOfReports removeObjectsAtIndexes:initialSetOfCellsToAdd];
+            [newArrayOfReports addObjectsFromArray:newlyFetchedReports];
             self.reports = newArrayOfReports;
-            [self.reportsTable insertRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
             [self.reportsTable reloadData];
-            [self.reportsTable endUpdates];
-            
-            if(newlyFetchedReports.count >= 5) {
-                [newArrayOfReports removeObjectsAtIndexes:initialSetOfCellsToAdd];
-                [newArrayOfReports addObjectsFromArray:newlyFetchedReports];
-                self.reports = newArrayOfReports;
-                [self.reportsTable reloadData];
-            }
-            
-            [self.cellLoadingIndicator stopAnimating];
-            
-            if(self.addMoreButton.isSelected) {
-                [self.addMoreButton setSelected:NO];
-            }
-        });
-    });
+        }
+        
+        [self.cellLoadingIndicator stopAnimating];
+        
+        if(self.addMoreButton.isSelected) {
+            [self.addMoreButton setSelected:NO];
+        }
+
+        
+    } andFailed:nil];
+    
+    
 }
 
 @end
